@@ -1,0 +1,42 @@
+# Copyright (c) 2020, Oracle Corporation and/or its affiliates.
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: roberts-helidon-stock-application
+  namespace: robert
+  labels:
+    app: roberts-helidon-stock-application
+    species: helidon
+spec:
+  type: NodePort
+  selector:
+    app: roberts-helidon-stock-application
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: roberts-helidon-stock-application
+  namespace: robert
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: roberts-helidon-stock-application
+        version: v1
+        species: helidon
+    spec:
+      containers:
+      - name: roberts-helidon-stock-application
+        image: phx.ocir.io/stevengreenberginc/roberts-helidon-stock-application:855810
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: ocir
+---
