@@ -77,6 +77,9 @@ spec:
               match:
                 - uri:
                     prefix: "/bobs-bookstore-order-manager"
+        - database:
+            - target: mysql
+              datasouceName: jdbc/books
   helidonApplications:
     - name: "bobbys-helidon-stock-application"
       image: "docker.pkg.github.com/verrazzano/demo-apps/bobbys-helidon-stock-application:0.1.0"

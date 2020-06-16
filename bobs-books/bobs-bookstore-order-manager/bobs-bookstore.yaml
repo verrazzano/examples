@@ -11,7 +11,7 @@ metadata:
 spec:
   domainHome: /u01/oracle/user_projects/domains/bobs-bookstore
   domainHomeInImage: true
-  image: "phx.ocir.io/stevengreenberginc/bobs-bookstore-order-manager:855812"
+  image: "docker.pkg.github.com/verrazzano/demo-apps/bobs-bookstore-order-manager:0.1.0"
   imagePullPolicy: "IfNotPresent"
   imagePullSecrets:
   - name: "ocir"
@@ -85,7 +85,7 @@ spec:
         sidecar.istio.io/inject: “false”
     spec:
       containers:
-        - image: phx.ocir.io/stevengreenberginc/mysql-enterprise:8.0.13
+        - image: mysql:8.0.20
           name: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
@@ -136,4 +136,9 @@ data:
         references `orders`(`id`)
         on delete cascade
     );
-
+    insert into `orders` (`id`, `order_date`, `name`, `street`, `city`, `state`)
+    values (1, curdate(), "Bob Down", "12 Main Rd", "Mt Everest", "NJ");
+    insert into `order_books` (`order_id`, `book_id`, `title`)
+    values (1, 2, "Harry Potter");
+    insert into `order_books` (`order_id`, `book_id`, `title`)
+    values (1, 4, "Twilight");

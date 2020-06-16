@@ -105,7 +105,7 @@ public class OrderResource {
 			tracingScope = startTracing(tracingSpan, connection);
             PreparedStatement statement = connection.prepareStatement(
                     "insert into orders (order_date, name, street, city, state) " +
-							"values (sysdate, ?, ?, ?, ?)");
+							"values (curdate(), ?, ?, ?, ?)");
             statement.setString(1, order.getCustomer().getName());
             statement.setString(2, order.getCustomer().getStreet());
             statement.setString(3, order.getCustomer().getCity());

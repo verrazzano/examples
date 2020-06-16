@@ -120,7 +120,7 @@ resources:
           ]
         JDBCDriverParams:
           DriverName: io.opentracing.contrib.jdbc.TracingDriver
-          URL : 'jdbc:tracing:oracle:thin:@books_high'
+          URL : 'jdbc:tracing:mysql:@//mtsql:3006/books'
           PasswordEncrypted: '@@PROP:db.password@@'
           Properties:
             user:
