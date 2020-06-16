@@ -1,0 +1,18 @@
+{
+  "customer": {
+    "name": "billy the kid",
+    "street": "1 big rd",
+    "city": "smalltown",
+    "state": "NJ"
+  },
+  "books": [
+    {
+      "bookId": 3,
+      "title": "the long walk"
+    },
+    {
+      "bookId": 4,
+      "title": "Harry Potter"
+    }
+  ]
+}

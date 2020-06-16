@@ -1,0 +1,159 @@
+# Copyright (c) 2020, Oracle Corporation and/or its affiliates
+
+domainInfo:
+  AdminUserName: 'weblogic'
+  AdminPassword: '@@PROP:admin.password@@'
+  ServerStartMode: 'prod'
+  domainLibraries: [ 'wlsdeploy/domainLibraries/mysql-connector-java-commercial-8.0.14.jar',
+                     'wlsdeploy/domainLibraries/opentracing-jdbc-0.2.2.jar',
+                     'wlsdeploy/domainLibraries/opentracing-noop-0.33.0.jar',
+                     'wlsdeploy/domainLibraries/opentracing-util-0.33.0.jar',
+                     'wlsdeploy/domainLibraries/opentracing-api-0.33.0.jar' ]
+
+topology:
+  Name: 'bobs-bookstore'
+  AdminServerName: 'admin-server'
+  ProductionModeEnabled: true
+  Cluster:
+    'cluster-1':
+      DynamicServers:
+        ServerTemplate: 'cluster-1-template'
+        CalculatedListenPorts: false
+        ServerNamePrefix: 'managed-server'
+        DynamicClusterSize: '2'
+        MaxDynamicClusterSize: '4'
+  Server:
+    'admin-server':
+      ListenPort: '7001'
+      NetworkAccessPoint:
+        'istio-probe':
+          Protocol: http
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobs-bookstore-admin-server'
+          ListenPort: 8888
+          HttpEnabledForThisProtocol: true
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-t3':
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobs-bookstore-admin-server'
+          ListenPort: '7001'
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-ldap':
+          Protocol: ldap
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobs-bookstore-admin-server'
+          ListenPort: '7001'
+          HttpEnabledForThisProtocol: true
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-T3Channel':
+          PublicPort: '30101'
+          PublicAddress: 'bobs-bookstore-admin-server'
+          ListenAddress: 127.0.0.1
+          ListenPort: '30101'
+  ServerTemplate:
+    'cluster-1-template':
+      ListenPort: '8001'
+      Cluster: 'cluster-1'
+      ListenAddress: 'bobs-bookstore-managed-server-${id}'
+      NetworkAccessPoint:
+        'istio-probe':
+          Protocol: http
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobs-bookstore-managed-server-${id}'
+          ListenPort: 8888
+          HttpEnabledForThisProtocol: true
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-t3':
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobs-bookstore-managed-server-${id}'
+          ListenPort: '8001'
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-cluster':
+          Protocol: 'CLUSTER-BROADCAST'
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobs-bookstore-managed-server-${id}'
+          ListenPort: '8001'
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-http':
+          Protocol: http
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobs-bookstore-managed-server-${id}'
+          ListenPort: 31111
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+
+resources:
+  JDBCSystemResource:
+    books:
+      Target: 'cluster-1'
+      JdbcResource:
+        JDBCDataSourceParams:
+          JNDIName: [
+            jdbc/books
+          ]
+        JDBCDriverParams:
+          DriverName: io.opentracing.contrib.jdbc.TracingDriver
+          URL : 'jdbc:tracing:oracle:thin:@books_high'
+          PasswordEncrypted: '@@PROP:db.password@@'
+          Properties:
+            user:
+              Value: admin
+            oracle.net.tns_admin:
+              Value: "/db/wallet"
+            oracle.net.ssl_version:
+              Value: "1.2"
+            javax.net.ssl.trustStore:
+              Value: "/db/wallet/truststore.jks"
+            oracle.net.ssl_server_dn_match:
+              Value: true
+            javax.net.ssl.keyStoreType:
+              Value: JKS
+            javax.net.ssl.trustStoreType:
+              Value: JKS
+            javax.net.ssl.keyStore:
+              Value: "/db/wallet/keystore.jks"
+            javax.net.ssl.keyStorePassword:
+              Value: '@@PROP:wallet.password@@'
+            javax.net.ssl.trustStorePassword:
+              Value: '@@PROP:wallet.password@@'
+            oracle.jdbc.fanEnabled:
+              Value: false
+
+appDeployments:
+  Application:
+    # Quote needed because of hyphen in string
+    'bobs-bookstore-order-manager':
+      SourcePath: 'wlsdeploy/apps/bobs-bookstore-order-manager.war'
+      Target: 'cluster-1'
+      ModuleType: war
+      StagingMode: nostage
+      PlanStagingMode: nostage
+
+
