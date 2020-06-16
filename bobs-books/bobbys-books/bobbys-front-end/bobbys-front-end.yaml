@@ -1,0 +1,63 @@
+# Copyright (c) 2020, Oracle Corporation and/or its affiliates.
+---
+apiVersion: "weblogic.oracle/v3"
+kind: Domain
+metadata:
+  name: bobbys-front-end
+  namespace: bobby
+  labels:
+    weblogic.resourceVersion: domain-v2
+    weblogic.domainUID: bobbys-front-end
+spec:
+  domainHome: /u01/oracle/user_projects/domains/bobbys-front-end
+  domainHomeInImage: true
+  image: "docker.pkg.github.com/verrazzano/demo-apps/bobbys-front-end:0.1.0"
+  imagePullPolicy: "IfNotPresent"
+  imagePullSecrets:
+  - name: "ocir"
+  webLogicCredentialsSecret:
+    name: bobbys-front-end-weblogic-credentials
+  includeServerOutInPodLog: true
+  logHomeEnabled: true
+  logHome: /u01/oracle/user_projects/domains/bobbys-front-end/logs
+  serverStartPolicy: "IF_NEEDED"
+  serverPod:
+    env:
+      - name: JAVA_OPTIONS
+        value: "-Dweblogic.StdoutDebugEnabled=false"
+      - name: USER_MEM_ARGS
+        value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
+      - name: HELIDON_HOSTNAME
+        value: "bobbys-helidon-stock-application"
+      - name: HELIDON_PORT
+        value: "8080"
+      - name: BACKEND_HOSTNAME
+        value: "bobs-bookstore-order-manager.bob.svc.cluster.local"
+      - name: BACKEND_PORT
+        value: "8001"
+      - name: WL_HOME
+        value: /u01/oracle/wlserver
+      - name: MW_HOME
+        value: /u01/oracle
+  adminServer:
+    serverStartState: "RUNNING"
+    adminService:
+      channels:
+        - channelName: default
+          nodePort: 32701
+        - channelName: T3Channel
+          nodePort: 32702
+  clusters:
+    - clusterName: cluster-1
+      serverStartState: "RUNNING"
+      replicas: 1
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bobbys-front-end-weblogic-credentials
+  namespace: bobby
+type: Opaque
+data:
+  password: PASSWORD
+  username: USERNAME

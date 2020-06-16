@@ -1,0 +1,116 @@
+# Copyright (c) 2020, Oracle Corporation and/or its affiliates.
+
+domainInfo:
+  AdminUserName: 'weblogic'
+  AdminPassword: 'welcome1'
+  ServerStartMode: 'prod'
+
+topology:
+  Name: 'bobbys-front-end'
+  AdminServerName: 'admin-server'
+  ProductionModeEnabled: true
+  Cluster:
+    'cluster-1':
+      DynamicServers:
+        ServerTemplate: 'cluster-1-template'
+        CalculatedListenPorts: false
+        ServerNamePrefix: 'managed-server'
+        DynamicClusterSize: '5'
+        MaxDynamicClusterSize: '5'
+  Server:
+    'admin-server':
+      ListenPort: '7001'
+      NetworkAccessPoint:
+        'istio-probe':
+          Protocol: http
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobbys-front-end-admin-server'
+          ListenPort: 8888
+          HttpEnabledForThisProtocol: true
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-t3':
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobbys-front-end-admin-server'
+          ListenPort: '7001'
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-ldap':
+          Protocol: ldap
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobbys-front-end-admin-server'
+          ListenPort: '7001'
+          HttpEnabledForThisProtocol: true
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-T3Channel':
+          PublicPort: '30101'
+          PublicAddress: 'bobbys-front-end-admin-server'
+          ListenAddress: 127.0.0.1
+          ListenPort: '30101'
+  ServerTemplate:
+    'cluster-1-template':
+      ListenPort: '8001'
+      Cluster: 'cluster-1'
+      ListenAddress: 'bobbys-front-end-managed-server${id}'
+      NetworkAccessPoint:
+        'istio-probe':
+          Protocol: http
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobbys-front-end-managed-server${id}'
+          ListenPort: 8888
+          HttpEnabledForThisProtocol: true
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-t3':
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobbys-front-end-managed-server${id}'
+          ListenPort: '8001'
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-cluster':
+          Protocol: 'CLUSTER-BROADCAST'
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobbys-front-end-managed-server${id}'
+          ListenPort: '8001'
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+        'istio-http':
+          Protocol: http
+          ListenAddress: 127.0.0.1
+          PublicAddress: 'bobbys-front-end-managed-server${id}'
+          ListenPort: 31111
+          TunnelingEnabled: false
+          OutboundEnabled: false
+          Enabled: true
+          TwoWaySSLEnabled: false
+          ClientCertificateEnforced: false
+
+appDeployments:
+  Application:
+    # Quote needed because of hyphen in string
+    'bobbys-front-end':
+      SourcePath: 'wlsdeploy/apps/bobbys-front-end.war'
+      Target: 'cluster-1'
+      ModuleType: war
+      StagingMode: nostage
+      PlanStagingMode: nostage
+

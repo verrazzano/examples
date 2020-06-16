@@ -1,0 +1,47 @@
+# Copyright (c) 2020, Oracle Corporation and/or its affiliates.
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bobbys-helidon-stock-application
+  namespace: bobby
+  labels:
+    app: bobbys-helidon-stock-application
+    species: helidon
+spec:
+  type: NodePort
+  selector:
+    app: bobbys-helidon-stock-application
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: bobbys-helidon-stock-application
+  namespace: bobby
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bobbys-helidon-stock-application
+        version: v1
+        species: helidon
+    spec:
+      containers:
+      - name: bobbys-helidon-stock-application
+        image: "phx.ocir.io/stevengreenberginc/bobbys-helidon-stock-application:231805"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+          - name: BACKEND_HOSTNAME
+            value: "bobs-bookstore-cluster-cluster-1.bob.svc.cluster.local"
+          - name: BACKEND_PORT
+            value: "31111"
+      imagePullSecrets:
+        - name: ocir
+---

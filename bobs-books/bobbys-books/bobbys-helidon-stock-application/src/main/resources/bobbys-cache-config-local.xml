@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) 2020, Oracle and/or its affiliates. -->
+
+<cache-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://xmlns.oracle.com/coherence/coherence-cache-config"
+        xmlns:load="class://org.books.bobby.LoadNamespaceHandler"
+        xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config coherence-cache-config.xsd">
+
+    <!--  <load:books file="books.csv"/>-->
+
+    <defaults>
+        <serializer>pof</serializer>
+    </defaults>
+
+    <caching-scheme-mapping>
+        <cache-mapping>
+            <cache-name>*</cache-name>
+            <scheme-name>thin-remote</scheme-name>
+        </cache-mapping>
+       <!--  <cache-mapping>
+            <cache-name>loaders</cache-name>
+            <scheme-name>distributed</scheme-name>
+        </cache-mapping> -->
+    </caching-scheme-mapping>
+
+    <caching-schemes>
+        <distributed-scheme>
+            <scheme-name>distributed</scheme-name>
+            <service-name>DistributedCache</service-name>
+            <backing-map-scheme>
+                <local-scheme>
+                    <unit-calculator>BINARY</unit-calculator>
+                </local-scheme>
+            </backing-map-scheme>
+           <!--   <autostart>true</autostart>-->
+        </distributed-scheme>
+        <remote-cache-scheme>
+           <scheme-name>thin-remote</scheme-name>
+           <service-name>Proxy</service-name>
+           <initiator-config>
+               <tcp-initiator>
+                  <remote-addresses>
+                      <socket-address>
+                          <address>bobbys-coherence.bobby</address>
+                          <port>20000</port>
+                      </socket-address>
+                  </remote-addresses>
+               </tcp-initiator>
+           </initiator-config>
+       </remote-cache-scheme>
+    </caching-schemes>
+
+</cache-config>
+
+
