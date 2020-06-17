@@ -124,27 +124,7 @@ resources:
           PasswordEncrypted: '@@PROP:db.password@@'
           Properties:
             user:
-              Value: admin
-            oracle.net.tns_admin:
-              Value: "/db/wallet"
-            oracle.net.ssl_version:
-              Value: "1.2"
-            javax.net.ssl.trustStore:
-              Value: "/db/wallet/truststore.jks"
-            oracle.net.ssl_server_dn_match:
-              Value: true
-            javax.net.ssl.keyStoreType:
-              Value: JKS
-            javax.net.ssl.trustStoreType:
-              Value: JKS
-            javax.net.ssl.keyStore:
-              Value: "/db/wallet/keystore.jks"
-            javax.net.ssl.keyStorePassword:
-              Value: '@@PROP:wallet.password@@'
-            javax.net.ssl.trustStorePassword:
-              Value: '@@PROP:wallet.password@@'
-            oracle.jdbc.fanEnabled:
-              Value: false
+              Value: books
 
 appDeployments:
   Application:
