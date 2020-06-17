@@ -196,7 +196,7 @@
             <version>${version.lib.coherence}</version>
         </dependency>
         <dependency>
-            <groupId>io.verrazzano.example</groupId>
+            <groupId>io.verrazzano.example.books</groupId>
             <artifactId>bobbys-coherence</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
