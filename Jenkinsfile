@@ -28,11 +28,12 @@ pipeline {
     }
 
     stages {
-        stage('Prepare Maven Settings') {
+        stage('Prepare Environment') {
             steps {
                 sh """
-                    mkdir -p $HOME/.m2
+                    mkdir -p $HOME/.m2/repository/com
                     cp $MAVEN_SETTINGS_SECURITY $HOME/.m2/settings-security.xml
+                    tar -C $HOME/.m2/repository/com xzvf /build-shared-files/oracle-maven.tar.gz
                 """
             }
         }
