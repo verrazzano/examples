@@ -8,7 +8,7 @@ pipeline {
     agent {
         docker {
             image "${RUNNER_DOCKER_IMAGE}"
-            args "${RUNNER_DOCKER_ARGS}"
+            args "${RUNNER_DOCKER_ARGS} -v /build-shared-files:/build-shared-files"
             registryUrl "${RUNNER_DOCKER_REGISTRY_URL}"
             registryCredentialsId 'ocir-pull-and-push-account'
             label 'small-ad3'
