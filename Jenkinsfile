@@ -33,7 +33,7 @@ pipeline {
                 sh """
                     mkdir -p $HOME/.m2/repository/com
                     cp $MAVEN_SETTINGS_SECURITY $HOME/.m2/settings-security.xml
-                    tar -C $HOME/.m2/repository/com xzvf /build-shared-files/oracle-maven.tar.gz
+                    tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
                 """
             }
         }
