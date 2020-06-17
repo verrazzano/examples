@@ -19,6 +19,7 @@ pipeline {
         // image names and tags are created from these variables:
         REPO = 'docker.pkg.github.com/verrazzano/demo-apps'
         BOBBYS_HELIDON = 'bobbys-helidon-stock-application'
+        BOBBYS_COHERENCE = 'bobbys-coherence'
         VERSION = '0.1.0'
 
         // access to Oracle Maven Repository
@@ -36,12 +37,24 @@ pipeline {
             }
         }
 
+        stage('Build Bobbys Coherence Application') {
+            steps {
+                sh """
+                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                    cd bobs-books/bobbys-books/bobbys-coherence
+                    mvn -s $MAVEN_SETTINGS clean deploy
+                    docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
+                    docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
+                """
+            }
+        }
+
         stage('Build Bobbys Helidon Stock Application') {
             steps {
                 sh """
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                     cd bobs-books/bobbys-books/bobbys-helidon-stock-application
-                    mvn -s $MAVEN_SETTINGS clean install
+                    mvn -s $MAVEN_SETTINGS clean deploy
                     docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
                     docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
                 """
