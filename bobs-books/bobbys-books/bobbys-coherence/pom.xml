@@ -99,7 +99,6 @@
         </plugins>
     </build>
 
-
     <dependencies>
         <dependency>
             <groupId>com.oracle.coherence</groupId>

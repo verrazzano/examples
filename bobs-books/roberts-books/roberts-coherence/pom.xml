@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.books</groupId>
+    <groupId>io.verrazzano.example.books</groupId>
     <artifactId>roberts-coherence</artifactId>
     <packaging>jar</packaging>
     <name>roberts-coherence</name>
@@ -21,6 +21,14 @@
         <version.lib.httpclient>4.5.10</version.lib.httpclient>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Verrazzano Demo Applications Maven Packages</name>
+            <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
+        </repository>
+    </distributionManagement>
+    
     <build>
         <finalName>${project.artifactId}</finalName>
         <pluginManagement>
