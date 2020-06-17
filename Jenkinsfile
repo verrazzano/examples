@@ -1,4 +1,4 @@
- // Copyright (c) 2020, Oracle Corporation and/or its affiliates. 
+ // Copyright (c) 2020, Oracle Corporation and/or its affiliates.
 
 pipeline {
     options {
@@ -6,7 +6,12 @@ pipeline {
     }
 
     agent {
-        label 'VM.Standard2.8'
+            docker {
+            image "${RUNNER_DOCKER_IMAGE}"
+            args "${RUNNER_DOCKER_ARGS}"
+            registryUrl "${RUNNER_DOCKER_REGISTRY_URL}"
+            registryCredentialsId 'ocir-pull-and-push-account'
+        }
     }
 
     environment {
