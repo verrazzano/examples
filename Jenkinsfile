@@ -11,7 +11,7 @@ pipeline {
             args "${RUNNER_DOCKER_ARGS}"
             registryUrl "${RUNNER_DOCKER_REGISTRY_URL}"
             registryCredentialsId 'ocir-pull-and-push-account'
-            label 'small'
+            label 'small-ad3'
         }
     }
 
@@ -34,6 +34,7 @@ pipeline {
                 sh """
                     mkdir -p $HOME/.m2/repository/com
                     cp $MAVEN_SETTINGS_SECURITY $HOME/.m2/settings-security.xml
+                    ls /build-shared-files
                     tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
                 """
             }
