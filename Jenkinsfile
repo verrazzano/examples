@@ -6,8 +6,8 @@ pipeline {
     }
 
     agent {
+        label 'small'
         docker {
-            label "small"
             image "${RUNNER_DOCKER_IMAGE}"
             args "${RUNNER_DOCKER_ARGS}"
             registryUrl "${RUNNER_DOCKER_REGISTRY_URL}"
