@@ -29,7 +29,7 @@ pipeline {
     stages {
         stage('Prepare Maven Settings') {
             steps {
-                sh """"
+                sh """
                     mkdir -p $HOME/.m2
                     cp $MAVEN_SETTINGS_SECURITY $HOME/.m2/settings-security.xml
                 """
