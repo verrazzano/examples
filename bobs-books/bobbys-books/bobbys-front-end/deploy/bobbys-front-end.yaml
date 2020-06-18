@@ -1,5 +1,4 @@
 # Copyright (c) 2020, Oracle Corporation and/or its affiliates.
-
 domainInfo:
   AdminUserName: 'weblogic'
   AdminPassword: 'welcome1'
