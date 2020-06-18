@@ -13,7 +13,8 @@ rm -Rf ${scriptDir}/archive
 mkdir -p ${scriptDir}/archive/wlsdeploy/apps
 mkdir -p ${scriptDir}/archive/wlsdeploy/domainLibraries
 cp ../target/bobs-bookstore-order-manager.war archive/wlsdeploy/apps
-cp mysql-connector-java-commercial-8.0.14.jar archive/wlsdeploy/domainLibraries
+cp $HOME/.m2/repository/mysql/mysql-connector-java/0.8.20/mysql-connector-java-8.0.20.jar \
+   archive/wlsdeploy/domainLibraries/mysql-connector-java-commercial-8.0.20.jar
 cp ../target/bobs-bookstore-order-manager/WEB-INF/lib/opentracing-jdbc-0.2.2.jar archive/wlsdeploy/domainLibraries
 cp ../target/bobs-bookstore-order-manager/WEB-INF/lib/opentracing-noop-0.33.0.jar archive/wlsdeploy/domainLibraries
 cp ../target/bobs-bookstore-order-manager/WEB-INF/lib/opentracing-util-0.33.0.jar archive/wlsdeploy/domainLibraries
@@ -64,6 +65,6 @@ docker build --no-cache \
     --build-arg DOMAIN_PARENT=/u01/oracle \
     --build-arg WDT_VARIABLE_FILE=properties/docker-build/bobs-bookstore-topology.properties \
     --force-rm=true \
-    -t docker.pkg.github.com/verrazzano/demo-apps/bobs-bookstore-order-manager:0.1.0 .
+    -t $1 .
 
 

@@ -22,6 +22,7 @@ pipeline {
         BOBBYS_HELIDON = 'bobbys-helidon-stock-application'
         BOBBYS_COHERENCE = 'bobbys-coherence'
         BOBBYS_WEBLOGIC = 'bobbys-front-end'
+        BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
         VERSION = '0.1.0'
 
         // access to Oracle Maven Repository
@@ -78,6 +79,18 @@ pipeline {
             }
         }
 
+        stage('Build Bobs Backend WebLogic Application') {
+            steps {
+                sh """
+                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                    cd bobs-books/bobs-bookstore-order-manager
+                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                    cd deploy
+                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                    docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                """
+            }
+        }
     }
 }
 
