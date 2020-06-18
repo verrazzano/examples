@@ -73,7 +73,7 @@ pipeline {
                 sh """
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                     cd bobs-books/bobbys-books/bobbys-front-end
-                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                    mvn -X -B -s $MAVEN_SETTINGS clean deploy
                     cd deploy
                     ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                     docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
