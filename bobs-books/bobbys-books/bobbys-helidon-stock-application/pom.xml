@@ -15,7 +15,7 @@
 
     <groupId>io.verrazzano.example.books</groupId>
     <artifactId>bobbys-helidon-stock-application</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>bobbys-helidon-stock-application</name>
 
