@@ -71,7 +71,7 @@ pipeline {
             steps {
                 sh """
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    echo "${OCR_CREDS_PSW}" | docker login -u ${OCR_CREDS_USR} --password-stdin
+                    echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
                     cd bobs-books/bobbys-books/bobbys-front-end
                     mvn -B -s $MAVEN_SETTINGS clean deploy
                     cd deploy
@@ -85,7 +85,7 @@ pipeline {
             steps {
                 sh """
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    echo "${OCR_CREDS_PSW}" | docker login -u ${OCR_CREDS_USR} --password-stdin
+                    echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
                     cd bobs-books/bobs-bookstore-order-manager
                     mvn -B -s $MAVEN_SETTINGS clean deploy
                     cd deploy
