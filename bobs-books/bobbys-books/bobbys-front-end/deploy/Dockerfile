@@ -1,6 +1,6 @@
 # Copyright (c) 2020, Oracle Corporation and/or its affiliates.
 
-FROM store/oracle/weblogic:12.2.1.3
+FROM container-registry.oracle.com/middleware/weblogic:12.2.1.3
 USER root
 RUN yum update -y && yum-config-manager --save --setopt=ol7_ociyum_config.skip_if_unavailable=true \
     && yum clean all; rm -rf /var/cache/yum

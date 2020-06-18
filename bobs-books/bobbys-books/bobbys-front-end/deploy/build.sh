@@ -22,9 +22,9 @@ echo ' - metrics exporter...'
 rm -rf weblogic-monitoring-exporter
 git clone https://github.com/oracle/weblogic-monitoring-exporter
 cd weblogic-monitoring-exporter
-mvn clean install
+mvn -B clean install
 cd webapp
-mvn clean package -Dconfiguration=../../exporter-config.yaml
+mvn -B clean package -Dconfiguration=../../exporter-config.yaml
 cd ../..
 cp weblogic-monitoring-exporter/webapp/target/wls-exporter.war \
    ${scriptDir}/archive/wlsdeploy/apps/wls-exporter.war
