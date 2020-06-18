@@ -43,14 +43,6 @@
         <version.lib.coherence>12.2.1-4-0</version.lib.coherence>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>Verrazzano Demo Applications Maven Packages</name>
-            <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
-        </repository>
-    </distributionManagement>
-
     <build>
         <finalName>${project.artifactId}</finalName>
         <pluginManagement>
