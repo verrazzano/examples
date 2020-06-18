@@ -50,7 +50,7 @@ docker build --no-cache \
     --build-arg CUSTOM_DOMAIN_NAME=bobbys-front-end \
     --build-arg DOMAIN_PARENT=/u01/oracle/user_projects/domains \
     --force-rm=true \
-    -t docker.pkg.github.com/verrazzano/demo-apps/bobbys-front-end:0.1.0 .
+    -t $1 .
 
 
 

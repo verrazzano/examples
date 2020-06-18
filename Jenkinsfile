@@ -21,6 +21,7 @@ pipeline {
         REPO = 'docker.pkg.github.com/verrazzano/demo-apps'
         BOBBYS_HELIDON = 'bobbys-helidon-stock-application'
         BOBBYS_COHERENCE = 'bobbys-coherence'
+        BOBBYS_WEBLOGIC = 'bobbys-front-end'
         VERSION = '0.1.0'
 
         // access to Oracle Maven Repository
@@ -59,6 +60,19 @@ pipeline {
                     mvn -B -s $MAVEN_SETTINGS clean deploy
                     docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
                     docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
+                """
+            }
+        }
+
+        stage('Build Bobbys Front-end WebLogic Application') {
+            steps {
+                sh """
+                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                    cd bobs-books/bobbys-books/bobbys-front-end
+                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                    cd deploy
+                    ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                    docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                 """
             }
         }
