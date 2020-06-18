@@ -13,7 +13,7 @@ rm -Rf ${scriptDir}/archive
 mkdir -p ${scriptDir}/archive/wlsdeploy/apps
 mkdir -p ${scriptDir}/archive/wlsdeploy/domainLibraries
 cp ../target/bobs-bookstore-order-manager.war archive/wlsdeploy/apps
-cp $HOME/.m2/repository/mysql/mysql-connector-java/0.8.20/mysql-connector-java-8.0.20.jar \
+cp $HOME/.m2/repository/mysql/mysql-connector-java/8.0.20/mysql-connector-java-8.0.20.jar \
    archive/wlsdeploy/domainLibraries/mysql-connector-java-commercial-8.0.20.jar
 cp ../target/bobs-bookstore-order-manager/WEB-INF/lib/opentracing-jdbc-0.2.2.jar archive/wlsdeploy/domainLibraries
 cp ../target/bobs-bookstore-order-manager/WEB-INF/lib/opentracing-noop-0.33.0.jar archive/wlsdeploy/domainLibraries
