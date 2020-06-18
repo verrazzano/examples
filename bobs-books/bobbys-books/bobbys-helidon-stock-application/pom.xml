@@ -25,6 +25,11 @@
             <name>Verrazzano Demo Applications Maven Packages</name>
             <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
         </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>Verrazzano Demo Applications Maven Packages</name>
+            <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <properties>
