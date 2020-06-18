@@ -28,9 +28,9 @@ echo ' - metrics exporter...'
 rm -rf weblogic-monitoring-exporter
 git clone https://github.com/oracle/weblogic-monitoring-exporter
 cd weblogic-monitoring-exporter
-mvn clean install -s ../../../settings.xml
+mvn -B clean install -s ../../../settings.xml
 cd webapp
-mvn clean package -Dconfiguration=../../exporter-config.yaml -s ../../../../settings.xml
+mvn -B clean package -Dconfiguration=../../exporter-config.yaml -s ../../../../settings.xml
 cd ../..
 cp weblogic-monitoring-exporter/webapp/target/wls-exporter.war \
    ${scriptDir}/archive/wlsdeploy/apps/wls-exporter.war
@@ -44,7 +44,7 @@ if [ -f weblogic-deploy.zip ]; then
     echo 'Using existing weblogic-deploy.zip...'
 else
     echo 'Downloading weblogic-deploy.zip...'
-    wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-1.5.1/weblogic-deploy.zip
+    wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-1.9.0/weblogic-deploy.zip
 fi
 
 # Decode properties in variable file
