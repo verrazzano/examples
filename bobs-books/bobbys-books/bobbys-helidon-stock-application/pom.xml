@@ -19,6 +19,14 @@
     <packaging>jar</packaging>
     <name>bobbys-helidon-stock-application</name>
 
+    <distributionManagement>
+        <repository>
+        <id>github</id>
+        <name>Verrazzano Demo Applications Maven Packages</name>
+        <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
+        </repository>
+    </distributionManagement>
+    
     <properties>
         <helidon.version>1.4.4</helidon.version>
         <!-- Default package. Will be overriden by Maven archetype -->
