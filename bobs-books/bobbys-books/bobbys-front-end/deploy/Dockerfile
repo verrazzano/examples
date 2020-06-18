@@ -96,8 +96,6 @@ RUN if [ -n "$WDT_MODEL" ]; then MODEL_OPT="-model_file $PROPERTIES_FILE_DIR/${W
     chmod -R a+x $DOMAIN_HOME/bin/*.sh && \
     rm -rf $PROPERTIES_FILE_DIR
 
-COPY WebLogicLoggingExporter.yaml $DOMAIN_HOME/config/WebLogicLoggingExporter.yaml
-
 # Mount the domain home and the WDT home for easy access.
 VOLUME $DOMAIN_HOME
 VOLUME $WDT_HOME

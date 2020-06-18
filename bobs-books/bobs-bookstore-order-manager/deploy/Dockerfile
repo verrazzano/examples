@@ -98,9 +98,6 @@ RUN if [ -n "$WDT_MODEL" ]; then MODEL_OPT="-model_file $PROPERTIES_FILE_DIR/${W
     rm -rf $ORACLE_HOME/inventory/featuresets/resources/modules/mysql_jdbc_5.1.22.0.1.jar && \
     rm -rf $ORACLE_HOME/oracle_common/modules/mysql-connector-java-commercial-5.1.22/mysql-connector-java-commercial-5.1.22-bin.jar
 
-
-COPY WebLogicLoggingExporter.yaml $DOMAIN_HOME/config/WebLogicLoggingExporter.yaml
-
 # Mount the domain home and the WDT home for easy access.
 VOLUME $DOMAIN_HOME
 VOLUME $WDT_HOME
