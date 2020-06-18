@@ -18,6 +18,7 @@ pipeline {
     environment {
         DOCKER_CREDS = credentials('github-markxnelns-private-access-token')
         OCR_CREDS = credentials('ocr-pull-and-push-account')
+
         // image names and tags are created from these variables:
         REPO = 'docker.pkg.github.com/verrazzano/demo-apps'
         BOBBYS_HELIDON = 'bobbys-helidon-stock-application'
@@ -28,7 +29,11 @@ pipeline {
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
         VERSION = '0.1.0'
 
-        // access to Oracle Maven Repository
+        // secrets used during build
+        BOB_DB_PASSWORD = credentials('bobs-bookstore-db-password')
+        BOB_ADMIN_PASSWORD = credentials('bobs-bookstore-admin-password')
+
+        // access to GitHub Packages Maven Repository
         MAVEN_SETTINGS = credentials('oracle-maven-settings')
     }
 
@@ -89,6 +94,9 @@ pipeline {
                     cd bobs-books/bobs-bookstore-order-manager
                     mvn -B -s $MAVEN_SETTINGS clean deploy
                     cd deploy
+                    echo 'Update passwords from Jenkins secrets'
+                    sed -i -e "s|XX_DB_PASSWORD_XX|${env.BOB_DB_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties.encoded
+                    sed -i -e "s|XX_ADMIN_PASSWORD_XX|${env.BOB_ADMIN_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties.encoded
                     ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                     docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                 """
