@@ -61,7 +61,7 @@ pipeline {
                 sh """
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                     cd bobs-books/bobbys-books/bobbys-helidon-stock-application
-                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                    mvn -X -B -s $MAVEN_SETTINGS clean deploy
                     docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
                     docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
                 """
