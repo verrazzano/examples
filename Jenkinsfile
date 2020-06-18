@@ -36,7 +36,7 @@ pipeline {
                     mkdir -p $HOME/.m2/repository/com
                     cp $MAVEN_SETTINGS_SECURITY $HOME/.m2/settings-security.xml
                     tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
-                    yum -y install wget
+                    sudo yum -y install wget
                 """
             }
         }
