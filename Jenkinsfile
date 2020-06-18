@@ -28,7 +28,6 @@ pipeline {
         VERSION = '0.1.0'
 
         // access to Oracle Maven Repository
-        MAVEN_SETTINGS_SECURITY = credentials('oracle-maven-settings-security')
         MAVEN_SETTINGS = credentials('oracle-maven-settings')
     }
 
@@ -37,7 +36,6 @@ pipeline {
             steps {
                 sh """
                     mkdir -p $HOME/.m2/repository/com
-                    cp $MAVEN_SETTINGS_SECURITY $HOME/.m2/settings-security.xml
                     tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
                     sudo yum -y install wget
                 """
