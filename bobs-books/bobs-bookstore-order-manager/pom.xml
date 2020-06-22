@@ -22,7 +22,7 @@
         <repository>
             <id>github</id>
             <name>Verrazzano Demo Applications Maven Packages</name>
-            <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
+            <url>https://maven.pkg.github.com/verrazzano/examples</url>
         </repository>
     </distributionManagement>
 
