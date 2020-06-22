@@ -37,7 +37,6 @@ spec:
         - name: bob
           components:
             - name: bobs-bookstore
-            - name: books
   ingressBindings:
     - name: "bobbys-ingress"
       dnsName: "*"
