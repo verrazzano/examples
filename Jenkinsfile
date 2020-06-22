@@ -20,7 +20,7 @@ pipeline {
         OCR_CREDS = credentials('ocr-pull-and-push-account')
 
         // image names and tags are created from these variables:
-        REPO = 'docker.pkg.github.com/verrazzano/demo-apps'
+        REPO = 'docker.pkg.github.com/verrazzano/examples'
         BOBBYS_HELIDON = 'bobbys-helidon-stock-application'
         ROBERTS_HELIDON = 'roberts-helidon-stock-application'
         BOBBYS_COHERENCE = 'bobbys-coherence'
