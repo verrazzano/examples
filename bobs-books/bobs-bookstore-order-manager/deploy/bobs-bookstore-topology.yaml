@@ -26,7 +26,7 @@ topology:
     'admin-server':
       ListenPort: '7001'
       NetworkAccessPoint:
-        T3Channel':
+        'T3Channel':
           PublicPort: '30101'
           PublicAddress: 'bobs-bookstore-admin-server'
           ListenAddress: 127.0.0.1
