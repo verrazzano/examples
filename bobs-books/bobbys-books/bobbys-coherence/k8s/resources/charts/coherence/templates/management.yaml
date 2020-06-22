@@ -18,9 +18,9 @@ metadata:
     component: coherence-jmx
 spec:
   replicas: {{ .Values.store.jmx.replicas | default 1 | int }}
-  updateStrategy:
+  strategy:
     type: RollingUpdate
-    rollingUpdate:
+    rollingUpdate: {}
       #maxSurge: 1
       #maxUnavailable: 1
   revisionHistoryLimit: {{ default 3 .Values.store.revisionHistoryLimit }}
@@ -28,7 +28,6 @@ spec:
     matchLabels:
       coherenceDeployment: {{ template "coherence.fullname" . }}
       component: coherenceJMXPod
-  serviceName: {{ template "coherence.name" . }}
   template:
     metadata:
       labels:
@@ -313,7 +312,7 @@ spec:
 #       The logs directory
         - name: log-dir
           emptyDir:
-            medium:
+            medium: ""
 #       The utility files and scripts directory
         - name: utils-dir
           emptyDir: {}
