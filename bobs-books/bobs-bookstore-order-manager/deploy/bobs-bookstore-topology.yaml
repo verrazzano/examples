@@ -26,38 +26,7 @@ topology:
     'admin-server':
       ListenPort: '7001'
       NetworkAccessPoint:
-        'istio-probe':
-          Protocol: http
-          ListenAddress: 127.0.0.1
-          PublicAddress: 'bobs-bookstore-admin-server'
-          ListenPort: 8888
-          HttpEnabledForThisProtocol: true
-          TunnelingEnabled: false
-          OutboundEnabled: false
-          Enabled: true
-          TwoWaySSLEnabled: false
-          ClientCertificateEnforced: false
-        'istio-t3':
-          ListenAddress: 127.0.0.1
-          PublicAddress: 'bobs-bookstore-admin-server'
-          ListenPort: '7001'
-          TunnelingEnabled: false
-          OutboundEnabled: false
-          Enabled: true
-          TwoWaySSLEnabled: false
-          ClientCertificateEnforced: false
-        'istio-ldap':
-          Protocol: ldap
-          ListenAddress: 127.0.0.1
-          PublicAddress: 'bobs-bookstore-admin-server'
-          ListenPort: '7001'
-          HttpEnabledForThisProtocol: true
-          TunnelingEnabled: false
-          OutboundEnabled: false
-          Enabled: true
-          TwoWaySSLEnabled: false
-          ClientCertificateEnforced: false
-        'istio-T3Channel':
+        T3Channel':
           PublicPort: '30101'
           PublicAddress: 'bobs-bookstore-admin-server'
           ListenAddress: 127.0.0.1
@@ -67,47 +36,6 @@ topology:
       ListenPort: '8001'
       Cluster: 'cluster-1'
       ListenAddress: 'bobs-bookstore-managed-server-${id}'
-      NetworkAccessPoint:
-        'istio-probe':
-          Protocol: http
-          ListenAddress: 127.0.0.1
-          PublicAddress: 'bobs-bookstore-managed-server-${id}'
-          ListenPort: 8888
-          HttpEnabledForThisProtocol: true
-          TunnelingEnabled: false
-          OutboundEnabled: false
-          Enabled: true
-          TwoWaySSLEnabled: false
-          ClientCertificateEnforced: false
-        'istio-t3':
-          ListenAddress: 127.0.0.1
-          PublicAddress: 'bobs-bookstore-managed-server-${id}'
-          ListenPort: '8001'
-          TunnelingEnabled: false
-          OutboundEnabled: false
-          Enabled: true
-          TwoWaySSLEnabled: false
-          ClientCertificateEnforced: false
-        'istio-cluster':
-          Protocol: 'CLUSTER-BROADCAST'
-          ListenAddress: 127.0.0.1
-          PublicAddress: 'bobs-bookstore-managed-server-${id}'
-          ListenPort: '8001'
-          TunnelingEnabled: false
-          OutboundEnabled: false
-          Enabled: true
-          TwoWaySSLEnabled: false
-          ClientCertificateEnforced: false
-        'istio-http':
-          Protocol: http
-          ListenAddress: 127.0.0.1
-          PublicAddress: 'bobs-bookstore-managed-server-${id}'
-          ListenPort: 31111
-          TunnelingEnabled: false
-          OutboundEnabled: false
-          Enabled: true
-          TwoWaySSLEnabled: false
-          ClientCertificateEnforced: false
 
 resources:
   JDBCSystemResource:
@@ -120,7 +48,7 @@ resources:
           ]
         JDBCDriverParams:
           DriverName: io.opentracing.contrib.jdbc.TracingDriver
-          URL : 'jdbc:tracing:mysql:@//mtsql:3006/books'
+          URL : 'jdbc:tracing:mysql:@//mysql:3006/books'
           PasswordEncrypted: '@@PROP:db.password@@'
           Properties:
             user:
