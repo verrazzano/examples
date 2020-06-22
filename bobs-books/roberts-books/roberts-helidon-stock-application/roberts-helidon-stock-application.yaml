@@ -18,7 +18,7 @@ spec:
     name: http
 ---
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: roberts-helidon-stock-application
   namespace: robert
@@ -39,4 +39,9 @@ spec:
         - containerPort: 8080
       imagePullSecrets:
         - name: ocir
+  selector:
+    matchLabels:
+      app: bobbys-helidon-stock-application
+      version: v1
+      species: helidon
 ---
