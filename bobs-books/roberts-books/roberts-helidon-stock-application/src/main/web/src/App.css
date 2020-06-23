@@ -33,7 +33,9 @@
     padding: 70px 30px 70px 30px;
     margin: 0px auto;
     background: #9575CD;
-    color: floralwhite;
+    border: none !important;
+    color: #eee !important;
+    border-radius: 0px !important;
 }
 
 address {
@@ -44,4 +46,230 @@ address {
 
 .navbar-dark {
     background-color: #512DA8;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+}
+
+oj-sample-card:not(.oj-complete) {
+    visibility: hidden;
+}
+
+oj-sample-card {
+    display: inline-flex;
+    cursor: pointer;
+    padding: 0px !important
+}
+
+oj-sample-card .oj-sample-card-overlay {
+    height: 100%;
+    width: 100%;
+}
+
+oj-sample-card.oj-hover>.oj-sample-card-overlay {
+    background-color: rgba(63, 58, 54, .05);
+}
+
+oj-sample-card.oj-sample-card-orange {
+    background-color: rgb(241, 212, 138);
+}
+
+oj-sample-card.oj-sample-card-orange {
+    background-color: rgb(241, 212, 138);
+    border-color: rgba(63, 58, 54, 0.3);
+}
+
+oj-sample-card.oj-active>.oj-sample-card-overlay {
+    background-color: rgba(63, 58, 54, .08);
+}
+
+.oj-focus > oj-sample-card.oj-default,
+oj-sample-card.oj-hover,
+oj-sample-card.oj-focus {
+    transform: scale(1.02);
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+oj-sample-card.oj-default {
+    transform: scale(1.00);
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+oj-sample-card.oj-active {
+    transform: scale(1.02);
+}
+
+oj-sample-profile-card:not(.oj-complete) {
+    visibility: hidden;
+}
+
+oj-sample-profile-card .oj-sample-profile-card-container {
+    width: 330px;
+    height: 395px;
+}
+
+oj-sample-profile-card .oj-sample-profile-card-inner {
+    padding-top: 70px;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+oj-sample-profile-card .oj-sample-profile-card-inner-more {
+    padding-top: 122px;
+    text-align: center;
+}
+
+oj-sample-profile-card .oj-sample-profile-card-more-image {
+    margin: auto;
+    width: 96px;
+    height: 96px;
+    margin-bottom: 94px;
+}
+
+oj-sample-profile-card .oj-sample-profile-card-emp-image {
+    margin-bottom: 16px;
+}
+
+
+oj-sample-profile-card .oj-sample-profile-card-emp-name {
+    overflow: hidden;
+    width: 261px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+oj-sample-profile-card .oj-sample-profile-card-emp-title {
+    width: 261px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+oj-sample-profile-card .oj-sample-profile-card-emp-more {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.oj-sample-profile-card-emp-spacer {
+    height: 4px;
+    width: 261px;
+}
+
+
+/* For IE11 Support */
+
+@media screen and (-ms-high-contrast: active),
+(-ms-high-contrast: none) {
+    /* For IE11 to load content urls, you must put in :after or :before */
+    oj-sample-profile-card .oj-sample-profile-card-more-image:after {
+        margin: auto;
+        width: 96px;
+        height: 96px;
+        margin-bottom: 94px;
+    }
+    /* Use max height to do line clamping */
+    oj-sample-profile-card .oj-sample-profile-card-emp-name {
+        overflow: hidden;
+        width: 261px;
+        max-height: 3rem;
+    }
+    /* Use Max height to do line clamping */
+    oj-sample-profile-card .oj-sample-profile-card-emp-title {
+        width: 261px;
+        overflow: hidden;
+        max-height: 1.25rem;
+    }
+}
+
+ul.breadcrumb {
+    padding: 10px 16px;
+    list-style: none;
+    background-color: #eee;
+  }
+  
+  /* Display list items side by side */
+  ul.breadcrumb li {
+    display: inline;
+    font-size: 18px;
+  }
+  
+  /* Add a slash symbol (/) before/behind each list item */
+  ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+  }
+  
+  /* Add a color to all links inside the list */
+  ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+  }
+  
+  /* Add a color on mouse-over */
+  ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+  }
+
+  .oj-badge {
+    background-color: #655f5b;
+    color: #fff;
+    padding: 0 .5rem;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: .375rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    min-width: 1.5rem;
+    font-size: .6875rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.h1white {
+    color: #fff;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 90px;
+    margin-left: 90px;
+}
+
+.bookitem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: initial;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.sticky-header,
+  .sticky-footer {
+  padding: 5px;
+}
+
+.sticky-footer {
+  position: fixed;
+  min-height: 48px;
+  z-index: 31;
+  bottom: 0;
+}
+
+.booktiles {
+    margin-right: 10pc;
+}
+
+.btn {
+    cursor: pointer;
 }
