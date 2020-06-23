@@ -15,9 +15,22 @@
 
     <groupId>io.verrazzano.example.books</groupId>
     <artifactId>bobbys-helidon-stock-application</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>bobbys-helidon-stock-application</name>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Verrazzano Demo Applications Maven Packages</name>
+            <url>https://maven.pkg.github.com/verrazzano/examples</url>
+        </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>Verrazzano Demo Applications Maven Packages</name>
+            <url>https://maven.pkg.github.com/verrazzano/examples</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
         <helidon.version>1.4.4</helidon.version>
@@ -34,14 +47,6 @@
 
         <version.lib.coherence>12.2.1-4-0</version.lib.coherence>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>Verrazzano Demo Applications Maven Packages</name>
-            <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -85,6 +90,11 @@
                             </manifest>
                         </archive>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.7</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -151,6 +161,11 @@
                         <id>make-index</id>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
             </plugin>
         </plugins>
     </build>

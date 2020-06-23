@@ -22,9 +22,9 @@ echo ' - metrics exporter...'
 rm -rf weblogic-monitoring-exporter
 git clone https://github.com/oracle/weblogic-monitoring-exporter
 cd weblogic-monitoring-exporter
-mvn clean install
+mvn -B clean install
 cd webapp
-mvn clean package -Dconfiguration=../../exporter-config.yaml
+mvn -B clean package -Dconfiguration=../../exporter-config.yaml
 cd ../..
 cp weblogic-monitoring-exporter/webapp/target/wls-exporter.war \
    ${scriptDir}/archive/wlsdeploy/apps/wls-exporter.war
@@ -38,7 +38,7 @@ if [ -f weblogic-deploy.zip ]; then
     echo 'Using existing weblogic-deploy.zip...'
 else
     echo 'Downloading weblogic-deploy.zip...'
-    wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-1.5.1/weblogic-deploy.zip
+    wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-1.9.0/weblogic-deploy.zip
 fi
 
 echo 'Do the docker build...'
@@ -50,7 +50,7 @@ docker build --no-cache \
     --build-arg CUSTOM_DOMAIN_NAME=bobbys-front-end \
     --build-arg DOMAIN_PARENT=/u01/oracle/user_projects/domains \
     --force-rm=true \
-    -t docker.pkg.github.com/verrazzano/demo-apps/bobbys-front-end:0.1.0 .
+    -t $1 .
 
 
 

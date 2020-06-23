@@ -16,7 +16,7 @@ spec:
     name: http
 ---
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: ${project.artifactId}
 spec:
@@ -33,4 +33,8 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
+  selector:
+    matchLabels:
+      app: ${project.artifactId}
+      version: v1
 ---

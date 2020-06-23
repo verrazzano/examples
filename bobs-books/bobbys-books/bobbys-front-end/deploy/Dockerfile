@@ -1,6 +1,6 @@
 # Copyright (c) 2020, Oracle Corporation and/or its affiliates.
 
-FROM store/oracle/weblogic:12.2.1.3
+FROM container-registry.oracle.com/middleware/weblogic:12.2.1.3
 USER root
 RUN yum update -y && yum-config-manager --save --setopt=ol7_ociyum_config.skip_if_unavailable=true \
     && yum clean all; rm -rf /var/cache/yum
@@ -95,8 +95,6 @@ RUN if [ -n "$WDT_MODEL" ]; then MODEL_OPT="-model_file $PROPERTIES_FILE_DIR/${W
         -archive_file ${PROPERTIES_FILE_DIR}/${WDT_ARCHIVE} && \
     chmod -R a+x $DOMAIN_HOME/bin/*.sh && \
     rm -rf $PROPERTIES_FILE_DIR
-
-COPY WebLogicLoggingExporter.yaml $DOMAIN_HOME/config/WebLogicLoggingExporter.yaml
 
 # Mount the domain home and the WDT home for easy access.
 VOLUME $DOMAIN_HOME

@@ -14,7 +14,7 @@
 
     <groupId>io.verrazzano.example.books</groupId>
     <artifactId>roberts-helidon-stock-application</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>roberts-helidon-stock-application</name>
 
@@ -22,8 +22,13 @@
         <repository>
             <id>github</id>
             <name>Verrazzano Demo Applications Maven Packages</name>
-            <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
+            <url>https://maven.pkg.github.com/verrazzano/examples</url>
         </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>Verrazzano Demo Applications Maven Packages</name>
+            <url>https://maven.pkg.github.com/verrazzano/examples</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <properties>

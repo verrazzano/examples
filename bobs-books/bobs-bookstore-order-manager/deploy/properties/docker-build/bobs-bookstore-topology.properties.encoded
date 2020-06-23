@@ -1,4 +1,2 @@
-# Copyright (c) 2020, Oracle Corporation and/or its affiliates
-db.password=PASSWORD
-wallet.password=PASSWORD
-admin.password=PASSWORD
+db.password=XX_DB_PASSWORD_XX
+admin.password=XX_ADMIN_PASSWORD_XX

@@ -22,7 +22,7 @@
         <repository>
             <id>github</id>
             <name>Verrazzano Demo Applications Maven Packages</name>
-            <url>https://maven.pkg.github.com/verrazzano/demo-apps</url>
+            <url>https://maven.pkg.github.com/verrazzano/examples</url>
         </repository>
     </distributionManagement>
 
@@ -112,6 +112,11 @@
             <groupId>com.oracle.weblogic</groupId>
             <artifactId>org.codehaus.jettison.jettison</artifactId>
             <version>12.2.1-3-0</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.20</version>
         </dependency>
         <!-- Logging deps start -->
         <dependency>

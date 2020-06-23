@@ -18,7 +18,7 @@ spec:
     name: http
 ---
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: roberts-helidon-stock-application
   namespace: robert
@@ -33,10 +33,15 @@ spec:
     spec:
       containers:
       - name: roberts-helidon-stock-application
-        image: docker.pkg.github.com/verrazzano/demo-apps/roberts-helidon-stock-application:0.1.0
+        image: docker.pkg.github.com/verrazzano/examples/roberts-helidon-stock-application:0.1.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
       imagePullSecrets:
         - name: ocir
+  selector:
+    matchLabels:
+      app: bobbys-helidon-stock-application
+      version: v1
+      species: helidon
 ---
