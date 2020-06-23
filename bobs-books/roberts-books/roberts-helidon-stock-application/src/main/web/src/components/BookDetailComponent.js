@@ -61,7 +61,7 @@ function RenderComments({comments}) {
     return (
       <div className="oj-flex-item oj-sm-12">
         <h4>Comments</h4>
-        <ul className="list-unstyled">{commentList}</ul>
+        <ul>{commentList}</ul>
       </div>
     )
   } else {

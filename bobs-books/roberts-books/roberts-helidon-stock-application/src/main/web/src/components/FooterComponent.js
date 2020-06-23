@@ -10,7 +10,7 @@ function Footer(props) {
         <div className="oj-flex">
           <div className="oj-flex-item oj-sm-4">
             <h5 className="oj-sm-padding-4x">Links</h5>
-            <ul className="list-unstyled">
+            <ul>
               <li><Link to="/books">Home</Link></li>
               <li><Link to="/books">Books</Link></li>
               <li><Link to="/cart">Check Out</Link></li>
