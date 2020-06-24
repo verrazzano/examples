@@ -47,8 +47,10 @@ resources:
             jdbc/books
           ]
         JDBCDriverParams:
-          DriverName: io.opentracing.contrib.jdbc.TracingDriver
-          URL : 'jdbc:tracing:mysql:@//mysql:3006/books'
+          #DriverName: io.opentracing.contrib.jdbc.TracingDriver
+          #URL : 'jdbc:tracing:mysql:@//mysql:3006/books'
+          DriverName: com.mysql.cj.jdbc.Driver
+          URL : 'jdbc:mysql:@//mysql:3006/books'
           PasswordEncrypted: '@@PROP:db.password@@'
           Properties:
             user:
