@@ -40,6 +40,7 @@ pipeline {
     stages {
         stage('Prepare Environment') {
             steps {
+                clairScan "nothing:1.0"
                 mountSharedDisk
                 sh """
                     mkdir -p $HOME/.m2/repository/com
