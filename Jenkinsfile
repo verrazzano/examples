@@ -40,6 +40,7 @@ pipeline {
     stages {
         stage('Prepare Environment') {
             steps {
+                mountSharedDisk
                 sh """
                     mkdir -p $HOME/.m2/repository/com
                     tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
