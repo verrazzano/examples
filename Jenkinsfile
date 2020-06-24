@@ -40,8 +40,7 @@ pipeline {
     stages {
         stage('Prepare Environment') {
             steps {
-                clairScan "nothing:1.0"
-                //mountSharedDisk
+                mountSharedDisk '/build-share-files'
                 sh """
                     mkdir -p $HOME/.m2/repository/com
                     tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
