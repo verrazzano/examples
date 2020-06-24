@@ -3,7 +3,8 @@ kind: Namespace
 metadata:
   name: bob
   labels:
-    istio-injection: enabled---
+    istio-injection: enabled
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
