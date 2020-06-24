@@ -8,7 +8,6 @@ spec:
   description: "Bob's Books model"
   weblogicDomains:
     - name: bobbys-front-end
-      adminPort: 32701
       t3Port: 32702
       domainCRValues:
         domainUID: bobbys-front-end
@@ -45,7 +44,6 @@ spec:
               environmentVariableForHost: "HELIDON_HOSTNAME"
               environmentVariableForPort: "HELIDON_PORT"
     - name: bobs-bookstore
-      adminPort: 32401
       t3Port: 32402
       domainCRValues:
         domainUID: bobs-bookstore
