@@ -67,7 +67,7 @@ class Main extends Component {
                 cartAddListener={this.cartAddListener}
                 onAuthorSelected={this.onAuthorSelected}
                 zipkinFetch={this.props.zipkinFetch}
-                zipkinAxios={this.props.zipkinAxios}/>
+                zipkinAxios={this.props.zipkinAxios} className="sticky-header"/>
         <Switch>
           <Route exact path="/books"
                  component={() => <Books books={this.state.books}
@@ -85,7 +85,7 @@ class Main extends Component {
         </Switch>
         <Footer cart={this.state.cart}
                 zipkinFetch={this.props.zipkinFetch}
-                zipkinAxios={this.props.zipkinAxios}/>
+                zipkinAxios={this.props.zipkinAxios} className="sticky-footer"/>
       </div>
     );
   }

@@ -2,88 +2,45 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- Copyright (c) 2020, Oracle Corporation and/or its affiliates. -->
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <f:metadata>
-    <f:viewParam name="bookId" value="#{bookBean.bookId}"/>
-    <f:viewAction action="#{bookBean.find}"/>
+	<f:viewParam name="bookId" value="#{bookBean.bookId}" />
+	<f:viewAction action="#{bookBean.find}" />
 </f:metadata>
 
 <ui:composition template="template.xhtml">
-    <ui:define name="title">
-        <h:outputText value="Bobby's Books"></h:outputText>
-    </ui:define>
+	<ui:define name="header" />
 
-    <ui:define name="header">
-        <!--<div class="page-header">-->
-        <div class="col">
-            <img src="images/kids-books.png" width="200"/>
-        </div>
-        <div class="col">
-            <h2>Bobby's Books</h2>
-            <p class="lead">A specialist bookstore for kids!</p>
-        </div>
-    </ui:define>
+	<ui:define name="body">
 
-    <ui:define name="body">
+		<p>&nbsp;</p>
 
-        <div class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#"></a>
-            <div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./index.xhtml">Home</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./books.xhtml">Books <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./about.xhtml">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./checkout.xhtml">Checkout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+		<p>&nbsp;</p>
+		<div class="oj-flex">
+			<div class="oj-flex-item oj-sm-2">
+				<h:graphicImage value="#{bookBean.imageUrl}"></h:graphicImage>
+			</div>
+			<div class="oj-flex-item oj-sm-3">
+				<h5>
+					<h:outputText value="#{bookBean.title}"></h:outputText>
+				</h5>
+				<h:outputText value="#{bookBean.authors}"></h:outputText>
+			</div>
+			<div class="oj-flex-item oj-sm-2">
+				<h:form id="order">
+					<span><h:commandButton id="order" value="Add to cart"
+							styleClass="btn-cart oj-button-button oj-component-initnode"
+							action="#{cartBean.addBook}"></h:commandButton></span>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
 
-        <p>&nbsp;</p>
-
-        <p>&nbsp;</p>
-        <div class="container">
-            <div class="row">
-                <div class="col-3">
-                    <div class="media">
-                        <h:graphicImage value="#{bookBean.imageUrl}" class="mr-3"></h:graphicImage>
-                        <div class="media-body">
-
-                            <h5 class="mt-0">
-                                <h:outputText value="#{bookBean.title}"></h:outputText>
-                            </h5>
-                            <h:outputText value="#{bookBean.authors}"></h:outputText>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <h:form id="order">
-
-                        <span><h:commandButton id="order" value="Add to cart" styleClass="btn btn-success"
-                                               action="#{cartBean.addBook}"></h:commandButton></span>
-                    </h:form>
-                </div>
-            </div>
-        </div>
-    </ui:define>
-
-    <p>&nbsp;</p>
-    <ui:define name="footer">
-        <footer>
-            <p>&copy; Bob's Books 2019</p>
-        </footer>
-    </ui:define>
+	<p>&nbsp;</p>
+	<ui:define name="footer">&copy;</ui:define>
 </ui:composition>
 </html>
 

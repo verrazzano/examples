@@ -1,11 +1,11 @@
 // Copyright (c) 2020 Oracle and/or its affiliates.
 
 import React from 'react';
-import {Media} from 'reactstrap';
+import ojpanel from 'ojs/';
 
 function RenderCard({item}) {
   return (
-    <Media>
+    <ojpanel>
       <Media left href="#">
         <Media object src={item.imageUrl} alt={item.title}/>
       </Media>
@@ -17,17 +17,15 @@ function RenderCard({item}) {
         <p>{item.title}</p>
         <p>author</p>
       </Media>
-    </Media>
+    </ojpanel>
   )
 }
 
 function Home(props) {
   return (
-    <div className="container">
-      <div className="row align-items-start">
-        <div className="col-12 col-md m-1">
+    <div className="oj-flex">
+      <div className="oj-flex-item oj-sm-12">
           <RenderCard item={props.book}/>
-        </div>
       </div>
     </div>
   )

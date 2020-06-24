@@ -1,7 +1,6 @@
 // Copyright (c) 2020 Oracle and/or its affiliates.
 
 import React, {Component} from 'react';
-import {Button, Media} from 'reactstrap';
 
 
 function RenderBook(props) {
@@ -24,23 +23,29 @@ function RenderBook(props) {
   }
 
   return (
-    <Media className="row-cart">
-      <Media left href="#" className="col-2">
-        <Media src={book.smallImageUrl}/>
-      </Media>
-      <Media body className="col-8">
-        <Media heading>
+    <div className="oj-sm-padding-4x-start oj-sm-padding-2x-bottom oj-flex">
+      <div className="oj-flex-item oj-sm-2">
+      <div class="oj-avatar oj-avatar-image oj-avatar-bg-neutral oj-avatar-sm" aria-hidden="true">
+        <div className="oj-avatar-background-image" style={{backgroundImage: `url(${book.smallImageUrl})`}} aria-label={book.originalTitle}>
+        </div>
+        </div>
+      </div>
+      <div className="oj-flex-item oj-sm-8 oj-padding-sm-2x">
+        <h5>
           {book.originalTitle}
-        </Media>
-      </Media>
-      <Media right className="col-2">
-        <Button onClick={() => {
+        </h5>
+      </div>
+      <div className="oj-flex-item oj-sm-2">
+      <div className="oj-flex-item oj-sm-2 oj-button oj-component oj-enabled oj-button-outlined-chrome oj-button-text-only oj-complete oj-default">
+        <button className="btn" onClick={() => {
           removeFromCart(cart, book, onCartChanged)
         }}>
+        
           <span className="fa fa-remove fa-lg"/> Remove
-        </Button>
-      </Media>
-    </Media>
+        </button>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -56,7 +61,7 @@ class Cart extends Component {
   render() {
     const books = this.cart.map(book => {
       return (
-        <div key={book.id} className="col-12">
+        <div key={book.id}>
           <RenderBook self={this}  book={book} cart={this.cart}
                       onCartChanged={this.onCartChanged}/>
         </div>
@@ -64,22 +69,29 @@ class Cart extends Component {
     });
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <h3>Shopping Cart</h3>
+      <div>
+        <div className="oj-sm-padding-4x-start oj-flex">
+          <div className="oj-flex-item oj-sm-12">
+            <h2>Shopping Cart</h2>
           </div>
         </div>
-        <div className="row">
+        <div className="oj-flex">
+        <div className="oj-flex-item oj-sm-12">
           {books}
         </div>
-        <div className="row"/>
-        <div className="row-button">
-          <Button onClick={() => this.checkOut()}>
-            <span className="fa fa-sign-out fa-lg"/> Buy Now!
-          </Button>
+        </div>
+        <div className="oj-flex"/>
+        <div className="oj-flex">
+        <div className="oj-flex-item">
+        <div className="oj-sm-padding-4x-start oj-button oj-component oj-enabled oj-button-outlined-chrome oj-button-text-only oj-complete oj-default">
+          <button className="btn" onClick={() => this.checkOut()}>
+            <span className="fa fa-cart-plus fa-lg" /> Buy Now!
+          </button>
+        </div>
         </div>
       </div>
+    </div>
+
     );
   }
 
