@@ -273,3 +273,7 @@ ul.breadcrumb {
 .btn {
     cursor: pointer;
 }
+
+.cart {
+    color: white !important;
+}
