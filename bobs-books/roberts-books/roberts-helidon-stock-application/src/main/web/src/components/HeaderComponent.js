@@ -38,7 +38,7 @@ class Header extends Component {
             </div>
 
             <div className="oj-sm-padding-4x oj-flex-bar-end" to="/cart">
-            <NavLink className="nav-link" to="/cart">
+            <NavLink className="cart nav-link" to="/cart">
                   <span className="fa fa-shopping-cart fa-lg"/> Cart <div className="oj-badge">{this.state.cart.length}</div>
                   </NavLink>
                 </div>
