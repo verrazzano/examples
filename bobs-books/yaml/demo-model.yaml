@@ -103,7 +103,7 @@ spec:
               address: "roberts-coherence-wka"
   coherenceClusters:
     - name: "bobbys-coherence"
-      image: "docker.pkg.github.com/verrazzano/examples/bobbys-coherence:1"
+      image: "docker.pkg.github.com/verrazzano/examples/bobbys-coherence:0.1.2"
       imagePullSecrets:
         - name: github-packages # secret to pull bobbys-coherence image from GitHub Packages
         - name: ocr  # secret to pull container-registry.oracle.com/middleware/coherence:12.2.1.4.0
