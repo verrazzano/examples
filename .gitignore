@@ -1,7 +1,7 @@
 **/target
 **/.classpath
 **/.project
+**/mark*.yaml
 .DS_Store
 org.eclipse.*
 .jsdtscope
-.idea
