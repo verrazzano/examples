@@ -50,7 +50,7 @@ resources:
           #DriverName: io.opentracing.contrib.jdbc.TracingDriver
           #URL : 'jdbc:tracing:mysql:@//mysql:3006/books'
           DriverName: com.mysql.cj.jdbc.Driver
-          URL : 'jdbc:mysql://mysql:3006/books'
+          URL : 'jdbc:mysql://mysql:3306/books'
           PasswordEncrypted: '@@PROP:db.password@@'
           Properties:
             user:
@@ -65,5 +65,9 @@ appDeployments:
       ModuleType: war
       StagingMode: nostage
       PlanStagingMode: nostage
-
-
+    'wls-exporter':
+      SourcePath: 'wlsdeploy/apps/wls-exporter.war'
+      Target: 'admin-server,cluster-1'
+      ModuleType: war
+      StagingMode: nostage
+      PlanStagingMode: nostage

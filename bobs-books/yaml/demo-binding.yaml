@@ -39,8 +39,8 @@ spec:
             - name: bobs-bookstore
   ingressBindings:
     - name: "bobbys-ingress"
-      dnsName: "*"
+      dnsName: "boobys-books.example.com"
     - name: "bobs-ingress"
-      dnsName: "*"
+      dnsName: "bobs-books.exmaple.com"
     - name: "roberts-ingress"
-      dnsName: "*"
+      dnsName: "roberts-books.example.com"

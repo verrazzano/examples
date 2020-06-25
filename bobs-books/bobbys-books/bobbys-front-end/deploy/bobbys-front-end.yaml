@@ -40,4 +40,9 @@ appDeployments:
       ModuleType: war
       StagingMode: nostage
       PlanStagingMode: nostage
-
+    'wls-exporter':
+      SourcePath: 'wlsdeploy/apps/wls-exporter.war'
+      Target: 'admin-server,cluster-1'
+      ModuleType: war
+      StagingMode: nostage
+      PlanStagingMode: nostage

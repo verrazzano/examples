@@ -1,6 +1,5 @@
 # Copyright (c) 2020, Oracle Corporation and/or its affiliates.
-host: bobbys-front-end-admin-server
-port: 7001
+
 metricsNameSnakeCase: true
 queries:
   - key: name
