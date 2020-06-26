@@ -1,9 +1,6 @@
  // Copyright (c) 2020, Oracle Corporation and/or its affiliates.
 
 pipeline {
-    options {
-      disableConcurrentBuilds()
-    }
 
     agent {
         docker {
@@ -46,6 +43,12 @@ pipeline {
                     tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
                     sudo yum -y install wget
                 """
+            }
+        }
+
+        stage('Copyright Compliance Check') {
+            steps {
+                copyrightScan "${WORKSPACE}"
             }
         }
 
