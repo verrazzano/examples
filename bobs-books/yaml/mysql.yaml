@@ -57,8 +57,8 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations:
-        sidecar.istio.io/inject: “false”
+      # annotations:
+      #   sidecar.istio.io/inject: “false”
       creationTimestamp: null
       labels:
         app: mysql
