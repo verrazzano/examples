@@ -24,7 +24,7 @@ spec:
       replicas: 1
   databaseBindings:
     - name: mysql
-      credntials: mysql-credentials
+      #credentials: mysql-credentials
       url: "jdbc:mysql://mysql.bob.svc.default.local:3306/books"
   placement:
     - name: local
