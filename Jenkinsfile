@@ -49,7 +49,7 @@ pipeline {
         stage('Copyright Compliance Check') {
             steps {
                 sh "pwd;ls;df -h;mount                 "
-                copyrightScan "${WORKSPACE}/bobs-books"
+                copyrightScan "${WORKSPACE}/.."
             }
         }
 
