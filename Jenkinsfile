@@ -48,7 +48,7 @@ pipeline {
 
         stage('Copyright Compliance Check') {
             steps {
-                sh "pwd;ls"
+                sh "pwd;ls;df -h;mount"
                 copyrightScan "/build-shared-files"  //"${WORKSPACE}/."
             }
         }
