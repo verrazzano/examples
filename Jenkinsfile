@@ -49,7 +49,7 @@ pipeline {
         stage('Copyright Compliance Check') {
             steps {
                 sh "pwd;ls"
-                copyrightScan "${WORKSPACE}/."
+                copyrightScan "/build-shared-files"  //"${WORKSPACE}/."
             }
         }
 
