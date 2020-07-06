@@ -65,6 +65,20 @@ pipeline {
             }
         }
 
+        stage('Scan Bobbys Coherence Application') {
+            steps {
+                script {
+                    clairScanTemp "${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}"
+                }
+                sh "mv scanning-report.json bobby_coherence.scanning-report.json"
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                }
+            }
+        }
+
         stage('Build Bobbys Helidon Stock Application') {
             steps {
                 sh """
@@ -74,6 +88,20 @@ pipeline {
                     docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
                     docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
                 """
+            }
+        }
+
+        stage('Scan Bobbys Helidon Stock Application') {
+            steps {
+                script {
+                    clairScanTemp "${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}"
+                }
+                sh "mv scanning-report.json bobby_helidon.scanning-report.json"
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                }
             }
         }
 
@@ -88,6 +116,20 @@ pipeline {
                     ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                     docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                 """
+            }
+        }
+
+        stage('Scan Bobbys Front-end WebLogic Application') {
+            steps {
+                script {
+                    clairScanTemp "${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}"
+                }
+                sh "mv scanning-report.json bobby_weblogic.scanning-report.json"
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                }
             }
         }
 
@@ -108,6 +150,20 @@ pipeline {
             }
         }
 
+        stage('Scan Bobs Backend WebLogic Application') {
+            steps {
+                script {
+                    clairScanTemp "${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}"
+                }
+                sh "mv scanning-report.json bobs_weblogic.scanning-report.json"
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                }
+            }
+        }
+
         stage('Build Roberts Coherence Application') {
             steps {
                 sh """
@@ -117,6 +173,20 @@ pipeline {
                     docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
                     docker push ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}
                 """
+            }
+        }
+
+        stage('Scan Roberts Coherence Application') {
+            steps {
+                script {
+                    clairScanTemp "${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}"
+                }
+                sh "mv scanning-report.json roberts_coherence.scanning-report.json"
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                }
             }
         }
 
@@ -131,6 +201,20 @@ pipeline {
                     docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION} .
                     docker push ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}
                 """
+            }
+        }
+
+        stage('Scan Roberts Helidon Stock Application') {
+            steps {
+                script {
+                    clairScanTemp "${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}"
+                }
+                sh "mv scanning-report.json roberts_helidon.scanning-report.json"
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                }
             }
         }
     }
