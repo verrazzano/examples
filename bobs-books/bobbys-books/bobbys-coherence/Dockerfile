@@ -13,4 +13,4 @@ COPY src/main/resources/bobbys-cache-config.xml /app/conf/
 COPY src/main/resources/bobbys-pof-config.xml /app/conf/
 COPY src/main/resources/books.csv /app/conf/
 COPY LICENSE.txt /license/
-COPY THIRD_PARTY_LICENSES_txt /license/
+COPY THIRD_PARTY_LICENSES.txt /license/
