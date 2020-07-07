@@ -78,8 +78,8 @@ COPY ${WDT_MODEL} ${WDT_ARCHIVE} properties/docker-build/*.properties ${PROPERTI
 RUN chown -R oracle:oracle ${PROPERTIES_FILE_DIR}
 
 # copy license and third party attribution files
-COPY ../LICENSE.txt /license/
-COPY ../THIRD_PARTY_LICENSES.txt /license/
+COPY LICENSE.txt /license/
+COPY THIRD_PARTY_LICENSES.txt /license/
 
 # Create the domain home in the docker image.
 #

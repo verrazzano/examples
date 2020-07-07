@@ -41,6 +41,9 @@ else
     wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-1.9.0/weblogic-deploy.zip
 fi
 
+cp ../LICENSE.txt .
+cp ../THIRD_PARTY_LICENSES.txt .
+
 echo 'Do the docker build...'
 docker build --no-cache \
     $BUILD_ARG \
