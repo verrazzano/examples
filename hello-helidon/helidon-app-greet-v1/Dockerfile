@@ -24,11 +24,6 @@ RUN set -eux \
     rm -f graalvm.tar.gz; \
     rm -Rf "$JAVA_HOME/include" "$JAVA_HOME/jmods" "$JAVA_HOME/languages" "$JAVA_HOME/tools" "$JAVA_HOME/lib/svm" "$JAVA_HOME/lib/installer" "$JAVA_HOME/lib/visualvm" "$JAVA_HOME/lib/truffle" "$JAVA_HOME/lib/polyglot"; \
     rm -f "$JAVA_HOME/lib/src.zip" "$JAVA_HOME/lib/libjvmcicompiler.so" "$JAVA_HOME/bin/polyglot"; \
-    for bin in "$JAVA_HOME/bin/"*; do \
-        base="$(basename "$bin")"; \
-        [ ! -e "/usr/bin/$base" ]; \
-        alternatives --install "/usr/bin/$base" "$base" "$bin" 20000; \
-    done; \
     java -Xshare:dump
 
 CMD java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main
