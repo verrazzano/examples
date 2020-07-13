@@ -16,12 +16,20 @@ COPY ${GRAALVM_BINARY} graalvm.tar.gz
 ENV GRAALVM_DOWNLOAD_SHA256=870e51d13e7f42df50097110b14715e765e2a726aa2609c099872995c4409d8f
 
 RUN set -eux \
-    && echo "Checking GraalVM hash" \
-    && echo "${GRAALVM_DOWNLOAD_SHA256} *graalvm.tar.gz" | sha256sum --check - \
-    && echo "Installing GraalVM" \
-    && mkdir -p "$JAVA_HOME" \
-    && tar xzf graalvm.tar.gz --directory "${JAVA_HOME}" --strip-components=1 \
-    && rm -f graalvm.tar.gz
+    echo "Checking GraalVM hash"; \
+    echo "${GRAALVM_DOWNLOAD_SHA256} *graalvm.tar.gz" | sha256sum --check -; \
+    echo "Installing GraalVM"; \
+    mkdir -p "$JAVA_HOME"; \
+    tar xzf graalvm.tar.gz --directory "${JAVA_HOME}" --strip-components=1; \
+    rm -f graalvm.tar.gz; \
+    rm -Rf "$JAVA_HOME/include" "$JAVA_HOME/jmods" "$JAVA_HOME/languages" "$JAVA_HOME/tools" "$JAVA_HOME/lib/svm" "$JAVA_HOME/lib/installer" "$JAVA_HOME/lib/visualvm" "$JAVA_HOME/lib/truffle" "$JAVA_HOME/lib/polyglot"; \
+    rm -f "$JAVA_HOME/lib/src.zip" "$JAVA_HOME/lib/libjvmcicompiler.so" "$JAVA_HOME/bin/polyglot"; \
+    for bin in "$JAVA_HOME/bin/"*; do \
+        base="$(basename "$bin")"; \
+        [ ! -e "/usr/bin/$base" ]; \
+        alternatives --install "/usr/bin/$base" "$base" "$bin" 20000; \
+    done; \
+    java -Xshare:dump
 
 CMD java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main
 
