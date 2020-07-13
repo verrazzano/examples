@@ -47,12 +47,12 @@ pipeline {
             }
         }
 
-        // stage('Copyright Compliance Check') {
-        //     steps {
-        //         sh "pwd;ls;df -h;mount"
-        //         copyrightScan "${WORKSPACE}"
-        //     }
-        // }
+        stage('Copyright Compliance Check') {
+            when { not { buildingTag() } }
+            steps {
+                copyrightScan "${WORKSPACE}"
+            }
+        }
 
         stage('Build Bobbys Coherence Application') {
             steps {
