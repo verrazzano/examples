@@ -25,7 +25,7 @@ pipeline {
         ROBERTS_COHERENCE = 'roberts-coherence'
         BOBBYS_WEBLOGIC = 'bobbys-front-end'
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
-        VERSION = '0.1.3'
+        VERSION = '0.1.4'
 
         // secrets used during build
         BOB_DB_PASSWORD = credentials('bobs-bookstore-db-password')
