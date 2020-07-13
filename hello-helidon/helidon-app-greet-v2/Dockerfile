@@ -1,25 +1,27 @@
-#
-# Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+# Copyright (C) 2020, Oracle and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-FROM openjdk:11-oracle
+FROM container-registry.oracle.com/os/oraclelinux:7-slim
 RUN yum update -y && yum-config-manager --save --setopt=ol7_ociyum_config.skip_if_unavailable=true \
-    && yum clean all; rm -rf /var/cache/yum
+    && yum install -y tar unzip gzip \
+    && yum clean all; rm -rf /var/cache/yum \
+    && mkdir /app
 
-RUN mkdir /app
 COPY target/* /app/
+
+ENV JAVA_HOME=/usr/java
+ENV PATH $JAVA_HOME/bin:$PATH
+ARG GRAALVM_BINARY="${GRAALVM_BINARY:-graalvm-ee-java11-linux-amd64-20.1.0.1.tar.gz}"
+COPY ${GRAALVM_BINARY} graalvm.tar.gz
+ENV GRAALVM_DOWNLOAD_SHA256=870e51d13e7f42df50097110b14715e765e2a726aa2609c099872995c4409d8f
+
+RUN set -eux \
+    && echo "Checking GraalVM hash" \
+    && echo "${GRAALVM_DOWNLOAD_SHA256} *graalvm.tar.gz" | sha256sum --check - \
+    && echo "Installing GraalVM" \
+    && mkdir -p "$JAVA_HOME" \
+    && tar xzf graalvm.tar.gz --directory "${JAVA_HOME}" --strip-components=1 \
+    && rm -f graalvm.tar.gz
 
 CMD java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main
 
