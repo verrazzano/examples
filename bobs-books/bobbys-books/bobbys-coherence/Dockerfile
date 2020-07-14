@@ -5,7 +5,7 @@ FROM container-registry.oracle.com/os/oraclelinux:7-slim
 
 RUN yum update -y \
     && yum-config-manager --save --setopt=ol7_ociyum_config.skip_if_unavailable=true \
-    && yum install tar \
+    && yum -y install tar \
     && yum clean all; rm -rf /var/cache/yum \
     && mkdir -p /app/lib \
     && mkdir -p /app/conf \
