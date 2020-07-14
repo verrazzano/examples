@@ -73,7 +73,7 @@ imagetool.sh cache addInstaller --type jdk --version 11 --path ${GRAALVM_BUNDLE}
 imagetool.sh cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
 
 echo 'Create image with domain...'
-imagetool create \
+imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
     --additionalBuildCommands additional-build-commands \
