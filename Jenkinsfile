@@ -17,6 +17,12 @@ pipeline {
         DOCKER_CREDS = credentials('github-markxnelns-private-access-token')
         OCR_CREDS = credentials('ocr-pull-and-push-account')
 
+        OCI_CLI_TENANCY = credentials('oci-tenancy')
+        OCI_CLI_USER = credentials('oci-user-ocid')
+        OCI_CLI_FINGERPRINT = credentials('oci-api-key-fingerprint')
+        OCI_CLI_KEY_FILE = credentials('oci-api-key')
+        OCI_CLI_REGION = 'us-phoenix-1'
+
         // image names and tags are created from these variables:
         REPO = 'docker.pkg.github.com/verrazzano/examples'
         BOBBYS_HELIDON = 'bobbys-helidon-stock-application'
@@ -33,6 +39,9 @@ pipeline {
 
         // access to GitHub Packages Maven Repository
         MAVEN_SETTINGS = credentials('oracle-maven-settings')
+
+        BUCKET_NAME = "build-shared-files"
+        GRAALVM_BUNDLE = "graalvm-ee-java11-linux-amd64-20.1.0.1.tar.gz"
     }
 
     stages {
@@ -60,7 +69,8 @@ pipeline {
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                     cd bobs-books/bobbys-books/bobbys-coherence
                     mvn -B -s $MAVEN_SETTINGS clean deploy
-                    docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
+                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
+                    docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
                     docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
                 """
             }
