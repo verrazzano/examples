@@ -1,4 +1,5 @@
- // Copyright (c) 2020, Oracle Corporation and/or its affiliates.
+// Copyright (c) 2020, Oracle and/or its affiliates.
+// Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 pipeline {
 
@@ -24,7 +25,7 @@ pipeline {
         ROBERTS_COHERENCE = 'roberts-coherence'
         BOBBYS_WEBLOGIC = 'bobbys-front-end'
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
-        VERSION = '0.1.3'
+        VERSION = '0.1.4'
 
         // secrets used during build
         BOB_DB_PASSWORD = credentials('bobs-bookstore-db-password')
@@ -46,12 +47,12 @@ pipeline {
             }
         }
 
-        // stage('Copyright Compliance Check') {
-        //     steps {
-        //         sh "pwd;ls;df -h;mount"
-        //         copyrightScan "${WORKSPACE}"
-        //     }
-        // }
+        stage('Copyright Compliance Check') {
+            when { not { buildingTag() } }
+            steps {
+                copyrightScan "${WORKSPACE}"
+            }
+        }
 
         stage('Build Bobbys Coherence Application') {
             steps {

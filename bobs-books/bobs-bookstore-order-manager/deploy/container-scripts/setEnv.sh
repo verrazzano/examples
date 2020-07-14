@@ -1,7 +1,7 @@
 #!/bin/bash ex
 
 # Copyright (c) 2020, Oracle and/or its affiliates.
-# The Universal Permissive License (UPL), Version 1.0
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 #
 # This example creates the BUILD_ARG environment variable as a string of --build-arg for
 # the arguments passed on the docker build command. The variable file that is used for the WDT
