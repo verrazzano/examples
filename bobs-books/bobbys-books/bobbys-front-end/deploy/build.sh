@@ -66,12 +66,11 @@ else
     unzip imagetool.zip
 fi
 
-echo 'Setup WebLogic Image Tool...'
-. imagetool/bin/setup.sh
+export PATH=`pwd`/imagetool/bin:$PATH
 
 echo 'Add installers to Image Tool cache...'
-imagetool cache addInstaller --type jdk --version 11 --path ${GRAALVM_BUNDLE}
-imagetool cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
+imagetool.sh cache addInstaller --type jdk --version 11 --path ${GRAALVM_BUNDLE}
+imagetool.sh cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
 
 echo 'Create image with domain...'
 imagetool create \
