@@ -19,6 +19,7 @@ pipeline {
     environment {
         DOCKER_CREDS = credentials('github-markxnelns-private-access-token')
         OCR_CREDS = credentials('ocr-pull-and-push-account')
+        NETRC_FILE = credentials('netrc')
 
         OCI_CLI_TENANCY = credentials('oci-tenancy')
         OCI_CLI_USER = credentials('oci-user-ocid')
@@ -59,7 +60,7 @@ pipeline {
                 """
             }
         }
-        
+
         stage('Default checkout') {
             steps {
                 script {
