@@ -116,171 +116,184 @@ pipeline {
             }
         }
 
-        stage('Build Bobbys Coherence Application') {
-            steps {
-                sh """
-                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    cd examples/bobs-books/bobbys-books/bobbys-coherence
-                    mvn -B -s $MAVEN_SETTINGS clean deploy
-                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                    docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
-                    docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
-                """
-            }
-        }
+        stage('Parallel builds') {
+            parallel {
+                stage ('Bobbys Books') {
 
-        stage('Scan Bobbys Coherence Application') {
-            steps {
-                script {
-                    clairScanTemp "${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}"
-                }
-                sh "mv scanning-report.json bobby_coherence.scanning-report.json"
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
-                }
-            }
-        }
+                    stage('Build Bobbys Coherence Application') {
+                        steps {
+                            sh """
+                                echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                cd examples/bobs-books/bobbys-books/bobbys-coherence
+                                mvn -B -s $MAVEN_SETTINGS clean deploy
+                                oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
+                                docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
+                                docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
+                            """
+                        }
+                    }
 
-        stage('Build Bobbys Helidon Stock Application') {
-            steps {
-                sh """
-                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    cd examples/bobs-books/bobbys-books/bobbys-helidon-stock-application
-                    mvn -B -s $MAVEN_SETTINGS clean deploy 
-                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                    docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
-                    docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
-                """
-            }
-        }
+                    stage('Scan Bobbys Coherence Application') {
+                        steps {
+                            script {
+                                clairScanTemp "${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}"
+                            }
+                            sh "mv scanning-report.json bobby_coherence.scanning-report.json"
+                        }
+                        post {
+                            always {
+                                archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                            }
+                        }
+                    }
 
-        stage('Scan Bobbys Helidon Stock Application') {
-            steps {
-                script {
-                    clairScanTemp "${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}"
-                }
-                sh "mv scanning-report.json bobby_helidon.scanning-report.json"
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
-                }
-            }
-        }
+                    stage('Build Bobbys Helidon Stock Application') {
+                        steps {
+                            sh """
+                                echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                cd examples/bobs-books/bobbys-books/bobbys-helidon-stock-application
+                                mvn -B -s $MAVEN_SETTINGS clean deploy 
+                                oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
+                                docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
+                                docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
+                            """
+                        }
+                    }
 
-        stage('Build Bobbys Front-end WebLogic Application') {
-            steps {
-                sh """
-                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
-                    cd examples/bobs-books/bobbys-books/bobbys-front-end
-                    mvn -B -s $MAVEN_SETTINGS clean deploy
-                    cd deploy
-                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                    ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
-                    docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
-                """
-            }
-        }
+                    stage('Scan Bobbys Helidon Stock Application') {
+                        steps {
+                            script {
+                                clairScanTemp "${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}"
+                            }
+                            sh "mv scanning-report.json bobby_helidon.scanning-report.json"
+                        }
+                        post {
+                            always {
+                                archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                            }
+                        }
+                    }
 
-        stage('Scan Bobbys Front-end WebLogic Application') {
-            steps {
-                script {
-                    clairScanTemp "${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}"
-                }
-                sh "mv scanning-report.json bobby_weblogic.scanning-report.json"
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
-                }
-            }
-        }
+                    stage('Build Bobbys Front-end WebLogic Application') {
+                        steps {
+                            sh """
+                                echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
+                                cd examples/bobs-books/bobbys-books/bobbys-front-end
+                                mvn -B -s $MAVEN_SETTINGS clean deploy
+                                cd deploy
+                                oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
+                                oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
+                                ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                                docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                            """
+                        }
+                    }
 
-        stage('Build Bobs Backend WebLogic Application') {
-            steps {
-                sh """
-                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
-                    cd bobs-books/bobs-bookstore-order-manager
-                    mvn -B -s $MAVEN_SETTINGS clean deploy
-                    cd deploy
-                    echo 'Update passwords from Jenkins secrets'
-                    sed -i -e "s|XX_DB_PASSWORD_XX|${env.BOB_DB_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties.encoded
-                    sed -i -e "s|XX_ADMIN_PASSWORD_XX|${env.BOB_ADMIN_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties.encoded
-                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
-                    docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
-                """
-            }
-        }
-
-        stage('Scan Bobs Backend WebLogic Application') {
-            steps {
-                script {
-                    clairScanTemp "${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}"
+                    stage('Scan Bobbys Front-end WebLogic Application') {
+                        steps {
+                            script {
+                                clairScanTemp "${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}"
+                            }
+                            sh "mv scanning-report.json bobby_weblogic.scanning-report.json"
+                        }
+                        post {
+                            always {
+                                archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                            }
+                        }
+                    }
                 }
-                sh "mv scanning-report.json bobs_weblogic.scanning-report.json"
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
-                }
-            }
-        }
 
-        stage('Build Roberts Coherence Application') {
-            steps {
-                sh """
-                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    cd bobs-books/roberts-books/roberts-coherence
-                    mvn -B -s $MAVEN_SETTINGS clean deploy
-                    docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
-                    docker push ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}
-                """
-            }
-        }
+                stage('Bobs Backend') {
 
-        stage('Scan Roberts Coherence Application') {
-            steps {
-                script {
-                    clairScanTemp "${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}"
-                }
-                sh "mv scanning-report.json roberts_coherence.scanning-report.json"
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
-                }
-            }
-        }
+                    stage('Build Bobs Backend WebLogic Application') {
+                        steps {
+                            sh """
+                                echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
+                                cd bobs-books/bobs-bookstore-order-manager
+                                mvn -B -s $MAVEN_SETTINGS clean deploy
+                                cd deploy
+                                echo 'Update passwords from Jenkins secrets'
+                                sed -i -e "s|XX_DB_PASSWORD_XX|${env.BOB_DB_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties.encoded
+                                sed -i -e "s|XX_ADMIN_PASSWORD_XX|${env.BOB_ADMIN_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties.encoded
+                                ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                                docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                            """
+                        }
+                    }
 
-        stage('Build Roberts Helidon Stock Application') {
-            steps {
-                sh """
-                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    cd bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web
-                    npm install
-                    cd ../../..
-                    mvn -B -s $MAVEN_SETTINGS clean deploy
-                    docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION} .
-                    docker push ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}
-                """
-            }
-        }
-
-        stage('Scan Roberts Helidon Stock Application') {
-            steps {
-                script {
-                    clairScanTemp "${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}"
+                    stage('Scan Bobs Backend WebLogic Application') {
+                        steps {
+                            script {
+                                clairScanTemp "${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}"
+                            }
+                            sh "mv scanning-report.json bobs_weblogic.scanning-report.json"
+                        }
+                        post {
+                            always {
+                                archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                            }
+                        }
+                    }
                 }
-                sh "mv scanning-report.json roberts_helidon.scanning-report.json"
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+
+                stage('Roberts Books') {
+
+                    stage('Build Roberts Coherence Application') {
+                        steps {
+                            sh """
+                                echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                cd bobs-books/roberts-books/roberts-coherence
+                                mvn -B -s $MAVEN_SETTINGS clean deploy
+                                docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
+                                docker push ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}
+                            """
+                        }
+                    }
+
+                    stage('Scan Roberts Coherence Application') {
+                        steps {
+                            script {
+                                clairScanTemp "${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}"
+                            }
+                            sh "mv scanning-report.json roberts_coherence.scanning-report.json"
+                        }
+                        post {
+                            always {
+                                archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                            }
+                        }
+                    }
+
+                    stage('Build Roberts Helidon Stock Application') {
+                        steps {
+                            sh """
+                                echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                cd bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web
+                                npm install
+                                cd ../../..
+                                mvn -B -s $MAVEN_SETTINGS clean deploy
+                                docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION} .
+                                docker push ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}
+                            """
+                        }
+                    }
+
+                    stage('Scan Roberts Helidon Stock Application') {
+                        steps {
+                            script {
+                                clairScanTemp "${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}"
+                            }
+                            sh "mv scanning-report.json roberts_helidon.scanning-report.json"
+                        }
+                        post {
+                            always {
+                                archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                            }
+                        }
+                    }
                 }
             }
         }
