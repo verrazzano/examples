@@ -33,7 +33,6 @@ ENV COH_CLUSTER bobbys-coherence
 ENV COH_CACHE_CONFIG bobbys-cache-config.xml
 ENV COH_POF_CONFIG bobbys-pof-config.xml
 
-RUN mkdir /app
 COPY target/* /app/
 COPY LICENSE.txt /license/
 COPY THIRD_PARTY_LICENSES.txt /license/

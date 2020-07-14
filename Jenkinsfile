@@ -76,7 +76,7 @@ pipeline {
             }
         }
 
-        stage('Checkout verrazzano') {
+        stage('Checkout source code') {
             when { expression { return fileExists("${WORKSPACE}/examples") == false } }
             steps {
                 checkout poll: false, scm: [
