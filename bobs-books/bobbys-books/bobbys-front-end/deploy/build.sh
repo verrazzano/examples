@@ -69,13 +69,14 @@ fi
 export PATH=`pwd`/imagetool/bin:$PATH
 
 echo 'Add installers to Image Tool cache...'
-imagetool.sh cache addInstaller --type jdk --version 11 --path ${GRAALVM_BUNDLE}
+imagetool.sh cache addInstaller --type jdk --version 8u251 --path ${GRAALVM_JDK8_BUNDLE}
 imagetool.sh cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
 
 echo 'Create image with domain...'
 imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
+    --jdkVersion 8u251 \
     --additionalBuildCommands additional-build-commands \
     --wdtModel bobbys-front-end.yaml \
     --wdtArchive archive.zip
