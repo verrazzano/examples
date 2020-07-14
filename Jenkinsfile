@@ -76,6 +76,27 @@ pipeline {
             }
         }
 
+        stage('Checkout verrazzano') {
+            when { expression { return fileExists("${WORKSPACE}/examples") == false } }
+            steps {
+                checkout poll: false, scm: [
+                        $class                           : 'GitSCM',
+                        branches                         : [[name: params.VERRAZZANO_BRANCH]],
+                        browser: [$class: 'GithubWeb', repoUrl: 'https://github.com/verrazzano/examples'],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions                       : [
+                                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'examples'],
+                                [$class: 'CleanBeforeCheckout'],
+                        ],
+                        submoduleCfg                     : [],
+                        userRemoteConfigs                : [
+                                [credentialsId: 'github-markxnelns-private-access-token', url: 'https://github.com/verrazzano/examples.git']
+                        ],
+                ]
+            }
+        }
+
+
         stage('Prepare Environment') {
             steps {
                 getMavenSeedData '/build-shared-files'
@@ -90,7 +111,7 @@ pipeline {
         stage('Copyright Compliance Check') {
             when { not { buildingTag() } }
             steps {
-                copyrightScan "${WORKSPACE}"
+                copyrightScan "${WORKSPACE}/examples"
             }
         }
 
@@ -98,7 +119,7 @@ pipeline {
             steps {
                 sh """
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    cd bobs-books/bobbys-books/bobbys-coherence
+                    cd examples/bobs-books/bobbys-books/bobbys-coherence
                     mvn -B -s $MAVEN_SETTINGS clean deploy
                     oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
                     docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
