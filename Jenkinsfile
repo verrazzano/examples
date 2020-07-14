@@ -46,6 +46,7 @@ pipeline {
 
         BUCKET_NAME = "build-shared-files"
         GRAALVM_BUNDLE = "graalvm-ee-java11-linux-amd64-20.1.0.1.tar.gz"
+        WEBLOGIC_BUNDLE = "fmw_12.2.1.4.0_wls.jar"
     }
 
     stages {
@@ -174,9 +175,11 @@ pipeline {
                 sh """
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                     echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
-                    cd bobs-books/bobbys-books/bobbys-front-end
+                    cd examples/bobs-books/bobbys-books/bobbys-front-end
                     mvn -B -s $MAVEN_SETTINGS clean deploy
                     cd deploy
+                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
+                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
                     ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                     docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                 """

@@ -45,16 +45,41 @@ fi
 cp ../LICENSE.txt .
 cp ../THIRD_PARTY_LICENSES.txt .
 
-echo 'Do the docker build...'
-docker build --no-cache \
-    $BUILD_ARG \
-    --build-arg WDT_MODEL=bobbys-front-end.yaml \
-    --build-arg WDT_ARCHIVE=archive.zip \
-    --build-arg ORACLE_HOME=/u01/oracle \
-    --build-arg CUSTOM_DOMAIN_NAME=bobbys-front-end \
-    --build-arg DOMAIN_PARENT=/u01/oracle/user_projects/domains \
-    --force-rm=true \
-    -t $1 .
+# echo 'Do the docker build...'
+# docker build --no-cache \
+#     $BUILD_ARG \
+#     --build-arg WDT_MODEL=bobbys-front-end.yaml \
+#     --build-arg WDT_ARCHIVE=archive.zip \
+#     --build-arg ORACLE_HOME=/u01/oracle \
+#     --build-arg CUSTOM_DOMAIN_NAME=bobbys-front-end \
+#     --build-arg DOMAIN_PARENT=/u01/oracle/user_projects/domains \
+#     --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} \
+#     --force-rm=true \
+#     -t $1 .
+
+echo 'Download WebLogic Image Tool...'
+if [ -f imagetool.zip ]; then
+    echo 'Using existing imagetool.zip...'
+else
+    echo 'Downloading imagetool.zip...'
+    wget https://github.com/oracle/weblogic-image-tool/releases/download/release-1.9.1/imagetool.zip
+    unzip imagetool.zip
+fi
+
+echo 'Setup WebLogic Image Tool...'
+. imagetool/bin/setup.sh
+
+echo 'Add installers to Image Tool cache...'
+imagetool cache addInstaller --type jdk --version 11 --path ${GRAALVM_BUNDLE}
+imagetool cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
+
+echo 'Create image with domain...'
+imagetool create \
+    --tag $1 \
+    --version 12.2.1.4.0 \
+    --additionalBuildCommands additional-build-commands \
+    --wdtModel bobbys-front-end.yaml \
+    --wdtArchive archive.zip
 
 
 
