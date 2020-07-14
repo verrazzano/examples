@@ -2,6 +2,9 @@
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 pipeline {
+    options {
+        skipDefaultCheckout()
+    }
 
     agent {
         docker {
@@ -45,6 +48,33 @@ pipeline {
     }
 
     stages {
+        stage('Initialize') {
+            steps {
+                sh """
+                    find $WORKSPACE -mindepth 1 -maxdepth 1 | xargs rm -rf
+                """
+                sh """
+                    cp -f "${NETRC_FILE}" $HOME/.netrc
+                    chmod 600 $HOME/.netrc
+                """
+            }
+        }
+        
+        stage('Default checkout') {
+            steps {
+                script {
+                    def scmURL = scm.getUserRemoteConfigs()[0].getUrl()
+                    defaultCheckoutTargetDir = scmURL.replaceAll(/^.*\//,'').replaceAll(/\.git$/, '')
+                }
+                checkout([
+                    $class: 'GitSCM',
+                    branches: scm.branches,
+                    extensions: scm.extensions + [[$class: 'RelativeTargetDirectory', relativeTargetDir: defaultCheckoutTargetDir]],
+                    userRemoteConfigs: scm.userRemoteConfigs
+                ])
+            }
+        }
+
         stage('Prepare Environment') {
             steps {
                 getMavenSeedData '/build-shared-files'
