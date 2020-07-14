@@ -71,6 +71,7 @@ export PATH=`pwd`/imagetool/bin:$PATH
 echo 'Add installers to Image Tool cache...'
 imagetool.sh cache addInstaller --type jdk --version 8u251 --path ${GRAALVM_JDK8_BUNDLE}
 imagetool.sh cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
+imagetool.sh cache addInstaller --type wdt --version latest --path weblogic-deploy.zip
 
 echo 'Create image with domain...'
 imagetool.sh create \
