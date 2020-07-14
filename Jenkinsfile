@@ -146,9 +146,10 @@ pipeline {
             steps {
                 sh """
                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                    cd bobs-books/bobbys-books/bobbys-helidon-stock-application
+                    cd examples/bobs-books/bobbys-books/bobbys-helidon-stock-application
                     mvn -B -s $MAVEN_SETTINGS clean deploy 
-                    docker build --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
+                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
+                    docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
                     docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
                 """
             }
