@@ -48,6 +48,7 @@ pipeline {
         GRAALVM_BUNDLE = "graalvm-ee-java11-linux-amd64-20.1.0.1.tar.gz"
         GRAALVM_JDK8_BUNDLE = "graalvm-ee-java8-linux-amd64-19.3.2.tar.gz"
         WEBLOGIC_BUNDLE = "fmw_12.2.1.4.0_wls.jar"
+        IMAGETOOL_BUNDLE = "imagetool.zip"
     }
 
     stages {
@@ -185,6 +186,7 @@ pipeline {
                                     cd deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_JDK8_BUNDLE} --name ${GRAALVM_JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
+                                    oci os object get -bn ${BUCKET_NAME} --file ${IMAGETOOL_BUNDLE} --name ${IMAGETOOL_BUNDLE}
                                     ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                                 """
