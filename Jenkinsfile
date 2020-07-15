@@ -248,7 +248,7 @@ pipeline {
                             steps {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                                    cd bobs-books/roberts-books/roberts-coherence
+                                    cd examples/bobs-books/roberts-books/roberts-coherence
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
                                     docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
@@ -275,7 +275,7 @@ pipeline {
                             steps {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                                    cd bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web
+                                    cd examples/bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web
                                     npm install
                                     cd ../../..
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
