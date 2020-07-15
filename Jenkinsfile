@@ -137,6 +137,7 @@ pipeline {
                         stage('Scan Bobbys Coherence Application') {
                             steps {
                                 script {
+                                    sh "examples/check_clair_port.sh"
                                     clairScanTemp "${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}"
                                 }
                                 sh "mv scanning-report.json bobby_coherence.scanning-report.json"
@@ -164,6 +165,7 @@ pipeline {
                         stage('Scan Bobbys Helidon Stock Application') {
                             steps {
                                 script {
+                                    sh "examples/check_clair_port.sh"
                                     clairScanTemp "${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}"
                                 }
                                 sh "mv scanning-report.json bobby_helidon.scanning-report.json"
@@ -194,6 +196,7 @@ pipeline {
                         stage('Scan Bobbys Front-end WebLogic Application') {
                             steps {
                                 script {
+                                    sh "examples/check_clair_port.sh"
                                     clairScanTemp "${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}"
                                 }
                                 sh "mv scanning-report.json bobby_weblogic.scanning-report.json"
@@ -229,6 +232,7 @@ pipeline {
                         stage('Scan Bobs Backend WebLogic Application') {
                             steps {
                                 script {
+                                    sh "examples/check_clair_port.sh"
                                     clairScanTemp "${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}"
                                 }
                                 sh "mv scanning-report.json bobs_weblogic.scanning-report.json"
@@ -260,6 +264,7 @@ pipeline {
                         stage('Scan Roberts Coherence Application') {
                             steps {
                                 script {
+                                    sh "examples/check_clair_port.sh"
                                     clairScanTemp "${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}"
                                 }
                                 sh "mv scanning-report.json roberts_coherence.scanning-report.json"
@@ -289,6 +294,7 @@ pipeline {
                         stage('Scan Roberts Helidon Stock Application') {
                             steps {
                                 script {
+                                    sh "examples/check_clair_port.sh"
                                     clairScanTemp "${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}"
                                 }
                                 sh "mv scanning-report.json roberts_helidon.scanning-report.json"
