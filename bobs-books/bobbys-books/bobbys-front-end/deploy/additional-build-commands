@@ -3,19 +3,7 @@
 
 [after-jdk-install]
 
-ENV JAVA_HOME=/usr/java
-ENV PATH $JAVA_HOME/bin:$PATH
-ARG GRAALVM_BINARY="${GRAALVM_BINARY:-graalvm-ee-java8-linux-amd64-19.3.2.tar.gz}"
-COPY ${GRAALVM_BINARY} graalvm.tar.gz
-ENV GRAALVM_DOWNLOAD_SHA256=d81119c8d7656ce9548f79fa6e0964481844f1905532a85aae42abcfd276bd9f
-
-RUN set -eux \
-    echo "Checking GraalVM hash"; \
-    echo "${GRAALVM_DOWNLOAD_SHA256} *graalvm.tar.gz" | sha256sum --check -; \
-    echo "Installing GraalVM"; \
-    mkdir -p "$JAVA_HOME"; \
-    tar xzf graalvm.tar.gz --directory "${JAVA_HOME}" --strip-components=1; \
-    rm -f graalvm.tar.gz; \
+RUN echo "Trimming GraalVM"; \
     rm -rf "$JAVA_HOME/include" \
         "$JAVA_HOME/jmods" \
         "$JAVA_HOME/languages" \
