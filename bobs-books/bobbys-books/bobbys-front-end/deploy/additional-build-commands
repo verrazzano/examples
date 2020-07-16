@@ -16,4 +16,4 @@ RUN echo "Trimming GraalVM"; \
     rm -f "$JAVA_HOME/lib/src.zip" \
         "$JAVA_HOME/lib/libjvmcicompiler.so" \
         "$JAVA_HOME/bin/polyglot"; \
-    java -Xshare:dump
+    $JAVA_HOME/bin/java -Xshare:dump
