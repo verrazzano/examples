@@ -262,7 +262,6 @@ pipeline {
                         stage('Scan Roberts Coherence Application') {
                             steps {
                                 script {
-                                    sh "sleep 300 # workaround clair concurrency issue"
                                     clairScanTemp "${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}"
                                 }
                                 sh "mv scanning-report.json roberts_coherence.scanning-report.json"
