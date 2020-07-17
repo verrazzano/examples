@@ -137,9 +137,7 @@ pipeline {
 
                         stage('Scan Bobbys Coherence Application') {
                             steps {
-                                script {
-                                    clairScan image: "${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}", output: "bobby_coherence.scanning-report.json"
-                                }
+                                clairScan image: "${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}", output: "bobby_coherence.scanning-report.json"
                             }
                             post {
                                 always {
@@ -163,9 +161,7 @@ pipeline {
 
                         stage('Scan Bobbys Helidon Stock Application') {
                             steps {
-                                script {
-                                    clairScan image: "${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}", output: "bobby_helidon.scanning-report.json"
-                                }
+                                clairScan image: "${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}", output: "bobby_helidon.scanning-report.json"
                             }
                             post {
                                 always {
@@ -193,9 +189,7 @@ pipeline {
 
                         stage('Scan Bobbys Front-end WebLogic Application') {
                             steps {
-                                script {
-                                    clairScan image: "${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}", output: "bobby_weblogic.scanning-report.json"
-                                }
+                                clairScan image: "${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}", output: "bobby_weblogic.scanning-report.json"
                             }
                             post {
                                 always {
@@ -227,9 +221,7 @@ pipeline {
 
                         stage('Scan Bobs Backend WebLogic Application') {
                             steps {
-                                script {
-                                    clairScan image: "${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}", output: "bobs_weblogic.scanning-report.json"
-                                }
+                                clairScan image: "${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}", output: "bobs_weblogic.scanning-report.json"
                             }
                             post {
                                 always {
@@ -257,9 +249,7 @@ pipeline {
 
                         stage('Scan Roberts Coherence Application') {
                             steps {
-                                script {
-                                    clairScan image: "${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}", output: "roberts_coherence.scanning-report.json"
-                                }
+                                clairScan image: "${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}", output: "roberts_coherence.scanning-report.json"
                             }
                             post {
                                 always {
@@ -285,9 +275,7 @@ pipeline {
 
                         stage('Scan Roberts Helidon Stock Application') {
                             steps {
-                                script {
-                                    clairScan image: "${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}", output: "roberts_helidon.scanning-report.json"
-                                }
+                                clairScan image: "${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}", output: "roberts_helidon.scanning-report.json"
                             }
                             post {
                                 always {
