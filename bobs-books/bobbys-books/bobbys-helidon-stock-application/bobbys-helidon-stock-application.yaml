@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: bobbys-helidon-stock-application
-        image: "docker.pkg.github.com/verrazzano/examples/bobbys-helidon-stock-application:0.1.6"
+        image: "docker.pkg.github.com/verrazzano/examples/bobbys-helidon-stock-application:0.1.6-mark"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
