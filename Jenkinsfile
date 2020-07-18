@@ -273,7 +273,7 @@ pipeline {
                             steps {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                                    cd hello-helidon/helidon-app-greet-v1
+                                    cd examples/hello-helidon/helidon-app-greet-v1
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
                                     docker image build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION} .
@@ -297,7 +297,7 @@ pipeline {
                             steps {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
-                                    cd hello-helidon/helidon-app-greet-v2
+                                    cd examples/hello-helidon/helidon-app-greet-v2
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
                                     docker image build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION} .
