@@ -35,6 +35,8 @@ pipeline {
         ROBERTS_COHERENCE = 'roberts-coherence'
         BOBBYS_WEBLOGIC = 'bobbys-front-end'
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
+        HELLO_HELIDON_V1 = 'helidon-greet-app-v1'
+        HELLO_HELIDON_V2 = 'helidon-greet-app-v2'
         VERSION = '0.1.6-mark'
 
         // secrets used during build
@@ -255,6 +257,58 @@ pipeline {
                         stage('Scan Roberts Helidon Stock Application') {
                             steps {
                                 clairScan("${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}", "roberts_helidon.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage('Hello Helidon') {
+                    stages {
+                        stage('Build Hello Helidon V1 Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    cd hello-helidon/helidon-app-greet-v1
+                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
+                                    docker image build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Hello Helidon V1 Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}", "hello_helidon_v1.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+
+                        stage('Build Hello Helidon V2 Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    cd hello-helidon/helidon-app-greet-v2
+                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
+                                    docker image build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Hello Helidon V2 Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}", "hello_helidon_v2.scanning-report.json")
                             }
                             post {
                                 always {
