@@ -79,27 +79,6 @@ pipeline {
             }
         }
 
-        stage('Checkout source code') {
-            when { expression { return fileExists("${WORKSPACE}/examples") == false } }
-            steps {
-                checkout poll: false, scm: [
-                        $class                           : 'GitSCM',
-                        branches                         : [[name: params.VERRAZZANO_BRANCH]],
-                        browser: [$class: 'GithubWeb', repoUrl: 'https://github.com/verrazzano/examples'],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions                       : [
-                                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'examples'],
-                                [$class: 'CleanBeforeCheckout'],
-                        ],
-                        submoduleCfg                     : [],
-                        userRemoteConfigs                : [
-                                [credentialsId: 'github-markxnelns-private-access-token', url: 'https://github.com/verrazzano/examples.git']
-                        ],
-                ]
-            }
-        }
-
-
         stage('Prepare Environment') {
             steps {
                 getMavenSeedData '/build-shared-files'
