@@ -98,4 +98,5 @@ imagetool.sh create \
     --additionalBuildCommands additional-build-commands \
     --wdtModel bobs-bookstore-topology.yaml \
     --wdtArchive archive.zip \
-    --wdtVariables properties/docker-build/bobs-bookstore-topology.properties
+    --wdtVariables properties/docker-build/bobs-bookstore-topology.properties \
+    --wdtDomainHome /u01/oracle/user_projects/domains/bobs-bookstore
