@@ -191,6 +191,9 @@ pipeline {
                                     cd examples/bobs-books/bobs-bookstore-order-manager
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
                                     cd deploy
+                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_JDK8_BUNDLE} --name ${GRAALVM_JDK8_BUNDLE}
+                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
+                                    oci os object get -bn ${BUCKET_NAME} --file ${IMAGETOOL_BUNDLE} --name ${IMAGETOOL_BUNDLE}
                                     echo 'Update passwords from Jenkins secrets'
                                     sed -i -e "s|XX_DB_PASSWORD_XX|${env.BOB_DB_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties.encoded
                                     sed -i -e "s|XX_ADMIN_PASSWORD_XX|${env.BOB_ADMIN_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties.encoded
