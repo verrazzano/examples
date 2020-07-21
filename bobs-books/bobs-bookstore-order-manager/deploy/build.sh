@@ -95,6 +95,7 @@ imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
     --jdkVersion 8u251 \
+    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim@sha256:9b86d1332a883ee8f68dd44ba42133de518b2e0ec1cc70257e59fb4da86b1ad3
     --additionalBuildCommands additional-build-commands \
     --wdtModel bobs-bookstore-topology.yaml \
     --wdtArchive archive.zip \
