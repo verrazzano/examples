@@ -83,9 +83,9 @@ imagetool.sh create \
     --jdkVersion 8u251 \
     --additionalBuildCommands additional-build-commands \
     --wdtModel bobbys-front-end.yaml \
-    --wdtModelOnly \
     --wdtArchive archive.zip \
-    --wdtDomainHome /u01/oracle/user_projects/domains/bobbys-front-end
+    --wdtDomainHome /u01/oracle/user_projects/domains/bobbys-front-end #\
+    #--wdtModelOnly \
 
 
 
