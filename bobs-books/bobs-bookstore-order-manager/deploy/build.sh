@@ -98,6 +98,7 @@ imagetool.sh create \
     --fromImage container-registry.oracle.com/os/oraclelinux:7-slim@sha256:9b86d1332a883ee8f68dd44ba42133de518b2e0ec1cc70257e59fb4da86b1ad3 \
     --additionalBuildCommands additional-build-commands \
     --wdtModel bobs-bookstore-topology.yaml \
+    --wdtModelOnly \
     --wdtArchive archive.zip \
     --wdtVariables properties/docker-build/bobs-bookstore-topology.properties \
     --wdtDomainHome /u01/oracle/user_projects/domains/bobs-bookstore
