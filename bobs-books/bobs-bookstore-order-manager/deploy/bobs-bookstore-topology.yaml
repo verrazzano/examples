@@ -56,6 +56,13 @@ resources:
           Properties:
             user:
               Value: books
+        JDBCConnectionPoolParams:
+          ConnectionReserveTimeoutSeconds: 10
+          InitialCapacity: 0
+          MaxCapacity: 5
+          MinCapacity: 0
+          TestConnectionsOnReserve: true
+          TestTableName: SQL SELECT 1
 
 appDeployments:
   Application:
