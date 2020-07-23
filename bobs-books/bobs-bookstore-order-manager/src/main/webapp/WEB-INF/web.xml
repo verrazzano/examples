@@ -7,7 +7,7 @@
          id="WebApp_ID" version="3.0">
     <resource-ref>
         <description>books</description>
-        <res-ref-name>jdbc/books</res-ref-name>
+        <res-ref-name>books</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
