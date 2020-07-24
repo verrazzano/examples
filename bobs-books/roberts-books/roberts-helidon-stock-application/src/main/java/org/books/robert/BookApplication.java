@@ -15,7 +15,8 @@ public class BookApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
-        return CollectionsHelper.setOf(ZipkinProxy.class,
+        return CollectionsHelper.setOf(
+        // ZipkinProxy.class,
                                        BookResource.class,
                                        AuthorResource.class,
                                        OrderResource.class);
