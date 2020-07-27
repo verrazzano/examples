@@ -15,7 +15,7 @@
     <groupId>io.helidon.examples</groupId>
     <artifactId>helidon-quickstart-mp</artifactId>
     <name>${project.artifactId}</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.4.4</version>
     <packaging>jar</packaging>
 
     <distributionManagement>

@@ -29,6 +29,7 @@ echo ' - metrics exporter...'
 rm -rf weblogic-monitoring-exporter
 git clone https://github.com/oracle/weblogic-monitoring-exporter
 cd weblogic-monitoring-exporter
+git checkout v1.2.0
 mvn -B clean install
 cd webapp
 mvn -B clean package -Dconfiguration=../../exporter-config.yaml
