@@ -1,0 +1,2 @@
+bobs-books/bobbys-books/bobbys-front-end/deploy/exporter-config.yaml
+bobs-books/bobs-bookstore-order-manager/deploy/exporter-config.yaml
