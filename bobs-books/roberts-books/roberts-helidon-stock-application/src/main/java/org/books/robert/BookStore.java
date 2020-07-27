@@ -162,16 +162,16 @@ public class BookStore {
   }
 
   void submitOrder(Long id, String jsonOrder) {
-    System.out.println("submitOrder in BookStore.java")
+    System.out.println("submitOrder in BookStore.java");
     try (Scope scope = tracer.buildSpan("submit-order").startActive(true)) {
       Span span = scope.span();
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence orders.put(id, jsonOrder)");
-      System.out.println("Calling Coherence orders.put(id, jsonOrder)")
+      System.out.println("Calling Coherence orders.put(id, jsonOrder)");
       try {
         orders.put(id, jsonOrder);
       } catch (Throwable t) {
-        System.out.println("Error calling order")
+        System.out.println("Error calling order");
         TraceUtils.logThrowable(span, t);
         throw t;
       }

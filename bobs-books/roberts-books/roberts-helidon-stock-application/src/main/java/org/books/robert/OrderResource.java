@@ -38,7 +38,7 @@ public class OrderResource {
   @Metered
   public Response submitOrder(String jsonOrder, @Context HttpHeaders httpHeaders) {
 
-    System.out.println("submitOrder in OrderResource.java")
+    System.out.println("submitOrder in OrderResource.java");
     tracer.activeSpan().log(String.format("Posting order: %s", jsonOrder));
     bookStore.submitOrder(orderId.incrementAndGet(), jsonOrder);
     // finishTracing(scope);
