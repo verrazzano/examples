@@ -12,7 +12,7 @@ metadata:
 spec:
   domainHome: /u01/oracle/user_projects/domains/bobbys-front-end
   domainHomeInImage: true
-  image: "docker.pkg.github.com/verrazzano/examples/bobbys-front-end:0.1.6-mark"
+  image: "docker.pkg.github.com/verrazzano/examples/bobbys-front-end:0.1.7"
   imagePullPolicy: "IfNotPresent"
   imagePullSecrets:
   - name: "ocir"
