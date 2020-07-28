@@ -37,7 +37,7 @@ pipeline {
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
         HELLO_HELIDON_V1 = 'helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'helidon-greet-app-v2'
-        VERSION = '0.1.7'
+        VERSION = '0.1.8-mark'
 
         // secrets used during build
         BOB_DB_PASSWORD = credentials('bobs-bookstore-db-password')
