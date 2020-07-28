@@ -64,7 +64,8 @@ RUN chmod +xw $SCRIPT_HOME/*.sh && \
     rm weblogic-deploy.zip && \
     chmod +xw weblogic-deploy/bin/*.sh && \
     chmod -R +xw weblogic-deploy/lib/python   && \
-    chown -R oracle:oracle weblogic-deploy
+    chown -R oracle:oracle weblogic-deploy && \
+    mkdir -p /license
 
 # Persist the WDT tool home location
 ENV WDT_HOME=$WDT_HOME/weblogic-deploy
@@ -76,6 +77,10 @@ ENV WDT_HOME=$WDT_HOME/weblogic-deploy
 COPY ${WDT_MODEL} ${WDT_ARCHIVE} properties/docker-build/*.properties ${PROPERTIES_FILE_DIR}/
 # --chown for COPY is available in docker version 18 'COPY --chown oracle:oracle'
 RUN chown -R oracle:oracle ${PROPERTIES_FILE_DIR}
+
+# copy license and third party attribution files
+COPY LICENSE.txt /license/
+COPY THIRD_PARTY_LICENSES.txt /license/
 
 # Create the domain home in the docker image.
 #

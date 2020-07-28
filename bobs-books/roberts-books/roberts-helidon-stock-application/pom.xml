@@ -204,11 +204,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.helidon.tracing</groupId>
-            <artifactId>helidon-tracing-zipkin</artifactId>
-        </dependency>
-
         <!-- Helidon end -->
 
         <dependency>

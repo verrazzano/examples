@@ -23,6 +23,7 @@ echo ' - metrics exporter...'
 rm -rf weblogic-monitoring-exporter
 git clone https://github.com/oracle/weblogic-monitoring-exporter
 cd weblogic-monitoring-exporter
+git checkout v1.1.2
 mvn -B clean install
 cd webapp
 mvn -B clean package -Dconfiguration=../../exporter-config.yaml
@@ -42,16 +43,51 @@ else
     wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-1.9.0/weblogic-deploy.zip
 fi
 
-echo 'Do the docker build...'
-docker build --no-cache \
-    $BUILD_ARG \
-    --build-arg WDT_MODEL=bobbys-front-end.yaml \
-    --build-arg WDT_ARCHIVE=archive.zip \
-    --build-arg ORACLE_HOME=/u01/oracle \
-    --build-arg CUSTOM_DOMAIN_NAME=bobbys-front-end \
-    --build-arg DOMAIN_PARENT=/u01/oracle/user_projects/domains \
-    --force-rm=true \
-    -t $1 .
+cp ../LICENSE.txt .
+cp ../THIRD_PARTY_LICENSES.txt .
+
+# echo 'Do the docker build...'
+# docker build --no-cache \
+#     $BUILD_ARG \
+#     --build-arg WDT_MODEL=bobbys-front-end.yaml \
+#     --build-arg WDT_ARCHIVE=archive.zip \
+#     --build-arg ORACLE_HOME=/u01/oracle \
+#     --build-arg CUSTOM_DOMAIN_NAME=bobbys-front-end \
+#     --build-arg DOMAIN_PARENT=/u01/oracle/user_projects/domains \
+#     --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} \
+#     --force-rm=true \
+#     -t $1 .
+
+echo 'Skipping download of WebLogic Image Tool - using one built from a branch with fixes we need...'
+unzip imagetool.zip
+
+# echo 'Download WebLogic Image Tool...'
+# if [ -f imagetool.zip ]; then
+#     echo 'Using existing imagetool.zip...'
+# else
+#     echo 'Downloading imagetool.zip...'
+#     wget https://github.com/oracle/weblogic-image-tool/releases/download/release-1.9.1/imagetool.zip
+#     unzip imagetool.zip
+# fi
+
+export PATH=`pwd`/imagetool/bin:$PATH
+
+echo 'Add installers to Image Tool cache...'
+imagetool.sh cache addInstaller --type jdk --version 8u251 --path ${GRAALVM_JDK8_BUNDLE}
+imagetool.sh cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
+imagetool.sh cache addInstaller --type wdt --version latest --path weblogic-deploy.zip
+
+echo 'Create image with domain...'
+imagetool.sh create \
+    --tag $1 \
+    --version 12.2.1.4.0 \
+    --jdkVersion 8u251 \
+    --additionalBuildCommands additional-build-commands \
+    --wdtModel bobbys-front-end.yaml \
+    --wdtArchive archive.zip \
+    --wdtDomainHome /u01/oracle/user_projects/domains/bobbys-front-end #\
+    #--wdtModelOnly \
+
 
 
 
