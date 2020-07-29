@@ -1,8 +1,8 @@
 # Copyright (c) 2020, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 domainInfo:
-  AdminUserName: 'weblogic'
-  AdminPassword: 'welcome1'
+  AdminUserName: '@@SECRET:__weblogic-credentials__:username@@'
+  AdminPassword: '@@SECRET:__weblogic-credentials__:password@@'
   ServerStartMode: 'prod'
 
 topology:

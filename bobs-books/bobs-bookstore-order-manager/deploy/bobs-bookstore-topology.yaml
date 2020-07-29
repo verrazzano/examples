@@ -2,8 +2,8 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 domainInfo:
-  AdminUserName: 'weblogic'
-  AdminPassword: '@@PROP:admin.password@@'
+  AdminUserName: '@@SECRET:__weblogic-credentials__:username@@'
+  AdminPassword: '@@SECRET:__weblogic-credentials__:password@@'
   ServerStartMode: 'prod'
   domainLibraries: [ 'wlsdeploy/domainLibraries/mysql-connector-java-commercial-8.0.20.jar',
                      'wlsdeploy/domainLibraries/opentracing-jdbc-0.2.2.jar',
@@ -38,31 +38,30 @@ topology:
       Cluster: 'cluster-1'
       ListenAddress: 'bobs-bookstore-managed-server-${id}'
 
-resources:
-  JDBCSystemResource:
-    books:
-      Target: 'cluster-1'
-      JdbcResource:
-        JDBCDataSourceParams:
-          JNDIName: [
-            jdbc/books
-          ]
-        JDBCDriverParams:
-          #DriverName: io.opentracing.contrib.jdbc.TracingDriver
-          #URL : 'jdbc:tracing:mysql:@//mysql:3006/books'
-          DriverName: com.mysql.cj.jdbc.Driver
-          URL : 'jdbc:mysql://mysql.bob.svc.cluster.local:3306/books'
-          PasswordEncrypted: '@@PROP:db.password@@'
-          Properties:
-            user:
-              Value: books
-        JDBCConnectionPoolParams:
-          ConnectionReserveTimeoutSeconds: 10
-          InitialCapacity: 0
-          MaxCapacity: 5
-          MinCapacity: 0
-          TestConnectionsOnReserve: true
-          TestTableName: SQL SELECT 1
+# resources:
+#   JDBCSystemResource:
+#     books:
+#       Target: 'cluster-1'
+#       JdbcResource:
+#         JDBCDataSourceParams:
+#           JNDIName: [
+#             jdbc/books
+#           ]
+#         JDBCDriverParams:
+#           #DriverName: io.opentracing.contrib.jdbc.TracingDriver
+#           DriverName: com.mysql.cj.jdbc.Driver
+#           URL : 'jdbc:mysql://mysql.bob.svc.cluster.local:3306/books'
+#           PasswordEncrypted: '@@SECRET:mysql-credentials:password@@'
+#           Properties:
+#             user:
+#               Value: books
+#         JDBCConnectionPoolParams:
+#           ConnectionReserveTimeoutSeconds: 10
+#           InitialCapacity: 0
+#           MaxCapacity: 5
+#           MinCapacity: 0
+#           TestConnectionsOnReserve: true
+#           TestTableName: SQL SELECT 1
 
 appDeployments:
   Application:
