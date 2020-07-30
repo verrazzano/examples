@@ -30,6 +30,7 @@ public class OrderResource {
 
     private static final JsonBuilderFactory bf = Json.createBuilderFactory(null);
 	private static Logger logger = LoggerFactory.getLogger(OrderResource.class);
+    private static int errorStatus = 500;
 
 //    @Resource(lookup = "java:jdbc/books")
 //    DataSource booksDS;
@@ -40,7 +41,7 @@ public class OrderResource {
     // get orders from database
     @GET
     @Produces("application/json")
-    public JsonArray getOrders() {
+    public Response getOrders() {
 		Scope tracingScope = null;
         try {
 			Span tracingSpan = buildSpan("orderResource.getOrders", httpHeaders);
@@ -78,13 +79,15 @@ public class OrderResource {
             }
             resultSet.close();
             connection.close();
-            return (jab.build());
+            return Response.ok(jab.build()).build();
 
         } catch (Exception e) {
 			logger.error("Error accessing database", e);
-            return bf.createArrayBuilder()
-                    .add(bf.createObjectBuilder()
-                            .add("database", "error"))
+            return Resonse.status(errorStatus)
+                    .entity(bf.createArrayBuilder()
+                            .add(bf.createObjectBuilder()
+                                    .add("database", "error"))
+                            .build())
                     .build();
 		} finally {
 			if (tracingScope != null) {
