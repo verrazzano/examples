@@ -49,26 +49,6 @@ else
     wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-1.9.0/weblogic-deploy.zip
 fi
 
-# # Decode properties in variable file
-# while IFS=: read -r line; do
-#   prop=`echo $line | cut -d'=' -f1`
-#   encodedVal=`echo $line | cut -d'=' -f2-`
-#   val=`echo $encodedVal | base64 --decode`
-#   printf '%s\n' "$prop=$val"
-# done < ${scriptDir}/properties/docker-build/bobs-bookstore-topology.properties.encoded > ${scriptDir}/properties/docker-build/bobs-bookstore-topology.properties
-
-# echo 'Do the docker build...'
-# docker build --no-cache \
-#     $BUILD_ARG \
-#     --build-arg WDT_MODEL=bobs-bookstore-topology.yaml \
-#     --build-arg WDT_ARCHIVE=archive.zip \
-#     --build-arg ORACLE_HOME=/u01/oracle \
-#     --build-arg CUSTOM_DOMAIN_NAME=bobs-bookstore \
-#     --build-arg DOMAIN_PARENT=/u01/oracle \
-#     --build-arg WDT_VARIABLE_FILE=properties/docker-build/bobs-bookstore-topology.properties \
-#     --force-rm=true \
-#     -t $1 .
-
 cp ../LICENSE.txt .
 cp ../THIRD_PARTY_LICENSES.txt .
 
@@ -101,6 +81,6 @@ imagetool.sh create \
     --wdtModel bobs-bookstore-topology.yaml \
     --wdtArchive archive.zip \
     --wdtVariables properties/docker-build/bobs-bookstore-topology.properties \
-    --wdtDomainHome /u01/oracle/user_projects/domains/bobs-bookstore #\
-    #--wdtModelOnly \
+    --wdtDomainHome /u01/oracle/user_projects/domains/bobs-bookstore \
+    --wdtModelOnly
 

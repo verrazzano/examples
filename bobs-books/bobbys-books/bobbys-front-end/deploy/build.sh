@@ -46,18 +46,6 @@ fi
 cp ../LICENSE.txt .
 cp ../THIRD_PARTY_LICENSES.txt .
 
-# echo 'Do the docker build...'
-# docker build --no-cache \
-#     $BUILD_ARG \
-#     --build-arg WDT_MODEL=bobbys-front-end.yaml \
-#     --build-arg WDT_ARCHIVE=archive.zip \
-#     --build-arg ORACLE_HOME=/u01/oracle \
-#     --build-arg CUSTOM_DOMAIN_NAME=bobbys-front-end \
-#     --build-arg DOMAIN_PARENT=/u01/oracle/user_projects/domains \
-#     --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} \
-#     --force-rm=true \
-#     -t $1 .
-
 echo 'Skipping download of WebLogic Image Tool - using one built from a branch with fixes we need...'
 unzip imagetool.zip
 
@@ -85,8 +73,8 @@ imagetool.sh create \
     --additionalBuildCommands additional-build-commands \
     --wdtModel bobbys-front-end.yaml \
     --wdtArchive archive.zip \
-    --wdtDomainHome /u01/oracle/user_projects/domains/bobbys-front-end #\
-    #--wdtModelOnly \
+    --wdtDomainHome /u01/oracle/user_projects/domains/bobbys-front-end \
+    --wdtModelOnly
 
 
 

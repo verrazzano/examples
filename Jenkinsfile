@@ -37,7 +37,7 @@ pipeline {
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
         HELLO_HELIDON_V1 = 'helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'helidon-greet-app-v2'
-        VERSION = '0.1.7'
+        VERSION = '0.1.9'
 
         // secrets used during build
         BOB_DB_PASSWORD = credentials('bobs-bookstore-db-password')
@@ -194,9 +194,6 @@ pipeline {
                                     oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_JDK8_BUNDLE} --name ${GRAALVM_JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${IMAGETOOL_BUNDLE} --name ${IMAGETOOL_BUNDLE}
-                                    echo 'Update passwords from Jenkins secrets'
-                                    sed -i -e "s|XX_DB_PASSWORD_XX|${env.BOB_DB_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties
-                                    sed -i -e "s|XX_ADMIN_PASSWORD_XX|${env.BOB_ADMIN_PASSWORD}|g" properties/docker-build/bobs-bookstore-topology.properties
                                     ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                                 """
