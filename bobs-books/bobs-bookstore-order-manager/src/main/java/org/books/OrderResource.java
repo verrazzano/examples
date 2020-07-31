@@ -83,7 +83,8 @@ public class OrderResource {
 
         } catch (Exception e) {
 			logger.error("Error accessing database", e);
-            return Response.status(errorStatus)
+            return Response
+                    .status(errorStatus)
                     .entity(bf.createArrayBuilder()
                             .add(bf.createObjectBuilder()
                                     .add("database", "error"))
