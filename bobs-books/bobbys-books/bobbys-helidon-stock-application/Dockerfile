@@ -23,10 +23,7 @@ RUN set -eux \
     echo "Installing JDK"; \
     mkdir -p "$JAVA_HOME"; \
     tar xzf jdk.tar.gz --directory "${JAVA_HOME}" --strip-components=1; \
-    rm -f jdk.tar.gz; \
-    rm -Rf "$JAVA_HOME/include" "$JAVA_HOME/jmods" "$JAVA_HOME/languages" "$JAVA_HOME/tools" "$JAVA_HOME/lib/svm" "$JAVA_HOME/lib/installer" "$JAVA_HOME/lib/visualvm" "$JAVA_HOME/lib/truffle" "$JAVA_HOME/lib/polyglot"; \
-    rm -f "$JAVA_HOME/lib/src.zip" "$JAVA_HOME/lib/libjvmcicompiler.so" "$JAVA_HOME/bin/polyglot"; \
-    java -Xshare:dump
+    rm -f jdk.tar.gz;
 
 ENV COH_WKA bobbys-coherence-wka
 ENV COH_CLUSTER bobbys-coherence

@@ -111,8 +111,8 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-coherence
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                                    docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK11_BUNDLE} --name ${JDK11_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK11_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
                                 """
                             }
@@ -223,8 +223,8 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/roberts-books/roberts-coherence
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                                    docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK11_BUNDLE} --name ${JDK11_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK11_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}
                                 """
                             }
@@ -249,8 +249,8 @@ pipeline {
                                     npm install
                                     cd ../../..
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                                    docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION} .
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}
                                 """
                             }
@@ -277,8 +277,8 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/hello-helidon/helidon-app-greet-v1
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                                    docker image build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION} .
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}
                                 """
                             }
@@ -301,8 +301,8 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/hello-helidon/helidon-app-greet-v2
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                                    docker image build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION} .
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}
                                 """
                             }
