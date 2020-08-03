@@ -67,7 +67,7 @@ unzip imagetool.zip
 export PATH=`pwd`/imagetool/bin:$PATH
 
 echo 'Add installers to Image Tool cache...'
-imagetool.sh cache addInstaller --type jdk --version 8u251 --path ${GRAALVM_JDK8_BUNDLE}
+imagetool.sh cache addInstaller --type jdk --version 11 --path ${JDK11_BUNDLE}
 imagetool.sh cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
 imagetool.sh cache addInstaller --type wdt --version latest --path weblogic-deploy.zip
 
@@ -75,9 +75,8 @@ echo 'Create image with domain...'
 imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
-    --jdkVersion 8u251 \
+    --jdkVersion 11 \
     --fromImage container-registry.oracle.com/os/oraclelinux:7-slim@sha256:9b86d1332a883ee8f68dd44ba42133de518b2e0ec1cc70257e59fb4da86b1ad3 \
-    --additionalBuildCommands additional-build-commands \
     --wdtModel bobs-bookstore-topology.yaml \
     --wdtArchive archive.zip \
     --wdtVariables properties/docker-build/bobs-bookstore-topology.properties \
