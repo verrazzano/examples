@@ -49,6 +49,8 @@ pipeline {
         BUCKET_NAME = "build-shared-files"
         GRAALVM_BUNDLE = "graalvm-ee-java11-linux-amd64-20.1.0.1.tar.gz"
         GRAALVM_JDK8_BUNDLE = "graalvm-ee-java8-linux-amd64-19.3.2.tar.gz"
+        JDK11_BUNDLE = "jdk-11.0.8_linux-x64_bin.tar.gz"
+        JDK14_BUNDLE = "openjdk-14.0.2_linux-x64_bin.tar.gz"
         WEBLOGIC_BUNDLE = "fmw_12.2.1.4.0_wls.jar"
         IMAGETOOL_BUNDLE = "imagetool.zip"
     }
@@ -133,8 +135,8 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-helidon-stock-application
                                     mvn -B -s $MAVEN_SETTINGS clean deploy 
-                                    oci os object get -bn ${BUCKET_NAME} --file ${GRAALVM_BUNDLE} --name ${GRAALVM_BUNDLE}
-                                    docker build --build-arg GRAALVM_BINARY=${GRAALVM_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
                                 """
                             }
