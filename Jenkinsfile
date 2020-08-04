@@ -2,10 +2,6 @@
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 pipeline {
-    options {
-        skipDefaultCheckout()
-    }
-
     agent {
         docker {
             image "${RUNNER_DOCKER_IMAGE}"
@@ -332,7 +328,7 @@ pipeline {
 
 def get_image_tag() {
 
-    short_commit_sha = $GIT_COMMIT.substring(0,7)
+    short_commit_sha = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
 
     if ( env.BRANCH_NAME == 'master' ) {
 	docker_image_tag = params.BASE_TAG + "-" + short_commit_sha + "-" + BUILD_NUMBER
