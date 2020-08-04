@@ -13,9 +13,9 @@ RUN yum update -y \
 
 ENV JAVA_HOME=/usr/java
 ENV PATH $JAVA_HOME/bin:$PATH
-ARG JDK_BINARY="${JDK_BINARY:-jdk-11.0.8_linux-x64_bin.tar.gz}"
+ARG JDK_BINARY="${JDK_BINARY:-jdk-8u261-linux-x64.tar.gz}"
 COPY ${JDK_BINARY} jdk.tar.gz
-ENV JDK_DOWNLOAD_SHA256=6390878c91e29bad7b2483eb0b470620bd145269600f3b6a9d65724e6f83b6fd
+ENV JDK_DOWNLOAD_SHA256=5a04e01a091f6b1ed9c0b801be4fd10689af07eeb9e27f012c9aa3af9948ea34
 
 RUN set -eux \
     echo "Checking JDK hash"; \

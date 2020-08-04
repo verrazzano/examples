@@ -37,7 +37,7 @@ pipeline {
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
         HELLO_HELIDON_V1 = 'helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'helidon-greet-app-v2'
-        VERSION = '0.1.10-1'
+        VERSION = '0.1.10-2'
 
         // secrets used during build
         BOB_DB_PASSWORD = credentials('bobs-bookstore-db-password')
@@ -47,7 +47,7 @@ pipeline {
         MAVEN_SETTINGS = credentials('oracle-maven-settings')
 
         BUCKET_NAME = "build-shared-files"
-        JDK11_BUNDLE = "jdk-11.0.8_linux-x64_bin.tar.gz"
+        JDK8_BUNDLE = "jdk-8u261-linux-x64.tar.gz"
         JDK14_BUNDLE = "openjdk-14.0.2_linux-x64_bin.tar.gz"
         WEBLOGIC_BUNDLE = "fmw_12.2.1.4.0_wls.jar"
         IMAGETOOL_BUNDLE = "imagetool.zip"
@@ -109,8 +109,8 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-coherence
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK11_BUNDLE} --name ${JDK11_BUNDLE}
-                                    docker build --build-arg JDK_BINARY=${JDK11_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK8_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
                                 """
                             }
@@ -159,7 +159,7 @@ pipeline {
                                     cd examples/bobs-books/bobbys-books/bobbys-front-end
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
                                     cd deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK11_BUNDLE} --name ${JDK11_BUNDLE}
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${IMAGETOOL_BUNDLE} --name ${IMAGETOOL_BUNDLE}
                                     ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
@@ -191,7 +191,7 @@ pipeline {
                                     cd examples/bobs-books/bobs-bookstore-order-manager
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
                                     cd deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK11_BUNDLE} --name ${JDK11_BUNDLE}
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${IMAGETOOL_BUNDLE} --name ${IMAGETOOL_BUNDLE}
                                     ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
@@ -221,8 +221,8 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/roberts-books/roberts-coherence
                                     mvn -B -s $MAVEN_SETTINGS clean deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK11_BUNDLE} --name ${JDK11_BUNDLE}
-                                    docker build --build-arg JDK_BINARY=${JDK11_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK8_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}
                                 """
                             }

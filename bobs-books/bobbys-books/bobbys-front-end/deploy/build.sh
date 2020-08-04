@@ -61,7 +61,7 @@ unzip imagetool.zip
 export PATH=`pwd`/imagetool/bin:$PATH
 
 echo 'Add installers to Image Tool cache...'
-imagetool.sh cache addInstaller --type jdk --version 11 --path ${JDK11_BUNDLE}
+imagetool.sh cache addInstaller --type jdk --version 8u261 --path ${JDK8_BUNDLE}
 imagetool.sh cache addInstaller --type wls --version 12.2.1.4.0 --path ${WEBLOGIC_BUNDLE}
 imagetool.sh cache addInstaller --type wdt --version latest --path weblogic-deploy.zip
 
@@ -69,7 +69,7 @@ echo 'Create image with domain...'
 imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
-    --jdkVersion 11 \
+    --jdkVersion 8u261 \
     --wdtModel bobbys-front-end.yaml \
     --wdtArchive archive.zip \
     --wdtDomainHome /u01/oracle/user_projects/domains/bobbys-front-end \
