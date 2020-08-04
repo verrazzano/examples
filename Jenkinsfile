@@ -16,6 +16,13 @@ pipeline {
         }
     }
 
+    parameters {
+        string (name: 'BASE_TAG',
+                defaultValue: '0.1.9',
+                description: 'Base value used as part of generated image tag',
+                trim: true)
+    }
+
     environment {
         DOCKER_CREDS = credentials('github-markxnelns-private-access-token')
         OCR_CREDS = credentials('ocr-pull-and-push-account')
@@ -37,7 +44,7 @@ pipeline {
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
         HELLO_HELIDON_V1 = 'helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'helidon-greet-app-v2'
-        VERSION = '0.1.9'
+        VERSION = get_image_tag()
 
         // secrets used during build
         BOB_DB_PASSWORD = credentials('bobs-bookstore-db-password')
@@ -323,3 +330,15 @@ pipeline {
     }
 }
 
+def get_image_tag() {
+
+    short_commit_sha = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
+
+    if ( env.BRANCH_NAME == 'master' ) {
+	docker_image_tag = params.BASE_TAG + "-" + short_commit_sha + "-" + BUILD_NUMBER
+    } else {
+	docker_image_tag = short_commit_sha + "-" + BUILD_NUMBER
+    }
+    println("image tag: " + docker_image_tag)
+    return docker_image_tag
+}
