@@ -1,7 +1,7 @@
 # Copyright (c) 2020, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-FROM container-registry.oracle.com/middleware/weblogic:12.2.1.3
+FROM container-registry.oracle.com/middleware/weblogic:12.2.1.4
 USER root
 RUN yum update -y && yum-config-manager --save --setopt=ol7_ociyum_config.skip_if_unavailable=true \
     && yum clean all; rm -rf /var/cache/yum
