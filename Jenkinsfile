@@ -2,11 +2,7 @@
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 pipeline {
-    options {
-        skipDefaultCheckout()
-    }
-
-    agent {
+   agent {
         docker {
             image "${RUNNER_DOCKER_IMAGE}"
             args "${RUNNER_DOCKER_ARGS}"
@@ -332,7 +328,7 @@ pipeline {
 
 def get_image_tag() {
     println("commit id: " + env.GIT_COMMIT)
-    println(" commid id substring: " + env.GIT_COMMIT.substring(0,7))
+    println("commid id substring: " + env.GIT_COMMIT.substring(0,7))
     short_commit_sha = env.GIT_COMMIT.substring(0,7)
 
     if ( env.BRANCH_NAME == 'master' ) {
