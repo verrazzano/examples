@@ -13,20 +13,17 @@ RUN yum update -y \
 
 ENV JAVA_HOME=/usr/java
 ENV PATH $JAVA_HOME/bin:$PATH
-ARG GRAALVM_BINARY="${GRAALVM_BINARY:-graalvm-ee-java11-linux-amd64-20.1.0.1.tar.gz}"
-COPY ${GRAALVM_BINARY} graalvm.tar.gz
-ENV GRAALVM_DOWNLOAD_SHA256=870e51d13e7f42df50097110b14715e765e2a726aa2609c099872995c4409d8f
+ARG JDK_BINARY="${JDK_BINARY:-jdk-8u261-linux-x64.tar.gz}"
+COPY ${JDK_BINARY} jdk.tar.gz
+ENV JDK_DOWNLOAD_SHA256=5a04e01a091f6b1ed9c0b801be4fd10689af07eeb9e27f012c9aa3af9948ea34
 
 RUN set -eux \
-    echo "Checking GraalVM hash"; \
-    echo "${GRAALVM_DOWNLOAD_SHA256} *graalvm.tar.gz" | sha256sum --check -; \
-    echo "Installing GraalVM"; \
+    echo "Checking JDK hash"; \
+    echo "${JDK_DOWNLOAD_SHA256} *jdk.tar.gz" | sha256sum --check -; \
+    echo "Installing JDK"; \
     mkdir -p "$JAVA_HOME"; \
-    tar xzf graalvm.tar.gz --directory "${JAVA_HOME}" --strip-components=1; \
-    rm -f graalvm.tar.gz; \
-    rm -Rf "$JAVA_HOME/include" "$JAVA_HOME/jmods" "$JAVA_HOME/languages" "$JAVA_HOME/tools" "$JAVA_HOME/lib/svm" "$JAVA_HOME/lib/installer" "$JAVA_HOME/lib/visualvm" "$JAVA_HOME/lib/truffle" "$JAVA_HOME/lib/polyglot"; \
-    rm -f "$JAVA_HOME/lib/src.zip" "$JAVA_HOME/lib/libjvmcicompiler.so" "$JAVA_HOME/bin/polyglot"; \
-    java -Xshare:dump
+    tar xzf jdk.tar.gz --directory "${JAVA_HOME}" --strip-components=1; \
+    rm -f jdk.tar.gz;
 
 COPY target/*.jar /app/lib/
 COPY src/main/resources/bobbys-cache-config.xml /app/conf/
