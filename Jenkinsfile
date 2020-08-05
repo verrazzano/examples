@@ -14,7 +14,7 @@ pipeline {
 
     parameters {
         string (name: 'BASE_TAG',
-                defaultValue: '0.1.9',
+                defaultValue: '0.1.10-3',
                 description: 'Base value used as part of generated image tag',
                 trim: true)
     }
