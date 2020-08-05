@@ -2,11 +2,7 @@
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 pipeline {
-    options {
-        skipDefaultCheckout()
-    }
-
-    agent {
+   agent {
         docker {
             image "${RUNNER_DOCKER_IMAGE}"
             args "${RUNNER_DOCKER_ARGS}"
@@ -14,6 +10,13 @@ pipeline {
             registryCredentialsId 'ocir-pull-and-push-account'
             label 'small'
         }
+    }
+
+    parameters {
+        string (name: 'BASE_TAG',
+                defaultValue: '0.1.10-3',
+                description: 'Base value used as part of generated image tag',
+                trim: true)
     }
 
     environment {
@@ -37,7 +40,7 @@ pipeline {
         BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
         HELLO_HELIDON_V1 = 'helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'helidon-greet-app-v2'
-        VERSION = '0.1.10-2'
+        VERSION = get_image_tag()
 
         // secrets used during build
         BOB_DB_PASSWORD = credentials('bobs-bookstore-db-password')
@@ -323,3 +326,15 @@ pipeline {
     }
 }
 
+def get_image_tag() {
+    println("commit id: " + env.GIT_COMMIT)
+    short_commit_sha = env.GIT_COMMIT.substring(0,7)
+
+    if ( env.BRANCH_NAME == 'master' ) {
+	docker_image_tag = params.BASE_TAG + "-" + short_commit_sha + "-" + BUILD_NUMBER
+    } else {
+	docker_image_tag = "v0.0.0-" + short_commit_sha + "-" + BUILD_NUMBER
+    }
+    println("image tag: " + docker_image_tag)
+    return docker_image_tag
+}
