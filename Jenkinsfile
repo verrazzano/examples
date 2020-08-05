@@ -328,7 +328,6 @@ pipeline {
 
 def get_image_tag() {
     println("commit id: " + env.GIT_COMMIT)
-    println("commid id substring: " + env.GIT_COMMIT.substring(0,7))
     short_commit_sha = env.GIT_COMMIT.substring(0,7)
 
     if ( env.BRANCH_NAME == 'master' ) {
