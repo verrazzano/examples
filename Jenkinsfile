@@ -331,7 +331,7 @@ pipeline {
 }
 
 def get_image_tag() {
-    short_commit_sha = env.GIT_COMMIT.substring(0,7)
+    short_commit_sha = ${env.GIT_COMMIT.substring(0,7)}
 
     if ( env.BRANCH_NAME == 'master' ) {
 	docker_image_tag = params.BASE_TAG + "-" + short_commit_sha + "-" + BUILD_NUMBER
