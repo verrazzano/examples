@@ -4,8 +4,8 @@
 - MySQL Database 8.x (Database Server)
 - WebLogic Server 12.2.1.4.0 (Application Server)
 - Maven (To build the ToDo application)
-- WebLogic Deploy Tooling (WDT) (To convert the WebLogic domain to/from metadata)
-- WebLogic Image Tool (WIT) to build the Docker image
+- WebLogic Deploy Tooling (WDT) (To convert the WebLogic domain to/from metadata) [GitHub](https://github.com/oracle/weblogic-deploy-tooling/releases)
+- WebLogic Image Tool (WIT) to build the Docker image [GitHub](https://github.com/oracle/weblogic-image-tool/releases)
 
 ## Setup
 Create a Domain that represents an on-premise WebLogic Server domain:
@@ -31,6 +31,7 @@ Start the lift and shift process:
     - Create the Kubernetes secrets for the domain
     - Create the Kubernetes secret for Verrazzano Docker pull 
     - Apply the model and binding resources for Verrazzano
+
 
 ### Create a database using MySQL called tododb
 - Download the MySQL image from Dockerhub 
@@ -177,3 +178,6 @@ And finally, run `kubectl apply` to upload the Verrazzano binding and model file
 kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
 ```
+
+## Copyright
+Copyright (c) 2019, 2020, Oracle and/or its affiliates.
