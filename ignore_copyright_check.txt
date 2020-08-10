@@ -2,3 +2,5 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 bobs-books/bobbys-books/bobbys-front-end/deploy/exporter-config.yaml
 bobs-books/bobs-bookstore-order-manager/deploy/exporter-config.yaml
+todo-list/setup/wdt_domain.yaml
+todo-list/src/main/webapp/WEB-INF/META-INF/MANIFEST.MF
