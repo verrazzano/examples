@@ -102,7 +102,7 @@ of the domain.  First, create an output directory to hold the generated scripts 
 ```shell script
 mkdir v8o
 
-${WDT_HOME}/bin/discoverDomain.sh -oracle_home ~/Oracle/Middleware12.2.1.4.0 -domain_home ./tododomain -model_file ./v8o/wdt-model.yaml -archive_file ./v8o/wdt-archve.zip -target vz -output_dir v8o
+${WDT_HOME}/bin/discoverDomain.sh -oracle_home ~/Oracle/Middleware12.2.1.4.0 -domain_home ./tododomain -model_file ./v8o/wdt-model.yaml -archive_file ./v8o/wdt-archive.zip -target vz -output_dir v8o
 ```
 
 You should find the following files in `./v8o`:
