@@ -19,6 +19,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.todo.services.entity.Item;
 
@@ -63,8 +64,10 @@ public class ItemsResource {
     return result.build();
   }
 
+  @GET
   @Path("/drop/")
-  public String dropTable() {
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response dropTable() {
     try (Connection conn = datasource().getConnection()) {
       Statement stmt = conn.createStatement();
 
@@ -72,13 +75,16 @@ public class ItemsResource {
       System.out.println(dropTable);
       stmt.executeUpdate(dropTable);
     } catch (SQLException | NamingException ex) {
-      //ignore in case the table hasn't been created yet
+      // ok to fail, table may not exist yet.
+      return Response.ok().entity(ex.getLocalizedMessage() + "\n").build();
     }
-    return "Dropped";
+    return Response.ok().entity("ToDos table dropped.\n").build();
   }
 
+  @GET
   @Path("/init/")
-  public String initTable() {
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response initTable() {
     dropTable();
     try (Connection conn = datasource().getConnection()){
       Statement stmt = conn.createStatement();
@@ -101,8 +107,8 @@ public class ItemsResource {
 
     } catch (SQLException | NamingException ex) {
       ex.printStackTrace();
-      return "<html><body>ERROR - SQL failed: " + ex.getMessage() + "</body></html>";
+      return Response.serverError().entity("ERROR: " + ex.getLocalizedMessage() + "\n").build();
     }
-    return "<html><body>Done</body></html>";
+    return Response.ok().entity("ToDos table initialized.\n").build();
   }
 }
