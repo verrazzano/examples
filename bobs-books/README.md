@@ -1,10 +1,7 @@
 
 # Bob's Books Demo Application
 
-See the [diagram here](#FIXME)
-for a graphical overview of the application.
-
-It consists of three main parts:
+The application consists of three main parts:
 
 * A backend "order processing" application which is a Java EE
   application with REST services and a very simple JSP UI which
@@ -19,7 +16,7 @@ It consists of three main parts:
   microservice which gets book data from a (different) Coherence
   using CDI and has a JSF Faces web UI running on WebLogic Server.
 
-###Install Demo
+### Install Demo
 
 * Pre-requisites: Create secrets for WebLogic admin, OCR, OCIR
 ```
@@ -49,7 +46,7 @@ kubectl get service istio-ingressgateway -n istio-system
     - Robert's Books: http://<external_ip>
     - Bob's Order Manager App: http://<external_ip>/bobs-bookstore-order-manager/orders
 
-###Uninstall Demo
+### Uninstall Demo
 
 * Uninstall demo
 ```
