@@ -1,0 +1,11 @@
+This repoository contains the following attribution files:
+
+./bobs-books/bobs-bookstore-order-manager/THIRD_PARTY_LICENSES.txt
+./bobs-books/bobbys-books/bobbys-front-end/THIRD_PARTY_LICENSES.txt
+./bobs-books/bobbys-books/bobbys-coherence/THIRD_PARTY_LICENSES.txt
+./bobs-books/bobbys-books/bobbys-helidon-stock-application/THIRD_PARTY_LICENSES.txt
+./bobs-books/roberts-books/roberts-coherence/THIRD_PARTY_LICENSES.txt
+./bobs-books/roberts-books/roberts-helidon-stock-application/THIRD_PARTY_LICENSES.txt
+./bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web/src/THIRD_PARTY_LICENSES.txt
+./hello-helidon/helidon-app-greet-v2/THIRD_PARTY_LICENSES.txt
+./hello-helidon/helidon-app-greet-v1/THIRD_PARTY_LICENSES.txt
