@@ -1,38 +1,47 @@
 # ToDo List Example Application
+This example walk-through demonstrates the Lift-and-Shift of an on-premises WebLogic Domain to a cloud environment running 
+Kubernetes using Verrazzano.  The steps below start by creating a very simple on-premises domain that you will lift 
+and shift to Kubernetes.  The sample domain is our starting point for the lift and shift process and will contain 
+one application (ToDo List), and one data source.  The steps to configure the database and the WebLogic Server domain are 
+described in the [Setup](#setup) section below.  After the initial setup, you will begin the process of moving this domain
+to Kubernetes with Verrazzano in the [Lift and Shift](#lift-and-shift) section below.  This simple example does not 
+include setup of the virtual cloud network that would be needed to access an on-premises database, nor does it document
+how to migrate a database to the cloud.  
 
 ## Requires
 - MySQL Database 8.x (Database Server)
-- [WebLogic Server 12.2.1.4.0]([here](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html)) (Application Server)
-- Maven (To build the ToDo application)
-- WebLogic Deploy Tooling (WDT) (To convert the WebLogic domain to/from metadata) [GitHub](https://github.com/oracle/weblogic-deploy-tooling/releases)
-- WebLogic Image Tool (WIT) to build the Docker image [GitHub](https://github.com/oracle/weblogic-image-tool/releases)
+- [WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) (Application Server)
+- [Maven](https://maven.apache.org/download.cgi) (To build the ToDo application)
+- [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) (To convert the WebLogic domain to/from metadata) 
+- [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) to build the Docker image 
 
 ## Setup
-Create a Domain that represents an on-premise WebLogic Server domain:
+Create a sample domain that represents your on-premises WebLogic Server domain:
 1. [Create a database](#create-a-database-using-mysql-called-tododb) in MySQL called `tododb`.
-2. [Create a new WebLogic Server domain](#create-a-new-weblogic-server-domain) 
-    - Create a new domain
-    - Configure a datasource for the MySQL database
+2. [Create a WebLogic Server domain](#create-a-new-weblogic-server-domain) 
+    - Create the sample domain that represents the on-premises domain
+    - Configure a data source to access the MySQL database
 3. [Build and Deploy the To-Do application](#build-and-deploy-the-application)
-    - Build `todo.war`
-    - Deploy `todo.war` to your WebLogic Server domain
+    - Build the sample appication, `todo.war`
+    - Deploy the sample application, `todo.war`, to the sample WebLogic Server domain
 4. [Initialize the DB](#initialized-the-database) 
     - Create the database table for the ToDo application, and initialize the table with a few entries
     - Verify the configuration by using the application to see the ToDo list
 
-Start the lift and shift process:
+## Lift and Shift
+Begin the process to move the sample domain to Kubernetes with Verrazzano:
 1. [Create a WDT Model](#create-a-wdt-model)
     - Run WDT's discoverDomain tool to create a model and application archive 
 2. [Create a Docker Image](#create-a-docker-image)
     - Run WIT to create a new Docker image with the domain metadata and WebLogic Server binaries
     - Push the Docker image to your repository
-3. [Uploading to Verrazzano](#uploading-to-verrazzano)
+3. [Deploying to Verrazzano](#deploying-to-verrazzano)
     - The database is assumed to be reachable from Kubernetes where Verrazzano will run the domain
     - Create the Kubernetes secrets for the domain
     - Create the Kubernetes secret for Verrazzano Docker pull 
     - Apply the model and binding resources for Verrazzano
 
-
+## Setup Steps
 ### Create a database using MySQL called tododb
 - Download the MySQL image from Dockerhub 
     ```
@@ -58,9 +67,7 @@ Start the lift and shift process:
 If you do not have WebLogic Server 12.2.1.4.0 installed, you will need to install it now.  Choose the **GENERIC** installer
 from WebLogic Server Downloads, [here](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html), 
 and follow the install instructions documented there. Save the installer after you have finished this install.  You will
-need this installer again to build the Docker image.  If you want a smaller image, you can use the **SLIM** installer to
-build the image instead of the generic installer.  Since the slim installer does not have a WLS console installed, we 
-will not use the slim installer for this step of the example.  To make cut-and-paste of the commands a little easier, 
+need this installer again to build the Docker image.  To make cut-and-paste of the commands a little easier, 
 you should define an environment variable for `ORACLE_HOME` to the folder where you installed WebLogic Server 12.2.1.4.0.
 
 ```shell script
@@ -96,17 +103,12 @@ required to match the application and database settings from above when you star
 ### Build and Deploy the Application
 Using Maven, build this project to produce the artifact `todo.war`
 ```shell script
+git clone https://github.com/verrazzano/examples.git
 mvn clean package
 ```
 
 Using the WebLogic Server console, deploy the ToDo application.  Accepting all the default options is fine.  NOTE: The 
 remaining steps assume that the application context is `todo`.
-
-**Alternatively**, you can create the domain and deploy the application using WebLogic Deploy Tooling (WDT).  After 
-building the project with Maven, use `setup/makeArchive.sh` to create a WDT archive using the application WAR.
-```shell script
-${WDT_HOME}/bin/createDomain.sh -oracle_home ~/Oracle/Middleware12.2.1.4.0 -domain_parent ./ -model_file ./setup/wdt_domain.yaml -archive_file ./setup/wdt_archive.zip
-```
 
 ### Initialized the database
 After the application is deployed and running in WebLogic Server, access the `http://localhost:7001/todo/rest/items/init` 
@@ -117,6 +119,7 @@ REST service to create the database table used by the application. In addition t
 You should be able to access the application at http://localhost:7001/todo/index.html.  Add a few entries or delete some.
 After verifying the application and database, you may shutdown the local WebLogic Server domain.
 
+##Lift and Shift Steps
 ### Create a WDT Model
 If you have not already done so, download WebLogic Deploy Tooling (WDT) from [GitHub](https://github.com/oracle/weblogic-deploy-tooling/releases).
 Unzip the installer `weblogic-deploy.zip` so that you can access `bin/discoverDomain.sh`. To make cut-and-paste of the 
@@ -131,7 +134,7 @@ of the domain.  First, create an output directory to hold the generated scripts 
 ```shell script
 mkdir v8o
 
-${WDT_HOME}/bin/discoverDomain.sh -oracle_home $ORACLE_HOME -domain_home /path/to/domain/dir -model_file ./v8o/wdt-model.yaml -archive_file ./v8o/wdt-archive.zip -target vz -output_dir v8o
+$WDT_HOME/bin/discoverDomain.sh -oracle_home $ORACLE_HOME -domain_home /path/to/domain/dir -model_file ./v8o/wdt-model.yaml -archive_file ./v8o/wdt-archive.zip -target vz -output_dir v8o
 ```
 
 You should find the following files in `./v8o`:
@@ -163,21 +166,22 @@ download installers.  Until that point, you must download the WebLogic Server an
 and let WIT know where to find them using the `imagetool cache addInstaller` command. 
 
 ```shell script
-${WIT_HOME}/bin/imagetool.sh cache addInstaller --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz --type jdk --version 8u231 
+$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz --type jdk --version 8u231 
 
 # The installer filename may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic
-${WIT_HOME}/bin/imagetool.sh cache addInstaller --path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip --type wls --version 12.2.1.4.0
+$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip --type wls --version 12.2.1.4.0
 
-${WIT_HOME}/bin/imagetool.sh cache addInstaller --path /path/to/intaller/weblogic-deploy.zip --type wdt --version latest
+$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/weblogic-deploy.zip --type wdt --version latest
 
 # Paths for the files in this command assume that you are running this command from the v8o directory created during the discoverDomain step above
-${WIT_HOME}/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --vzModel ./model.yaml --wdtModelOnly
+$WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --vzModel ./model.yaml --wdtModelOnly
 ```
 
 The `imagetool create` command should have created a local Docker image and updated the Verrazzano model with the domain home
 and image name.  Check your Docker images for the tag that you used in the create command using `docker images` from the Docker 
-CLI.  If everything worked correctly, it is time to push that image to the repository that Verrrazzano will use to access
-the image from Kubernetes.
+CLI.  If everything worked correctly, it is time to push that image to the repository that Verrazzano will use to access
+the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this 
+example, but most Docker compliant registries should work.
 **NOTE:** The image name must be the same as what is in the Verrazzano model.yaml under 
 `spec->weblogicDomains->domainCRValues->image`.
 
@@ -185,8 +189,8 @@ the image from Kubernetes.
 docker push your/repo/todo:1
 ```
 
-### Uploading to Verrazzano
-The following steps assume that you have a Kubernets cluster and that Verrazzano is already deployed.
+### Deploying to Verrazzano
+The following steps assume that you have a Kubernetes cluster and that Verrazzano is already installed in that cluster.
 
 If you haven't already, edit and run the `create_k8s_secrets.sh` to generate the Kubernetes secrets. 
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to 
@@ -213,7 +217,7 @@ Assuming that you left the name as `ocir`, you will need to run a `kubectl creat
 kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docker-email=your.name@company.com --docker-username=tenancy/username --docker-password='passwordForUsername'
 ```
 
-And finally, run `kubectl apply` to upload the Verrazzano binding and model files to let Verrazzano know to start your pod.
+And finally, run `kubectl apply` to apply the Verrazzano binding and model files to Verrazzano to start your domain.
 ```shell script
 kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
