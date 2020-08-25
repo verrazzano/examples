@@ -18,4 +18,4 @@ The application consists of three main parts:
 
 ### Install Demo
 
-Detail instructions for installing Bob's Books can be found [here](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md)
+Detailed instructions for installing Bob's Books can be found [here](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md)

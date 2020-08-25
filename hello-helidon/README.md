@@ -5,4 +5,4 @@ This example application provides a simple *Hello World* REST service written wi
 
 ### Install Demo
 
-Detail instructions for installing Hello Helidon can be found [here](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
+Detailed instructions for installing Hello Helidon can be found [here](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
