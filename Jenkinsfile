@@ -111,7 +111,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-coherence
-                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     docker build --build-arg JDK_BINARY=${JDK8_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
@@ -135,7 +135,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-helidon-stock-application
-                                    mvn -B -s $MAVEN_SETTINGS clean deploy 
+                                    mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                     docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
@@ -160,7 +160,7 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-front-end
-                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    mvn -B -s $MAVEN_SETTINGS clean install
                                     cd deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
@@ -192,7 +192,7 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobs-bookstore-order-manager
-                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    mvn -B -s $MAVEN_SETTINGS clean install
                                     cd deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
@@ -223,7 +223,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/roberts-books/roberts-coherence
-                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     docker build --build-arg JDK_BINARY=${JDK8_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}
@@ -249,7 +249,7 @@ pipeline {
                                     cd examples/bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web
                                     npm install
                                     cd ../../..
-                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                     docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}
@@ -277,7 +277,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/hello-helidon/helidon-app-greet-v1
-                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                     docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}
@@ -301,7 +301,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/hello-helidon/helidon-app-greet-v2
-                                    mvn -B -s $MAVEN_SETTINGS clean deploy
+                                    mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                     docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}
