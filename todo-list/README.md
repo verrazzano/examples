@@ -43,7 +43,7 @@ Begin the process to move the sample domain to Kubernetes with Verrazzano:
 
 ## Setup Steps
 ### Create a database using MySQL called `tododb`
-- Download the MySQL image from Dockerhub.
+- Download the MySQL image from Docker Hub.
     ```
     docker pull mysql:latest
     ```
@@ -111,7 +111,7 @@ Using the WebLogic Server Administration Console, deploy the ToDo List applicati
 remaining steps assume that the application context is `todo`.
 
 ### Initialize the database
-After the application is deployed and running in WebLogic Server, access the `http://localhost:7001/todo/rest/items/init`
+After the application is deployed and running in WebLogic Server, access the http://localhost:7001/todo/rest/items/init.
 REST service to create the database table used by the application. In addition to creating the application table, the
 `init` service will, also, load four sample items into the table.
 
@@ -169,6 +169,9 @@ download installers.  Until then, you must download the WebLogic Server and Java
 and let WIT know where to find them using the `imagetool cache addInstaller` command.
 
 ```shell script
+# The directory created in the previous step to hold the generated scripts and models.
+cd v8o
+
 $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz --type jdk --version 8u231
 
 # The installer filename may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
@@ -199,16 +202,13 @@ The following steps assume that you have a Kubernetes cluster and that Verrazzan
 If you haven't already done so, edit and run the `create_k8s_secrets.sh` to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
 edit `create_k8s_secrets.sh` to set the passwords for the WebLogic Server domain and the data source.  In this domain,
-there are only three passwords that you need to enter: administrator credentials (like weblogic/welcome1), domain credential,
-and the ToDo database credential (like derek/welcome1).
+there are only two passwords that you need to enter: administrator credentials (like weblogic/welcome1) and the 
+ToDo database credential (like derek/welcome1).
 
 For example:
 ```shell script
 # Update <admin-user> and <admin-password> for weblogic-credentials
 create_paired_k8s_secret weblogic-credentials weblogic welcome1
-
-# Update <password> for securityconfig
-create_k8s_secret securityconfig somedomainpassword
 
 # Update <user> and <password> for jdbc-todo-datasource
 create_paired_k8s_secret jdbc-todo-datasource derek welcome1
@@ -221,7 +221,7 @@ Assuming that you left the name as `ocir`, you will need to run a `kubectl creat
 kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docker-email=your.name@company.com --docker-username=tenancy/username --docker-password='passwordForUsername'
 ```
 
-And finally, run `kubectl apply` to apply the Verrazzano binding and model files to Verrazzano to start your domain.
+And finally, run `kubectl apply` to apply the Verrazzano model and binding files to Verrazzano to start your domain.
 
 ```shell script
 kubectl apply -f model.yaml
