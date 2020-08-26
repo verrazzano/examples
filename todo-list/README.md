@@ -1,4 +1,4 @@
-# "ToDo List" Example Application
+# ToDo List Lift-and-Shift Application
 This example walk-through demonstrates the "Lift-and-Shift" of an on-premises WebLogic Server domain to a cloud environment running
 Kubernetes using Verrazzano.  The initial steps create a very simple on-premises domain that you will lift
 and shift to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains
