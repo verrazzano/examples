@@ -1,10 +1,7 @@
 
-# Bob's Books Demo Application
+## Bob's Books Application
 
-See the [diagram here](#FIXME)
-for a graphical overview of the application.
-
-It consists of three main parts:
+The application consists of three main parts:
 
 * A backend "order processing" application which is a Java EE
   application with REST services and a very simple JSP UI which
@@ -19,39 +16,6 @@ It consists of three main parts:
   microservice which gets book data from a (different) Coherence
   using CDI and has a JSF Faces web UI running on WebLogic Server.
 
-###Install Demo
+### Install Demo
 
-* Pre-requisites: Create secrets for WebLogic admin, OCR, OCIR
-```
-kubectl apply -f working-yamls/bobby.bobbys-front-end-weblogic-credentials.secret.yaml
-kubectl apply -f working-yamls/bob.bobs-bookstore-weblogic-credentials.secret.yaml
-kubectl create secret docker-registry ocr --docker-username='<username>' --docker-password='<password>' --docker-server=container-registry.oracle.com
-kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docker-username='<objectnamespace/username>' --docker-password='<password>' --docker-email='<email>'
-```
-
-* Install demo
-```
-./install_demo.sh
-```
-* Verify if all objects have started:
-```
-kubectl get all -n bob
-kubectl get all -n bobby
-kubectl get all -n robert
-kubectl get all
-```
-* Get the External IP for istio-ingressgateway service
-```
-kubectl get service istio-ingressgateway -n istio-system
-```
-* Use the external IP to connect to Bobby's Books and Robert's Books Apps
-    - Bobby's Books: http://<external_ip>/bobbys-front-end
-    - Robert's Books: http://<external_ip>
-    - Bob's Order Manager App: http://<external_ip>/bobs-bookstore-order-manager/orders
-
-###Uninstall Demo
-
-* Uninstall demo
-```
-./uninstall_demo.sh
-```
+Detailed instructions for installing Bob's Books can be found [here](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md)

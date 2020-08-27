@@ -68,4 +68,3 @@ where you will see the web app.
 You can fiddle with the bookstore.size parameter on the Helidon app to get more/less books. 
 There must be at least one or the web app will barf.  It's just a demo! 
 
-![demo](demo.png)

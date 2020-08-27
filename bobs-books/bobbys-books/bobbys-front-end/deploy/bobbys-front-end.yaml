@@ -7,7 +7,7 @@ domainInfo:
 
 topology:
   Name: 'bobbys-front-end'
-  AdminServerName: 'admin-server'
+  AdminServerName: 'AdminServer'
   ProductionModeEnabled: true
   Cluster:
     'cluster-1':
@@ -18,12 +18,12 @@ topology:
         DynamicClusterSize: '5'
         MaxDynamicClusterSize: '5'
   Server:
-    'admin-server':
+    'AdminServer':
       ListenPort: '7001'
       NetworkAccessPoint:
         'T3Channel':
           PublicPort: '30101'
-          PublicAddress: 'bobbys-front-end-admin-server'
+          PublicAddress: 'bobbys-front-end-adminserver'
           ListenAddress: 127.0.0.1
           ListenPort: '30101'
   ServerTemplate:
@@ -43,7 +43,7 @@ appDeployments:
       PlanStagingMode: nostage
     'wls-exporter':
       SourcePath: 'wlsdeploy/apps/wls-exporter.war'
-      Target: 'admin-server,cluster-1'
+      Target: 'AdminServer,cluster-1'
       ModuleType: war
       StagingMode: nostage
       PlanStagingMode: nostage
