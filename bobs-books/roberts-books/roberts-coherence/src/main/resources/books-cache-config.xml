@@ -8,9 +8,6 @@
 
     <load:books file="books.csv"/>
 
-    <defaults>
-        <serializer>pof</serializer>
-    </defaults>
 
     <caching-scheme-mapping>
         <cache-mapping>

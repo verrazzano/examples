@@ -5,40 +5,17 @@
               xmlns="http://xmlns.oracle.com/coherence/coherence-cache-config"
               xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config coherence-cache-config.xsd">
 
-    <defaults>
-        <serializer>pof</serializer>
-    </defaults>
-
     <caching-scheme-mapping>
         <cache-mapping>
-            <cache-name>books</cache-name>
-            <scheme-name>books</scheme-name>
-        </cache-mapping>
-        <cache-mapping>
-            <cache-name>orders</cache-name>
-            <scheme-name>orders</scheme-name>
+            <cache-name>*</cache-name>
+            <scheme-name>remote</scheme-name>
         </cache-mapping>
     </caching-scheme-mapping>
 
     <caching-schemes>
         <remote-cache-scheme>
-            <scheme-name>books</scheme-name>
-            <service-name>Books</service-name>
-            <initiator-config>
-                <tcp-initiator>
-                    <remote-addresses>
-                        <socket-address>
-                            <address system-property="tangosol.coherence.proxy.address">roberts-coherence-storage-extend</address>
-                            <port system-property="tangosol.coherence.proxy.port">9000</port>
-                        </socket-address>
-                    </remote-addresses>
-                </tcp-initiator>
-            </initiator-config>
-        </remote-cache-scheme>
-
-        <remote-cache-scheme>
-            <scheme-name>orders</scheme-name>
-            <service-name>Orders</service-name>
+            <scheme-name>remote</scheme-name>
+            <service-name>robert-proxy-service</service-name>
             <initiator-config>
                 <tcp-initiator>
                     <remote-addresses>
