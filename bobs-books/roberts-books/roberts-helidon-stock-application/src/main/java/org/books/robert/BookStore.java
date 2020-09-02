@@ -16,6 +16,7 @@ import io.opentracing.Span;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -36,21 +37,39 @@ public class BookStore {
 
   private NamedCache<String, Book> books;
   private NamedCache<Long, String> orders;
+  private boolean initDone = false;
 
   private static final Logger logger = Logger.getLogger(BookStore.class.getName());
 
   public BookStore() {}
 
-  @PostConstruct
-  public void postConstruct() {
-    logger.info("postConstruct called");
+  /**
+   * Init the caches, there will be a period of time during startup where
+   * the coherence cluster is not ready and this will fail.  This just needs
+   * to be called before each cache access to make sure the caches are ready.
+   */
+  public boolean init() {
+    if (initDone) return true;
+    logger.info("initializing caches");
+    try {
+      NamedCache<String, Book> books = CacheFactory.getCache("books");
+      if (books == null)
+        return false;
 
-    NamedCache<String, Book> books = CacheFactory.getCache("books");
-    NamedCache<Long, String> orders = CacheFactory.getCache("orders");
+      NamedCache<Long, String> orders = CacheFactory.getCache("orders");
+      if (orders == null)
+        return false;
 
-    this.books = new ContinuousQueryCache<>(books, AlwaysFilter.INSTANCE());
-    this.books.addIndex(Book::getAuthors, false, null);
-    this.orders = orders;
+      this.books = new ContinuousQueryCache<>(books, AlwaysFilter.INSTANCE());
+      this.books.addIndex(Book::getAuthors, false, null);
+      this.orders = orders;
+    } catch (Throwable t) {
+      logger.info("Coherence not ready");
+      return false;
+    }
+
+    initDone = true;
+    return true;
   }
 
   Collection<String> getDistinctAuthors() {
@@ -59,6 +78,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.aggregate(Aggregators.distinctValues(Book::getAuthors)))");
       try {
+        if (!init()) {
+          return new ArrayList<String>();
+        }
         return books.aggregate(Aggregators.distinctValues(Book::getAuthors));
       } catch (Throwable t) {
         TraceUtils.logThrowable(span, t);
@@ -73,6 +95,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.aggregate(Aggregators.grouping(Book::getAuthors,...)");
       try {
+        if (!init()) {
+          return new ArrayList<BookCount>();
+        }
         return books.aggregate(Aggregators.grouping(Book::getAuthors, Aggregators.count()))
             .entrySet().stream()
             .map(e -> new BookCount(e.getKey(), e.getValue()))
@@ -92,6 +117,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.AlwaysFilter.INSTANCE(), BOOK_RATING_COMPARATOR,...)");
       try {
+        if (!init()) {
+          return new ArrayList<Book>();
+        }
         return books.values(AlwaysFilter.INSTANCE(), BOOK_RATING_COMPARATOR).stream()
             .filter(book -> !book.getImageUrl().contains("/nophoto/"))
             .limit(count)
@@ -109,6 +137,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.AlwaysFilter.INSTANCE(), BOOK_TITLE_COMPARATOR,...)");
       try {
+        if (!init()) {
+          return new ArrayList<Book>();
+        }
         return books.values(authorFilter(author), BOOK_TITLE_COMPARATOR).stream()
             .filter(book -> !book.getImageUrl().contains("/nophoto/"))
             .collect(Collectors.toList());
@@ -125,6 +156,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.get(id));");
       try {
+        if (!init()) {
+          return null;
+        }
         return Optional.ofNullable(books.get(id));
       } catch (Throwable t) {
         TraceUtils.logThrowable(span, t);
@@ -139,6 +173,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.put(book.getBookId(), book);");
       try {
+        if (!init()) {
+          throw new RuntimeException("Coherence not ready");
+        }
         books.put(book.getBookId(), book);
       } catch (Throwable t) {
         TraceUtils.logThrowable(span, t);
@@ -153,6 +190,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.remove(id);");
       try {
+        if (!init()) {
+          throw new RuntimeException("Coherence not ready");
+        }
         books.remove(id);
       } catch (Throwable t) {
         TraceUtils.logThrowable(span, t);
@@ -169,6 +209,9 @@ public class BookStore {
       span.log("Calling Coherence orders.put(id, jsonOrder)");
       System.out.println("Calling Coherence orders.put(id, jsonOrder)");
       try {
+        if (!init()) {
+          throw new RuntimeException("Coherence not ready");
+        }
         orders.put(id, jsonOrder);
       } catch (Throwable t) {
         System.out.println("Error calling order");
