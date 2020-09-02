@@ -75,7 +75,6 @@
                             <class-name>org.books.robert.OrderProcessor</class-name>
                         </class-scheme>
                     </cachestore-scheme>
-                    <write-delay>5s</write-delay>
                 </read-write-backing-map-scheme>
             </backing-map-scheme>
             <autostart>true</autostart>
