@@ -53,22 +53,27 @@ public class BookStore {
     logger.info("initializing caches");
     try {
       NamedCache<String, Book> books = CacheFactory.getCache("books");
-      if (books == null)
+      if (books == null) {
+        logger.info("Coherence books cache not ready");
         return false;
+      }
 
       NamedCache<Long, String> orders = CacheFactory.getCache("orders");
-      if (orders == null)
+      if (orders == null) {
+        logger.info("Coherence orders cache not ready");
         return false;
+      }
 
       this.books = new ContinuousQueryCache<>(books, AlwaysFilter.INSTANCE());
       this.books.addIndex(Book::getAuthors, false, null);
       this.orders = orders;
     } catch (Throwable t) {
-      logger.info("Coherence not ready");
+      logger.info("Coherence CQC not ready");
       return false;
     }
 
     initDone = true;
+    logger.info("Coherence is ready to be used");
     return true;
   }
 
@@ -223,6 +228,9 @@ public class BookStore {
 
   @Gauge(unit = "count")
   public int pendingOrders() {
+    if (orders == null) {
+      return 0;
+    }
     return orders.size();
   }
 
