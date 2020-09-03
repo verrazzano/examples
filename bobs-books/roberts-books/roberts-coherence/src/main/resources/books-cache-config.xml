@@ -28,6 +28,27 @@
     </caching-scheme-mapping>
 
     <caching-schemes>
+        <proxy-scheme>
+            <scheme-name>robert-proxy-scheme</scheme-name>
+            <service-name>robert-proxy-service</service-name>
+            <acceptor-config>
+                <!-- empty tcp-acceptor means to use the name service -->
+                <tcp-acceptor>
+                    <local-address>
+                        <address system-property="tangosol.coherence.address">0.0.0.0</address>
+                        <port>9000</port>
+                    </local-address>
+                </tcp-acceptor>
+            </acceptor-config>
+            <proxy-config>
+                <cache-service-proxy>
+                    <enabled>true</enabled>
+                </cache-service-proxy>
+            </proxy-config>
+            <load-balancer>client</load-balancer>
+            <autostart>true</autostart>
+        </proxy-scheme>
+
         <distributed-scheme>
             <scheme-name>books</scheme-name>
             <service-name>Books</service-name>
@@ -54,7 +75,6 @@
                             <class-name>org.books.robert.OrderProcessor</class-name>
                         </class-scheme>
                     </cachestore-scheme>
-                    <write-delay>5s</write-delay>
                 </read-write-backing-map-scheme>
             </backing-map-scheme>
             <autostart>true</autostart>
