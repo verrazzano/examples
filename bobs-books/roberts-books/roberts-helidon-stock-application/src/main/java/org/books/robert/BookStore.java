@@ -48,7 +48,7 @@ public class BookStore {
    * the coherence cluster is not ready and this will fail.  This just needs
    * to be called before each cache access to make sure the caches are ready.
    */
-  public boolean init() {
+  public synchronized boolean init() {
     if (initDone) return true;
     logger.info("initializing caches");
     try {
