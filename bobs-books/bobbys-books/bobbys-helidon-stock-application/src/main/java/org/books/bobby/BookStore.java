@@ -8,6 +8,7 @@ import com.tangosol.net.NamedCache;
 import io.opentracing.Scope;
 import io.opentracing.Span;
 import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -25,11 +26,31 @@ public class BookStore {
   private static final Logger logger = Logger.getLogger(BookStore.class.getName());
 
   private NamedCache<String, Book> books;
+  private boolean initDone;
 
-  @PostConstruct
-  public void postConstruct() {
-    logger.info("postConstruct called");
-    books = CacheFactory.getCache("books");
+  /**
+   * Init the caches, there will be a period of time during startup where
+   * the coherence cluster is not ready and this will fail.  This just needs
+   * to be called before each cache access to make sure the caches are ready.
+   */
+  public synchronized boolean init() {
+    if (initDone) return true;
+    logger.info("initializing caches");
+    try {
+      books = CacheFactory.getCache("books");
+      if (books == null) {
+        logger.info("Coherence books cache not ready");
+        return false;
+      }
+      books.addIndex(Book::getAuthors, false, null);
+    } catch (Throwable t) {
+      logger.info("Coherence CQC not ready");
+      return false;
+    }
+
+    initDone = true;
+    logger.info("Coherence is ready to be used");
+    return true;
   }
 
   public Collection<Book> getRange(int start, int end) {
@@ -43,6 +64,9 @@ public class BookStore {
               .map(i -> Integer.toString(i))
               .collect(Collectors.toList());
       try {
+        if (!init()) {
+          return new ArrayList<Book>();
+        }
         return books.getAll(keys).values();
       } catch (Throwable t) {
         TraceUtils.logThrowable(span, t);
@@ -57,6 +81,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.get(id);");
       try {
+        if (!init()) {
+          return null;
+        }
         return Optional.ofNullable(books.get(id));
       } catch (Throwable t) {
         TraceUtils.logThrowable(span, t);
@@ -71,6 +98,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.put(book.getBookId(), book);");
       try {
+        if (!init()) {
+          throw new RuntimeException("Coherence not ready");
+        }
         books.put(book.getBookId(), book);
       } catch (Throwable t) {
         TraceUtils.logThrowable(span, t);
@@ -85,6 +115,9 @@ public class BookStore {
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence  books.remove(id);");
       try {
+        if (!init()) {
+          throw new RuntimeException("Coherence not ready");
+        }
         books.remove(id);
       } catch (Throwable t) {
         TraceUtils.logThrowable(span, t);
