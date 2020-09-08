@@ -5,4 +5,4 @@
 TAG=${1:-test}
 
 mvn clean install
-docker build -t docker.pkg.github.com/verrazzano/examples/roberts-coherence:${TAG} .
+docker build -t ghcr.io/verrazzano/roberts-coherence:${TAG} .
