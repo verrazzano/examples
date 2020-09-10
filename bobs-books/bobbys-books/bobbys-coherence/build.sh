@@ -5,4 +5,4 @@
 TAG=${1:-test}
 
 mvn clean install
-docker build --force-rm=true -t docker.pkg.github.com/verrazzano/examples/bobbys-coherence:${TAG} .
+docker build --force-rm=true -t ghcr.io/verrazzano/example-bobbys-coherence:${TAG} .

@@ -20,7 +20,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_CREDS = credentials('github-markxnelns-private-access-token')
+        DOCKER_CREDS = credentials('github-packages-credentials-rw')
         OCR_CREDS = credentials('ocr-pull-and-push-account')
         NETRC_FILE = credentials('netrc')
 
@@ -31,15 +31,15 @@ pipeline {
         OCI_CLI_REGION = 'us-phoenix-1'
 
         // image names and tags are created from these variables:
-        REPO = 'docker.pkg.github.com/verrazzano/examples'
-        BOBBYS_HELIDON = 'bobbys-helidon-stock-application'
-        ROBERTS_HELIDON = 'roberts-helidon-stock-application'
-        BOBBYS_COHERENCE = 'bobbys-coherence'
-        ROBERTS_COHERENCE = 'roberts-coherence'
-        BOBBYS_WEBLOGIC = 'bobbys-front-end'
-        BOBS_WEBLOGIC = 'bobs-bookstore-order-manager'
-        HELLO_HELIDON_V1 = 'helidon-greet-app-v1'
-        HELLO_HELIDON_V2 = 'helidon-greet-app-v2'
+        REPO = 'ghcr.io/verrazzano'
+        BOBBYS_HELIDON = 'example-bobbys-helidon-stock-application'
+        ROBERTS_HELIDON = 'example-roberts-helidon-stock-application'
+        BOBBYS_COHERENCE = 'example-bobbys-coherence'
+        ROBERTS_COHERENCE = 'example-roberts-coherence'
+        BOBBYS_WEBLOGIC = 'example-bobbys-front-end'
+        BOBS_WEBLOGIC = 'example-bobs-bookstore-order-manager'
+        HELLO_HELIDON_V1 = 'example-helidon-greet-app-v1'
+        HELLO_HELIDON_V2 = 'example-helidon-greet-app-v2'
         VERSION = get_image_tag()
 
         // secrets used during build
@@ -109,7 +109,7 @@ pipeline {
                         stage('Build Bobbys Coherence Application') {
                             steps {
                                 sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-coherence
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
@@ -133,7 +133,7 @@ pipeline {
                         stage('Build Bobbys Helidon Stock Application') {
                             steps {
                                 sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-helidon-stock-application
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
@@ -157,7 +157,7 @@ pipeline {
                         stage('Build Bobbys Front-end WebLogic Application') {
                             steps {
                                 sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-front-end
                                     mvn -B -s $MAVEN_SETTINGS clean install
@@ -189,7 +189,7 @@ pipeline {
                         stage('Build Bobs Backend WebLogic Application') {
                             steps {
                                 sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobs-bookstore-order-manager
                                     mvn -B -s $MAVEN_SETTINGS clean install
@@ -221,7 +221,7 @@ pipeline {
                         stage('Build Roberts Coherence Application') {
                             steps {
                                 sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/roberts-books/roberts-coherence
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
@@ -245,7 +245,7 @@ pipeline {
                         stage('Build Roberts Helidon Stock Application') {
                             steps {
                                 sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web
                                     npm install
                                     cd ../../..
@@ -275,7 +275,7 @@ pipeline {
                         stage('Build Hello Helidon V1 Application') {
                             steps {
                                 sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/hello-helidon/helidon-app-greet-v1
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
@@ -299,7 +299,7 @@ pipeline {
                         stage('Build Hello Helidon V2 Application') {
                             steps {
                                 sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login docker.pkg.github.com -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/hello-helidon/helidon-app-greet-v2
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
