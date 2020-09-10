@@ -8,4 +8,4 @@ cd src/main/web
 npm install
 cd ../../../
 mvn clean install
-docker build --force-rm=true -f Dockerfile -t docker.pkg.github.com/verrazzano/examples/roberts-helidon-stock-application:${TAG} .
+docker build --force-rm=true -f Dockerfile -t ghcr.io/verrazzano/example-roberts-helidon-stock-application:${TAG} .
