@@ -104,6 +104,7 @@ required to match the application and database settings from when you started an
 Using Maven, build this project to produce the artifact, `todo.war`.
 ```shell script
 git clone https://github.com/verrazzano/examples.git
+cd examples/todo-list/
 mvn clean package
 ```
 
