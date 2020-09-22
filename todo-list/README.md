@@ -12,7 +12,7 @@ how to migrate a database to the cloud.
 - MySQL Database 8.x (Database Server)
 - [WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) (Application Server)
 
-  Generic Installer is currently the only WebLogic Installer supported for the lift and shift scenario
+  All WebLogic Installers are supported except the Quick Installer or the Dev Installer
   
 - [Maven](https://maven.apache.org/download.cgi) (To build the ToDo List application)
 - [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) (To convert the WebLogic Server domain to and from metadata)
