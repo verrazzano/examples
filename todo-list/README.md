@@ -11,6 +11,9 @@ how to migrate a database to the cloud.
 ## Requires
 - MySQL Database 8.x (Database Server)
 - [WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) (Application Server)
+
+  All WebLogic Installers are supported except the Quick Installer or the Dev Installer
+  
 - [Maven](https://maven.apache.org/download.cgi) (To build the ToDo List application)
 - [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) (To convert the WebLogic Server domain to and from metadata)
 - [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) (To build the Docker image)
@@ -21,6 +24,14 @@ Create a sample domain that represents your on-premises WebLogic Server domain:
 2. [Create a WebLogic Server domain](#create-a-new-weblogic-server-domain).
     - Create the sample domain that represents the on-premises domain.
     - Configure a data source to access the MySQL database.
+    - Domain Limitations:
+        - There are 2 supported domain types, single server and single cluster
+        - Domains must have the default value of AdminServer
+        - Domains must be using:
+            - WebLogic Server Listen Port for Administration Server: 7001
+            - WebLogic Server Listen Port for Managed Server: 8001
+            
+            All the above values are standard WebLogic defaults
 3. [Build and deploy the ToDo List application](#build-and-deploy-the-application).
     - Build the sample application, `todo.war`.
     - Deploy the sample application, `todo.war`, to the sample WebLogic Server domain.
