@@ -24,10 +24,10 @@ Create a sample domain that represents your on-premises WebLogic Server domain:
 2. [Create a WebLogic Server domain](#create-a-new-weblogic-server-domain).
     - Create the sample domain that represents the on-premises domain.
     - Configure a data source to access the MySQL database.
-    - Domain Limitations
+    - Domain Limitations:
         - There are 2 supported domain types, single server and single cluster
         - Domains must have the default value of AdminServer
-        - Domains must be using
+        - Domains must be using:
             - WebLogic Server Listen Port for Administration Server: 7001
             - WebLogic Server Listen Port for Managed Server: 8001
             
