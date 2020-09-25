@@ -26,7 +26,7 @@ Create a sample domain that represents your on-premises WebLogic Server domain:
     - Configure a data source to access the MySQL database.
     - Be aware of these domain limitations:
         - There are two supported domain types, single server and single cluster.
-        - The `AdminServerName` must have the default value, `AdminServer`.
+        - Domains must use the default value, `AdminServer`, for `AdminServerName`.
         - Domains must be using:
             - WebLogic Server Listen Port for the Administration Server: `7001`.
             - WebLogic Server Listen Port for the Managed Server: `8001`.
