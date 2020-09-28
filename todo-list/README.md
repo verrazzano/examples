@@ -28,8 +28,8 @@ Create a sample domain that represents your on-premises WebLogic Server domain:
         - There are two supported domain types, single server and single cluster.
         - Domains must use the default value, `AdminServer`, for `AdminServerName`.
         - Domains must be using:
-            - WebLogic Server Listen Port for the Administration Server: `7001`.
-            - WebLogic Server Listen Port for the Managed Server: `8001`.
+            - WebLogic Server listen port for the Administration Server: `7001`.
+            - WebLogic Server listen port for the Managed Server: `8001`.
             - Note that these are all standard WebLogic Server default values.
 3. [Build and deploy the ToDo List application](#build-and-deploy-the-application).
     - Build the sample application, `todo.war`.
