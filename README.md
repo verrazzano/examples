@@ -2,7 +2,7 @@
 
 This repository contains example applications for use with Verrazzano.
 
-Example applications include:
+The example applications include:
 
 * [Bob's Books](https://github.com/verrazzano/examples/blob/master/bobs-books/README.md)
 * [Hello World Helidon](https://github.com/verrazzano/examples/blob/master/hello-helidon/README.md)

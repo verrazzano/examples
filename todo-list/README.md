@@ -5,29 +5,29 @@ and shift to Kubernetes.  The sample domain is the starting point for the lift a
 one application (ToDo List) and one data source.  The steps to configure the database and the WebLogic Server domain are
 described in the [Setup](#setup) section.  After the initial setup, you will begin the process of moving this domain
 to Kubernetes with Verrazzano in the [Lift and Shift](#lift-and-shift) section.  This simple example does not
-include the setup of the virtual cloud network that would be needed to access an on-premises database, nor does it document
+include the setup of the networking that would be needed to access an on-premises database, nor does it document
 how to migrate a database to the cloud.  
 
 ## Requires
 - MySQL Database 8.x (Database Server)
 - [WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) (Application Server)
 
-  **NOTE**: All WebLogic Server installers are supported except the Quick Installer.
+  **NOTE**: All WebLogic Server installers are supported _except_ the Quick Installer.
 
 - [Maven](https://maven.apache.org/download.cgi) (To build the ToDo List application)
 - [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) (To convert the WebLogic Server domain to and from metadata)
 - [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) (To build the Docker image)
 
 ## Setup
-Create a sample domain that represents your on-premises WebLogic Server domain:
+Create a sample domain that represents your on-premises WebLogic Server domain.
 1. [Create a database](#create-a-database-using-mysql-called-tododb) in MySQL called `tododb`.
 2. [Create a WebLogic Server domain](#create-a-new-weblogic-server-domain).
     - Create the sample domain that represents the on-premises domain.
     - Configure a data source to access the MySQL database.
     - Be aware of these domain limitations:
         - There are two supported domain types, single server and single cluster.
-        - Domains must use the default value, `AdminServer`, for `AdminServerName`.
-        - Domains must be using:
+        - Domains must use:
+            - The default value, `AdminServer`, for `AdminServerName`.
             - WebLogic Server listen port for the Administration Server: `7001`.
             - WebLogic Server listen port for the Managed Server: `8001`.
             - Note that these are all standard WebLogic Server default values.
@@ -39,7 +39,7 @@ Create a sample domain that represents your on-premises WebLogic Server domain:
     - Verify the configuration by using the application to see the ToDo list.
 
 ## Lift and Shift
-Begin the process to move the sample domain to Kubernetes with Verrazzano:
+Begin the process to move the sample domain to Kubernetes with Verrazzano.
 1. [Create a WDT Model](#create-a-wdt-model).
     - Run WDT's `discoverDomain` tool to create a model and application archive.
 2. [Create a Docker image](#create-a-docker-image).
@@ -52,6 +52,9 @@ Begin the process to move the sample domain to Kubernetes with Verrazzano:
     - Apply the model and binding resources for Verrazzano.
 
 ## Setup steps
+
+Perform the following initial steps.
+
 ### Create a database using MySQL called `tododb`
 - Download the MySQL image from Docker Hub.
     ```
@@ -84,7 +87,7 @@ export ORACLE_HOME=/install/directory
 ```
 
 Using the Oracle WebLogic Server Configuration Wizard, create a new domain called `tododomain`.  Add the password for the administrative
-user, and accept the defaults for everything else to create a simple domain with a single Administration Server.
+user and accept the defaults for everything else to create a simple domain with a single Administration Server.
 
 ```shell script
 $ORACLE_HOME/oracle_common/common/bin/config.sh
@@ -107,8 +110,10 @@ required to match the application and database settings from when you started an
         - Database Port: 3306
         - Database User Name: derek
         - Password: welcome1
-        - Confirm Password: welcome1   
-     - Click Next and then Finish to complete the configuration.  
+        - Confirm Password: welcome1
+    - Sixth page:
+        - Select AdminServer  
+     - Click Finish to complete the configuration.  
 
 ### Build and deploy the application
 Using Maven, build this project to produce the artifact, `todo.war`.
@@ -118,7 +123,9 @@ cd examples/todo-list/
 mvn clean package
 ```
 
-Using the WebLogic Server Administration Console, deploy the ToDo List application.  Accepting all the default options is fine.  **NOTE:** The
+Using the WebLogic Server Administration Console, deploy the ToDo List application.  Accepting all the default options is fine.  
+
+**NOTE:** The
 remaining steps assume that the application context is `todo`.
 
 ### Initialize the database
@@ -152,14 +159,14 @@ $WDT_HOME/bin/discoverDomain.sh -oracle_home $ORACLE_HOME -domain_home /path/to/
 ```
 
 You will find the following files in `./v8o`:
-- `binding.yaml` - Verrazzano Binding file
-- `model.yaml` - Verrazzano Model template
+- `binding.yaml` - Verrazzano Application Binding file
+- `model.yaml` - Verrazzano Application Model template
 - `wdt-archive.zip` - The WDT archive containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
 - `vz_variable.properties` - A set of properties extracted from the WDT domain model
 - `create_k8s_secrets.sh` - A helper script with `kubectl` commands to apply the Kubernetes secrets needed for this domain
 
-If you chose to skip the "Access the application" step and did not verify that the ToDo List application was deployed, you should
+If you chose to skip the [Access the application](#access-the-application) step and did not verify that the ToDo List application was deployed, you should
 verify that you see the `todo.war` file inside the `wdt-archive.zip` file.  If you do not see the WAR file, there was something wrong
 in your deployment of the application on WebLogic Server that will require additional troubleshooting in your domain.
 
@@ -176,7 +183,7 @@ export WIT_HOME=/install/directory
 
 You will need a Docker image to run your WebLogic Server domain in Kubernetes.  To use the WebLogic Image Tool (WIT) to
 create the Docker image, run `imagetool create`.  Although WIT will download patches and PSUs for you, it does not yet
-download installers.  Until then, you must download the WebLogic Server and Java Development Kit installer manually,
+download installers.  Until then, you must download the [WebLogic Server](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) and [Java Development Kit](https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html) installer manually,
 and provide their location to WIT using the `imagetool cache addInstaller` command.
 
 ```shell script
@@ -208,7 +215,7 @@ docker push your/repo/todo:1
 ```
 
 ### Deploying to Verrazzano
-The following steps assume that you have a Kubernetes cluster and that Verrazzano is already installed in that cluster.
+The following steps assume that you have a Kubernetes cluster and that [Verrazzano](https://verrazzano.io/docs/quickstart/#install-verrazzano) is already installed in that cluster.
 
 If you haven't already done so, edit and run the `create_k8s_secrets.sh` script to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
