@@ -76,7 +76,7 @@ imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
     --jdkVersion 8u261 \
-    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim@sha256:9b86d1332a883ee8f68dd44ba42133de518b2e0ec1cc70257e59fb4da86b1ad3 \
+    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim@sha256:fcc6f54bb01fc83319990bf5fa1b79f1dec93cbb87db3c5a8884a5a44148e7bb \
     --wdtModel bobs-bookstore-topology.yaml \
     --wdtArchive archive.zip \
     --wdtVariables properties/docker-build/bobs-bookstore-topology.properties \
