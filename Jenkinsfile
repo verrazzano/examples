@@ -332,7 +332,7 @@ def get_image_tag() {
     if ( env.BRANCH_NAME == 'master' ) {
         docker_image_tag = params.BASE_TAG + "-" + time_stamp + "-" + short_commit_sha
     } else {
-        docker_image_tag = "v0.0.0-" + time_stamp + "-" + short_commit_sha
+        docker_image_tag = time_stamp + "-" + short_commit_sha
     }
     println("image tag: " + docker_image_tag)
     return docker_image_tag
