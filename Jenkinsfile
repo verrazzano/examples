@@ -327,13 +327,12 @@ pipeline {
 }
 
 def get_image_tag() {
-    println("commit id: " + env.GIT_COMMIT)
-    short_commit_sha = env.GIT_COMMIT.substring(0,7)
-
+    time_stamp = sh(returnStdout: true, script: "date +%Y%m%d%H%M%S").trim()
+    short_commit_sha = sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
     if ( env.BRANCH_NAME == 'master' ) {
-	docker_image_tag = params.BASE_TAG + "-" + short_commit_sha + "-" + BUILD_NUMBER
+        docker_image_tag = params.BASE_TAG + "-" + time_stamp + "-" + short_commit_sha
     } else {
-	docker_image_tag = "v0.0.0-" + short_commit_sha + "-" + BUILD_NUMBER
+        docker_image_tag = time_stamp + "-" + short_commit_sha
     }
     println("image tag: " + docker_image_tag)
     return docker_image_tag
