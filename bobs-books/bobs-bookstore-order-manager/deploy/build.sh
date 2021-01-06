@@ -52,17 +52,14 @@ fi
 cp ../LICENSE.txt .
 cp ../THIRD_PARTY_LICENSES.txt .
 
-echo 'Skipping download of WebLogic Image Tool - using one built from a branch with fixes we need...'
-unzip imagetool.zip
-
-# echo 'Download WebLogic Image Tool...'
-# if [ -f imagetool.zip ]; then
-#     echo 'Using existing imagetool.zip...'
-# else
-#     echo 'Downloading imagetool.zip...'
-#     wget https://github.com/oracle/weblogic-image-tool/releases/download/release-1.9.1/imagetool.zip
-#     unzip imagetool.zip
-# fi
+echo 'Download WebLogic Image Tool...'
+if [ -f imagetool.zip ]; then
+    echo 'Using existing imagetool.zip...'
+else
+    echo 'Downloading imagetool.zip...'
+    wget https://github.com/oracle/weblogic-image-tool/releases/download/release-1.9.6/imagetool.zip
+    unzip imagetool.zip
+fi
 
 export PATH=`pwd`/imagetool/bin:$PATH
 
