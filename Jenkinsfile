@@ -14,7 +14,7 @@ pipeline {
 
     parameters {
         string (name: 'BASE_TAG',
-                defaultValue: '0.1.10-3',
+                defaultValue: '0.1.11-1',
                 description: 'Base value used as part of generated image tag',
                 trim: true)
     }
@@ -196,7 +196,6 @@ pipeline {
                                     cd deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                                    oci os object get -bn ${BUCKET_NAME} --file ${IMAGETOOL_BUNDLE} --name ${IMAGETOOL_BUNDLE}
                                     ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                                 """
