@@ -1,0 +1,34 @@
+#
+# Copyright (c) 2021 Oracle and/or its affiliates.
+#
+# Licensed under the Universal Permissive License v 1.0 as shown at
+# http://oss.oracle.com/licenses/upl.
+#
+apiVersion: coherence.oracle.com/v1
+kind: Coherence
+metadata:
+  name: roberts-coherence
+  namespace: bobs-books
+spec:
+  replicas: 3
+  image: ghcr.io/verrazzano/example-roberts-coherence:latest
+  imagePullPolicy: Always
+  env:
+    - name: BACKEND_PORT
+      value: "8001"
+    - name: BACKEND_HOSTNAME
+      value: bobs-bookstore-cluster-cluster-1.bobs-books.svc.cluster.local
+    - name: TRACING_HOST
+      value: "jaeger-collector"
+    - name: JAEGER_SAMPLER_TYPE
+      value: "const"
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+  jvm:
+    memory:
+      heapSize: 1g
+  ports:
+    - name: extend
+      port: 9000
+      service:
+        name: roberts-coherence-extend

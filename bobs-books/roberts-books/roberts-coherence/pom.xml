@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <argLine>-Dfile.encoding=UTF-8</argLine>
-        <version.lib.coherence>12.2.1-4-0</version.lib.coherence>
+        <version.lib.coherence>20.12</version.lib.coherence>
         <version.lib.netty>4.1.43.Final</version.lib.netty>
         <version.lib.httpclient>4.5.10</version.lib.httpclient>
     </properties>
@@ -103,7 +103,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.oracle.coherence</groupId>
+            <groupId>com.oracle.coherence.ce</groupId>
             <artifactId>coherence</artifactId>
             <version>${version.lib.coherence}</version>
         </dependency>
@@ -113,4 +113,48 @@
           <version>${version.lib.httpclient}</version>
         </dependency>
     </dependencies>
+
+    <profiles>
+      <profile>
+        <id>docker</id>
+        <build>
+          <plugins>
+            <plugin>
+              <groupId>com.google.cloud.tools</groupId>
+              <artifactId>jib-maven-plugin</artifactId>
+              <version>2.7.1</version>
+              <configuration>
+                <from>
+                  <image>
+                    gcr.io/distroless/java:11
+                  </image>
+                </from>
+                <to>
+                  <image>ghcr.io/verrazzano/example-${project.artifactId}</image>
+                  <tags>
+                    <tag>${project.version}</tag>
+                  </tags>
+                </to>
+                <container>
+                  <mainClass>com.tangosol.net.DefaultCacheServer</mainClass>
+                  <ports>
+                    <port>9000</port>
+                  </ports>
+                </container>
+                <containerizingMode>packaged</containerizingMode>
+              </configuration>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal>dockerBuild</goal>
+                  </goals>
+                  <phase>package</phase>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </build>
+      </profile>
+    </profiles>
+
 </project>
