@@ -1,41 +1,41 @@
-# Copyright (c) 2020, Oracle and/or its affiliates.
+# Copyright (c) 2020, 2021, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 kind: Service
 apiVersion: v1
 metadata:
-  name: ${project.artifactId}
+  name: roberts-helidon-stock-application
+  namespace: bobs-books
   labels:
-    app: ${project.artifactId}
+    app: roberts-helidon-stock-application
 spec:
-  type: NodePort
-  selector:
-    app: ${project.artifactId}
+  type: ClusterIP
   ports:
-  - port: 8080
+  - port: 80
     targetPort: 8080
-    name: http
+  selector:
+    app: roberts-helidon-stock-application
 ---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: ${project.artifactId}
+  name: roberts-helidon-stock-application
+  namespace: bobs-books
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: ${project.artifactId}
+        app: roberts-helidon-stock-application
         version: v1
     spec:
       containers:
-      - name: ${project.artifactId}
-        image: ${project.artifactId}
-        imagePullPolicy: IfNotPresent
+      - name: roberts-helidon-stock-application
+        image: ghcr.io/verrazzano/example-roberts-helidon-stock-application:test
         ports:
         - containerPort: 8080
   selector:
     matchLabels:
-      app: ${project.artifactId}
+      app: roberts-helidon-stock-application
       version: v1
 ---
