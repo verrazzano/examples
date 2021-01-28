@@ -42,7 +42,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <checkstyle.config.location>etc/checkstyle.xml</checkstyle.config.location>
-        <version.lib.coherence>12.2.1-4-0</version.lib.coherence>
+        <version.lib.coherence>20.12</version.lib.coherence>
     </properties>
 
     <build>
@@ -103,7 +103,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
@@ -207,7 +207,7 @@
         <!-- Helidon end -->
 
         <dependency>
-            <groupId>com.oracle.coherence</groupId>
+            <groupId>com.oracle.coherence.ce</groupId>
             <artifactId>coherence</artifactId>
             <version>${version.lib.coherence}</version>
         </dependency>
