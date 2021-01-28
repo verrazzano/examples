@@ -7,15 +7,14 @@ RUN yum update -y \
     && yum-config-manager --save --setopt=ol7_ociyum_config.skip_if_unavailable=true \
     && yum -y install tar gzip \
     && yum clean all; rm -rf /var/cache/yum \
-    && mkdir -p /app/lib \
-    && mkdir -p /app/conf \
+    && mkdir -p /app/libs \
     && mkdir -p /license
 
 ENV JAVA_HOME=/usr/java
 ENV PATH $JAVA_HOME/bin:$PATH
-ARG JDK_BINARY="${JDK_BINARY:-openjdk-14.0.2_linux-x64_bin.tar.gz}"
+ARG JDK_BINARY="${JDK_BINARY:-openjdk-11+28_linux-x64_bin.tar.gz}"
 COPY ${JDK_BINARY} jdk.tar.gz
-ENV JDK_DOWNLOAD_SHA256=91310200f072045dc6cef2c8c23e7e6387b37c46e9de49623ce0fa461a24623d
+ENV JDK_DOWNLOAD_SHA256=3784cfc4670f0d4c5482604c7c513beb1a92b005f569df9bf100e8bef6610f2e
 
 RUN set -eux \
     echo "Checking JDK hash"; \
@@ -25,13 +24,9 @@ RUN set -eux \
     tar xzf jdk.tar.gz --directory "${JAVA_HOME}" --strip-components=1; \
     rm -f jdk.tar.gz;
 
-ENV COH_WKA roberts-coherence-wka
-ENV COH_CLUSTER roberts-coherence
-ENV COH_CACHE_CONFIG roberts-cache-config.xml
-ENV COH_POF_CONFIG roberts-pof-config.xml
-
-COPY target/* /app/
+COPY target/libs/*.jar /app/libs/
+COPY target/*.jar /app/
 COPY LICENSE.txt /license/
 COPY THIRD_PARTY_LICENSES.txt /license/
 
-CMD java -cp /app/roberts-helidon-stock-application.jar:/app/coherence-12.2.1-4-0.jar:/app/* -Dcoherence.distributed.localstorage=true -Dcoherence.wka=$COH_WKA -Dcoherence.cluster=$COH_CLUSTER -Dcoherence.cacheconfig=$COH_CACHE_CONFIG -Dcoherence.pof.config=$COH_POF_CONFIG -Dcoherence.tracing.endpoint=zipkin.istio-system -Dcoherence.tracing.ratio=1 org.books.robert.Main
+CMD java -cp /app/*:/app/libs/* -Dcoherence.tracing.endpoint=zipkin.istio-system -Dcoherence.tracing.ratio=1 org.books.robert.Main
