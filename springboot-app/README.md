@@ -26,17 +26,18 @@ that the application requires a web container.
     mvn spring-boot:run
     ```
 
-The application provides few endpoints:
-    1. http://localhost:8080/   // index page  
-    2. http://localhost:8080/verrazzanoFact   // random verrazzano facts
-    3. http://localhost:8080/actuator  // actuator endpoint
-    4. http://localhost:8080/actuator/prometheus   // prometheus endpoint
+The application provides few endpoints:  
+    1. http://localhost:8080/   // an index page   
+    2. http://localhost:8080/verrazzanoFact   // a page displaying random verrazzano facts  
+    3. http://localhost:8080/actuator  // actuator endpoint  
+    4. http://localhost:8080/actuator/prometheus   // prometheus endpoint  
 
 ## Create a Docker image
-The Dockerfile provided in this example uses oraclelinux:7-slim as the base image, which doesn't include the Java Development Kit (JDK).
+The Dockerfile provided in this example uses Oracle Linux image as the base image, which doesn't include the Java Development Kit (JDK).
 The Dockerfile expects openjdk-11_linux-x64_bin.tar.gz in the project root directory, which is available in [OpenJDK General-Availability Releases] (https://jdk.java.net/archive/) page.
 
     ```
+    cd examples/springboot-app
     mvn package
     docker build -t example/spring-boot-application .
     ```
