@@ -1,15 +1,15 @@
 # Spring Boot Application
-Spring Boot offers a fast way to build applications. It looks at your classpath and at the beans you have configured, makes 
-reasonable assumptions about what you are missing, and adds those items. With Spring Boot, you can focus more on business
-features and less on infrastructure. More information on building an application with Spring Boot is available at
+Spring Boot offers a fast way to build applications. It examines your classpath and the beans you have configured, makes
+reasonable assumptions about what is missing, and adds those items. With Spring Boot, you can focus more on business
+features and less on infrastructure. For more information on building an application with Spring Boot, see
 https://spring.io/guides/gs/spring-boot/
 
 ## Requires
 - [Maven](https://maven.apache.org/download.cgi) (To build the Spring Boot application)
 
 ## Build and deploy the application
-The samle web application leverages the Spring Boot Maven plugin, which provides the ability to automatically deploy the
-web application in an embedded application server. Please take a look at the following dependency in pom.xml :
+The sample web application uses the Spring Boot Maven plugin, which provides the ability to automatically deploy the
+web application in an embedded application server. Look at the following dependency in the `pom.xml` file :
 
     ```
     <dependency>
@@ -18,7 +18,7 @@ web application in an embedded application server. Please take a look at the fol
     </dependency>
     ```
 
-When we execute mvn spring-boot:run command from the project root folder, the plugin reads the maven configuration and understands
+When we run `mvn spring-boot:run` command from the project root folder, the plugin reads the Maven configuration and understands
 that the application requires a web container.
 
     ```
@@ -27,15 +27,15 @@ that the application requires a web container.
     mvn spring-boot:run
     ```
 
-The application provides few endpoints:  
-    1. http://localhost:8080/   // an index page  
-    2. http://localhost:8080/facts   // a page displaying random verrazzano facts  
-    3. http://localhost:8080/actuator  // actuator endpoint  
-    4. http://localhost:8080/actuator/prometheus   // prometheus endpoint  
+The application provides a few endpoints:  
+* http://localhost:8080/   // an index page  
+* http://localhost:8080/facts   // a page displaying random Verrazzano facts  
+* http://localhost:8080/actuator  // Spring Boot actuator endpoint  
+* http://localhost:8080/actuator/prometheus   // Prometheus endpoint  
 
 ## Create a Docker image
-The Dockerfile provided in this example uses Oracle Linux image as the base image, which doesn't include the Java Development Kit (JDK).
-The Dockerfile expects openjdk-11_linux-x64_bin.tar.gz in the project root directory, which is available in [OpenJDK General-Availability Releases] (https://jdk.java.net/archive/) page.
+The Dockerfile provided in this example uses an Oracle Linux image as the base image, which doesn't include the Java Development Kit (JDK).
+The Dockerfile expects `openjdk-11_linux-x64_bin.tar.gz` in the project root directory, which is available on the [OpenJDK General-Availability Releases] (https://jdk.java.net/archive/) page.
 
     ```
     cd examples/springboot-app
