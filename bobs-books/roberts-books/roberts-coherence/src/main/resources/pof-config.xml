@@ -1,7 +1,6 @@
 <?xml version='1.0'?>
-<!-- Copyright (c) 2020, Oracle and/or its affiliates. -->
+<!-- Copyright (c) 2020, 2021, Oracle and/or its affiliates. -->
 <!-- Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl. -->
-
 <pof-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://xmlns.oracle.com/coherence/coherence-pof-config"
         xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-pof-config coherence-pof-config.xsd">
@@ -12,9 +11,9 @@
         <!-- User types must be above 1000 -->
         <user-type>
             <type-id>1001</type-id>
-            <class-name>org.books.bobby.Book</class-name>
+            <class-name>org.books.robert.Book</class-name>
             <serializer>
-                <class-name>org.books.bobby.BookSerializer</class-name>
+                <class-name>org.books.robert.BookSerializer</class-name>
             </serializer>
         </user-type>
 

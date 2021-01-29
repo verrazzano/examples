@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
-<!-- Copyright (c) 2020, Oracle and/or its affiliates. -->
+<!-- Copyright (c) 2020, 2021, Oracle and/or its affiliates. -->
 <!-- Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl. -->
+
+
 <cache-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://xmlns.oracle.com/coherence/coherence-cache-config"
-        xmlns:load="class://org.books.robert.LoadNamespaceHandler"
+        xmlns:load="class://org.books.bobby.LoadNamespaceHandler"
         xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config coherence-cache-config.xsd">
 
     <load:books file="books.csv"/>
@@ -18,10 +20,6 @@
             <scheme-name>books</scheme-name>
         </cache-mapping>
         <cache-mapping>
-            <cache-name>orders</cache-name>
-            <scheme-name>orders</scheme-name>
-        </cache-mapping>
-        <cache-mapping>
             <cache-name>loaders</cache-name>
             <scheme-name>sys</scheme-name>
         </cache-mapping>
@@ -29,8 +27,8 @@
 
     <caching-schemes>
         <proxy-scheme>
-            <scheme-name>robert-proxy-scheme</scheme-name>
-            <service-name>robert-proxy-service</service-name>
+            <scheme-name>bobbys-proxy-scheme</scheme-name>
+            <service-name>bobbys-proxy-service</service-name>
             <acceptor-config>
                 <!-- empty tcp-acceptor means to use the name service -->
                 <tcp-acceptor>
@@ -59,27 +57,7 @@
             </backing-map-scheme>
             <autostart>true</autostart>
         </distributed-scheme>
-
-        <distributed-scheme>
-            <scheme-name>orders</scheme-name>
-            <service-name>Orders</service-name>
-            <backing-map-scheme>
-                <read-write-backing-map-scheme>
-                    <internal-cache-scheme>
-                        <local-scheme>
-                            <unit-calculator>BINARY</unit-calculator>
-                        </local-scheme>
-                    </internal-cache-scheme>
-                    <cachestore-scheme>
-                        <class-scheme>
-                            <class-name>org.books.robert.OrderProcessor</class-name>
-                        </class-scheme>
-                    </cachestore-scheme>
-                </read-write-backing-map-scheme>
-            </backing-map-scheme>
-            <autostart>true</autostart>
-        </distributed-scheme>
-
+        
         <distributed-scheme>
             <scheme-name>sys</scheme-name>
             <service-name>System</service-name>

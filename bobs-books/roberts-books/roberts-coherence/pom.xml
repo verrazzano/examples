@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2020, Oracle and/or its affiliates. -->
+<!-- Copyright (c) 2020, 2021, Oracle and/or its affiliates. -->
 <!-- Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <argLine>-Dfile.encoding=UTF-8</argLine>
-        <version.lib.coherence>12.2.1-4-0</version.lib.coherence>
+        <version.lib.coherence>20.12</version.lib.coherence>
         <version.lib.netty>4.1.43.Final</version.lib.netty>
         <version.lib.httpclient>4.5.10</version.lib.httpclient>
     </properties>
@@ -87,13 +87,12 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
                             <overWriteIfNewer>true</overWriteIfNewer>
                             <includeScope>compile</includeScope>
-                            <excludeArtifactIds>coherence</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -103,7 +102,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.oracle.coherence</groupId>
+            <groupId>com.oracle.coherence.ce</groupId>
             <artifactId>coherence</artifactId>
             <version>${version.lib.coherence}</version>
         </dependency>
