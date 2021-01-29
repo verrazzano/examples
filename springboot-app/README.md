@@ -2,7 +2,7 @@
 Spring Boot offers a fast way to build applications. It examines your classpath and the beans you have configured, makes
 reasonable assumptions about what is missing, and adds those items. With Spring Boot, you can focus more on business
 features and less on infrastructure. For more information on building an application with Spring Boot, see
-https://spring.io/guides/gs/spring-boot/
+https://spring.io/guides/gs/spring-boot/.
 
 ## Requires
 - [Maven](https://maven.apache.org/download.cgi) (To build the Spring Boot application)
@@ -18,7 +18,7 @@ web application in an embedded application server. Look at the following depende
     </dependency>
     ```
 
-When we run `mvn spring-boot:run` command from the project root folder, the plugin reads the Maven configuration and understands
+When we run the `mvn spring-boot:run` command from the project root folder, the plugin reads the Maven configuration and understands
 that the application requires a web container.
 
     ```
