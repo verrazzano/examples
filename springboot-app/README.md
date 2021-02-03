@@ -11,21 +11,17 @@ https://spring.io/guides/gs/spring-boot/.
 The sample web application uses the Spring Boot Maven plugin, which provides the ability to automatically deploy the
 web application in an embedded application server. Look at the following dependency in the `pom.xml` file :
 
-    ```
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId> 
     </dependency>
-    ```
 
 When we run the `mvn spring-boot:run` command from the project root folder, the plugin reads the Maven configuration and understands
 that the application requires a web container.
 
-    ```
     git clone https://github.com/verrazzano/examples.git
     cd examples/springboot-app
     mvn spring-boot:run
-    ```
 
 The application provides a few endpoints:  
 * http://localhost:8080/   // an index page  
