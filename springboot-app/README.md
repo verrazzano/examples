@@ -33,11 +33,9 @@ The application provides a few endpoints:
 The Dockerfile provided in this example uses an Oracle Linux image as the base image, which doesn't include the Java Development Kit (JDK).
 The Dockerfile expects `openjdk-11_linux-x64_bin.tar.gz` in the project root directory, which is available on the [OpenJDK General-Availability Releases] (https://jdk.java.net/archive/) page.
 
-    ```
     cd examples/springboot-app
     mvn package
     docker build -t example/spring-boot-application .
-    ```
 
 ## Copyright
 Copyright (c) 2020, 2021, Oracle and/or its affiliates.
