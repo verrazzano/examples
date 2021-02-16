@@ -3,8 +3,15 @@
 
 package org.springboot.app;
 
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @RestController
 public class VerrazzanoFactsController {
@@ -25,5 +32,17 @@ public class VerrazzanoFactsController {
     @RequestMapping("/facts")
     public String verrazzanoFact() {
         return verrazzanoFact[(int)(Math.random()*10)];
+    }
+
+    @RequestMapping(value = "/externalCall")
+    @ResponseBody
+    public String externalCall(@RequestParam("inurl") String inurl) throws IOException {
+        System.out.println("Accessing passed in Url " + inurl);
+        URL url = new URL(inurl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        int status = con.getResponseCode();
+        System.out.println("Http Call returned " + String.valueOf(status) );
+        return String.valueOf(status);
     }
 }
