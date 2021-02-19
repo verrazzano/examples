@@ -10,9 +10,9 @@ RUN yum update -y && yum-config-manager --save --setopt=ol7_ociyum_config.skip_i
 
 ENV JAVA_HOME=/usr/java
 ENV PATH $JAVA_HOME/bin:$PATH
-ARG JDK_BINARY="${JDK_BINARY:-openjdk-11_linux-x64_bin.tar.gz}"
+ARG JDK_BINARY="${JDK_BINARY:-openjdk-11.0.2_linux-x64_bin.tar.gz}"
 COPY ${JDK_BINARY} jdk.tar.gz
-ENV JDK_DOWNLOAD_SHA256=3784cfc4670f0d4c5482604c7c513beb1a92b005f569df9bf100e8bef6610f2e
+ENV JDK_DOWNLOAD_SHA256=99be79935354f5c0df1ad293620ea36d13f48ec3ea870c838f20c504c9668b57
 
 RUN set -eux \
     echo "Checking JDK hash"; \
