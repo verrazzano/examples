@@ -46,6 +46,7 @@ public abstract class AbstractLoader<K, V> implements ElementProcessor<Void>, Lo
                 boolean fLoaded = loaders.getOrDefault(cacheName, false);
                 if (!fLoaded) {
                     NamedCache<K, V> cache = ccf.ensureCache(cacheName, null);
+                    // dummy change
                     cache.putAll(loadData(getClass().getClassLoader().getResourceAsStream(fileName)));
                     System.out.println("Loaded " + cache.size() + " entries into '" + cacheName + "' cache");
                     loaders.put(cacheName, true);
