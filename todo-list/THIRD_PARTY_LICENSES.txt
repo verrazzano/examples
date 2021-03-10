@@ -1,9 +1,9 @@
-verrazzano.example:todo
+com.oracle.weblogic.example:todo
 -------- Copyrights
 Copyright (c) 2020 Oracle America, Inc. and its affiliates. 
-// Copyright (c) 2020, Oracle Corporation and/or its affiliates.
+Copyright (c) 2020, Oracle and/or its affiliates.
 
-======== License
+-------- License
 Copyright (c) 2020 Oracle America, Inc. and its affiliates. 
 
 The Universal Permissive License (UPL), Version 1.0
@@ -44,230 +44,36 @@ THE SOFTWARE.
 
 
 
-======================= Dependencies Grouped by License ============
+----------------------- Dependencies Grouped by License ------------
 -------- Dependency
-com.google.code.gson:gson
+javax.json:javax.json-api
 -------- Copyrights
- * Copyright (C) 2008 Google Inc.
- * Copyright (C) 2009 Google Inc.
- * Copyright (C) 2010 Google Inc.
- * Copyright (C) 2011 Google Inc.
- * Copyright (C) 2014 Google Inc.
- * Copyright (C) 2010 The Android Open Source Project
- * Copyright (C) 2012 Google Inc.
-
--------- Dependency
-com.squareup.okhttp3:okhttp
--------- Copyrights
- * Copyright (C) 2012 The Android Open Source Project
- * Copyright (C) 2015 Square, Inc.
- * Copyright (C) 2010 The Android Open Source Project
- * Copyright (C) 2014 Square, Inc.
- * Copyright (C) 2013 Square, Inc.
- * Copyright (C) 2012 Square, Inc.
- * Copyright (C) 2017 Square, Inc.
- * Copyright (C) 2016 Square, Inc.
- * Copyright (C) 2011 The Android Open Source Project
- * Copyright 2013 Twitter, Inc.
-
--------- Dependency
-com.squareup.okio:okio
--------- Copyrights
- * Copyright (C) 2014 Square, Inc.
- * Copyright 2014 Square Inc.
- * Copyright (C) 2015 Square, Inc.
- * Copyright (C) 2016 Square, Inc.
- * Copyright (C) 2017 Square, Inc.
-
--------- Dependency
-io.jaegertracing:jaeger-client
--------- Copyrights
- * Copyright (c) 2018, The Jaeger Authors
-
--------- Dependency
-io.jaegertracing:jaeger-core
--------- Copyrights
- * Copyright (c) 2018, The Jaeger Authors
- * Copyright (c) 2016, Uber Technologies, Inc
- * Copyright (c) 2017, Uber Technologies, Inc
- * Copyright (c) 2017, The Jaeger Authors
- * Copyright (c) 2019, The Jaeger Authors
- * Copyright (c) 2016-2017, Uber Technologies, Inc
-
--------- Dependency
-io.jaegertracing:jaeger-micrometer
--------- Copyrights
- * Copyright (c) 2017, The Jaeger Authors
-
--------- Dependency
-io.jaegertracing:jaeger-thrift
--------- Copyrights
- * Copyright (c) 2016, Uber Technologies, Inc
- * Copyright (c) 2016-2018, The Jaeger Authors
-
--------- Dependency
-io.jaegertracing:jaeger-tracerresolver
--------- Copyrights
- * Copyright (c) 2018, The Jaeger Authors
- * Copyright (c) 2017, Uber Technologies, Inc
-
--------- Dependency
-io.jaegertracing:jaeger-zipkin
--------- Copyrights
- * Copyright (c) 2016, Uber Technologies, Inc
- * Copyright (c) 2018, The Jaeger Authors
-
--------- Dependency
-io.micrometer:micrometer-core
--------- Copyrights
- * Copyright 2017 Pivotal Software, Inc.
-
--------- Dependency
-io.opentracing.contrib:opentracing-concurrent
--------- Copyrights
-
--------- Dependency
-io.opentracing.contrib:opentracing-jaxrs2
--------- Copyrights
-
--------- Dependency
-io.opentracing.contrib:opentracing-jaxrs2-discovery
--------- Copyrights
-
--------- Dependency
-io.opentracing.contrib:opentracing-tracerresolver
--------- Copyrights
- * Copyright 2017 The OpenTracing Authors
- * Copyright 2017-2018 The OpenTracing Authors
- * Copyright 2017-2019 The OpenTracing Authors
-
--------- Dependency
-io.opentracing.contrib:opentracing-web-servlet-filter
--------- Copyrights
- * Copyright 2016-2018 The OpenTracing Authors
-
--------- Dependency
-io.opentracing:opentracing-api
--------- Copyrights
- * Copyright 2016-2019 The OpenTracing Authors
-
--------- Dependency
-io.opentracing:opentracing-noop
--------- Copyrights
- * Copyright 2016-2019 The OpenTracing Authors
-
--------- Dependency
-io.opentracing:opentracing-util
--------- Copyrights
- * Copyright 2016-2019 The OpenTracing Authors
-
--------- Dependency
-io.zipkin.reporter2:zipkin-reporter
--------- Copyrights
- * Copyright 2016-2018 The OpenZipkin Authors
-
--------- Dependency
-io.zipkin.reporter2:zipkin-sender-urlconnection
--------- Copyrights
- * Copyright 2016-2018 The OpenZipkin Authors
-
--------- Dependency
-io.zipkin.zipkin2:zipkin
--------- Copyrights
- * Copyright 2015-2018 The OpenZipkin Authors
+Copyright (c) 2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2011-2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2013-2018 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2013-2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2011-2018 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2015-2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2012-2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2016-2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2012-2018 Oracle and/or its affiliates. All rights reserved.
 
 -------- Dependency
 javax.ws.rs:javax.ws.rs-api
 -------- Copyrights
- * Copyright (c) 2010-2015 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2012-2015 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2010-2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2011-2015 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2013-2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2011-2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2012-2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2015-2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2013-2015 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2010-2013 Oracle and/or its affiliates. All rights reserved.
- * Copyright (C) 2006 Google Inc.
+Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2011, 2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2015, 2017 Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2006 Google Inc.
 
--------- Dependency
-org.apache.httpcomponents:httpclient
--------- Copyrights
-
--------- Dependency
-org.apache.httpcomponents:httpcore
--------- Copyrights
-
--------- Dependency
-org.apache.thrift:libthrift
--------- Copyrights
-
--------- Dependency
-org.eclipse.microprofile.opentracing:microprofile-opentracing-api
--------- Copyrights
- * Copyright (c) 2017 Contributors to the Eclipse Foundation
-
--------- Dependency
-org.hdrhistogram:HdrHistogram
--------- Copyrights
-
--------- Dependency
-org.latencyutils:LatencyUtils
--------- Copyrights
-
--------- Dependency
-org.osgi:org.osgi.annotation.versioning
--------- Copyrights
- * Copyright (c) OSGi Alliance (2013, 2014). All Rights Reserved.
- * Copyright (c) OSGi Alliance (2013). All Rights Reserved.
-
--------- Dependency
-org.slf4j:slf4j-api
--------- Copyrights
- * Copyright (c) 2004-2011 QOS.ch
-
--------- Dependency
-org.slf4j:slf4j-simple
--------- Copyrights
- * Copyright (c) 2004-2012 QOS.ch
- * Copyright (c) 2004-2011 QOS.ch
-
-======== Dependencies Summary
-com.google.code.gson:gson
-com.squareup.okhttp3:okhttp
-com.squareup.okio:okio
-io.jaegertracing:jaeger-client
-io.jaegertracing:jaeger-core
-io.jaegertracing:jaeger-micrometer
-io.jaegertracing:jaeger-thrift
-io.jaegertracing:jaeger-tracerresolver
-io.jaegertracing:jaeger-zipkin
-io.micrometer:micrometer-core
-io.opentracing.contrib:opentracing-concurrent
-io.opentracing.contrib:opentracing-jaxrs2
-io.opentracing.contrib:opentracing-jaxrs2-discovery
-io.opentracing.contrib:opentracing-tracerresolver
-io.opentracing.contrib:opentracing-web-servlet-filter
-io.opentracing:opentracing-api
-io.opentracing:opentracing-noop
-io.opentracing:opentracing-util
-io.zipkin.reporter2:zipkin-reporter
-io.zipkin.reporter2:zipkin-sender-urlconnection
-io.zipkin.zipkin2:zipkin
+-------- Dependencies Summary
+javax.json:javax.json-api
 javax.ws.rs:javax.ws.rs-api
-org.apache.httpcomponents:httpclient
-org.apache.httpcomponents:httpcore
-org.apache.thrift:libthrift
-org.eclipse.microprofile.opentracing:microprofile-opentracing-api
-org.hdrhistogram:HdrHistogram
-org.latencyutils:LatencyUtils
-org.osgi:org.osgi.annotation.versioning
-org.slf4j:slf4j-api
-org.slf4j:slf4j-simple
 
-======== License used by Dependencies
+-------- License used by Dependencies
 SPDX:Apache-2.0
                                  Apache License
                            Version 2.0, January 2004
