@@ -9,3 +9,4 @@ This repoository contains the following attribution files:
 ./bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web/src/THIRD_PARTY_LICENSES.txt
 ./hello-helidon/helidon-app-greet-v2/THIRD_PARTY_LICENSES.txt
 ./hello-helidon/helidon-app-greet-v1/THIRD_PARTY_LICENSES.txt
+./todo-list/THIRD_PARTY_LICENSES.txt

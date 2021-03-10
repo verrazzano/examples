@@ -6,3 +6,4 @@ bobs-books/bobs-bookstore-order-manager/deploy/exporter-config.yaml
 bobs-books/bobs-bookstore-order-manager/deploy/imagetool-additions
 todo-list/setup/wdt_domain.yaml
 todo-list/src/main/webapp/WEB-INF/META-INF/MANIFEST.MF
+todo-list/deploy/imagetool-additions

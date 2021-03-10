@@ -38,6 +38,7 @@ pipeline {
         ROBERTS_COHERENCE = 'example-roberts-coherence'
         BOBBYS_WEBLOGIC = 'example-bobbys-front-end'
         BOBS_WEBLOGIC = 'example-bobs-bookstore-order-manager'
+        TODO_WEBLOGIC = 'example-todo'
         HELLO_HELIDON_V1 = 'example-helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'example-helidon-greet-app-v2'
         VERSION = get_image_tag()
@@ -310,6 +311,37 @@ pipeline {
                         stage('Scan Hello Helidon V2 Application') {
                             steps {
                                 clairScan("${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}", "hello_helidon_v2.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                stage ('TODO List') {
+                    stages {
+                        stage('Build TODO List WebLogic Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
+                                    cd examples/todo-list
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    cd deploy
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
+                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
+                                    ./build.sh ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan TODO List WebLogic Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}", "todo_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
