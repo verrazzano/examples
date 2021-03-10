@@ -40,6 +40,7 @@ pipeline {
         BOBS_WEBLOGIC = 'example-bobs-bookstore-order-manager'
         HELLO_HELIDON_V1 = 'example-helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'example-helidon-greet-app-v2'
+        HELIDON_CONFIG = 'example-helidon-config-app'
         VERSION = get_image_tag()
 
         // secrets used during build
@@ -318,6 +319,34 @@ pipeline {
                             }
                         }
                     }
+                }
+
+                stage('Helidon Config') {
+                     stages {
+                         stage('Build Helidon Config Application') {
+                             steps {
+                                 sh """
+                                     echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                     cd examples/helidon-config/
+                                     mvn -B -s $MAVEN_SETTINGS clean install
+                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                     docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELIDON_CONFIG}:${env.VERSION} .
+                                     docker push ${env.REPO}/${env.HELIDON_CONFIG}:${env.VERSION}
+                                 """
+                             }
+                         }
+
+                         stage('Scan Helidon Config Application') {
+                             steps {
+                                 clairScan("${env.REPO}/${env.HELIDON_CONFIG}:${env.VERSION}", "helidon_config.scanning-report.json")
+                             }
+                             post {
+                                 always {
+                                     archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                 }
+                             }
+                         }
+                     }
                 }
             }
         }
