@@ -6,7 +6,7 @@ properties in configmap can be directly reflected in application without requiri
 ## Build the Docker Image
 
 ```
-docker build -t helidon-config .
+docker build -f Dockerfile.local -t helidon-config .
 ```
 
 ## Deploy the application to Kubernetes
