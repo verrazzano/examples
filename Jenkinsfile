@@ -328,6 +328,8 @@ pipeline {
                                  sh """
                                      echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                      cd examples/helidon-config/
+                                     java -version
+                                     echo "${MAVEN_SETTINGS}"
                                      mvn -B -s $MAVEN_SETTINGS clean install
                                      oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                      docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELIDON_CONFIG}:${env.VERSION} .
