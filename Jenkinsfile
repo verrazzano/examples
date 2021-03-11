@@ -98,58 +98,6 @@ pipeline {
 
         stage('Parallel builds') {
             parallel {
-                stage('Hello Helidon') {
-                    stages {
-                        stage('Build Hello Helidon V1 Application') {
-                            steps {
-                                sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
-                                    cd examples/hello-helidon/helidon-app-greet-v1
-                                    mvn -B -s $MAVEN_SETTINGS clean install
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
-                                    docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION} .
-                                    docker push ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}
-                                """
-                            }
-                        }
-
-                        stage('Scan Hello Helidon V1 Application') {
-                            steps {
-                                clairScan("${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}", "hello_helidon_v1.scanning-report.json")
-                            }
-                            post {
-                                always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
-                                }
-                            }
-                        }
-
-                        stage('Build Hello Helidon V2 Application') {
-                            steps {
-                                sh """
-                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
-                                    cd examples/hello-helidon/helidon-app-greet-v2
-                                    mvn -B -s $MAVEN_SETTINGS clean install
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
-                                    docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION} .
-                                    docker push ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}
-                                """
-                            }
-                        }
-
-                        stage('Scan Hello Helidon V2 Application') {
-                            steps {
-                                clairScan("${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}", "hello_helidon_v2.scanning-report.json")
-                            }
-                            post {
-                                always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
-                                }
-                            }
-                        }
-                    }
-                }
-
                 stage('Helidon Config') {
                      stages {
                          stage('Build Helidon Config Application') {
@@ -159,6 +107,8 @@ pipeline {
                                      env
                                      cd examples/helidon-config/
                                      java -version
+                                     echo "\${JAVA_HOME}"
+                                     echo "\${env.JAVA_HOME}"
                                      mvn -B -s $MAVEN_SETTINGS clean install
                                      oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                      docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELIDON_CONFIG}:${env.VERSION} .
