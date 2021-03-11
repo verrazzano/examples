@@ -42,12 +42,11 @@ public abstract class AbstractLoader<K, V> implements ElementProcessor<Void>, Lo
     public void load(ConfigurableCacheFactory ccf) {
         NamedCache<String, Boolean> loaders = ccf.ensureCache("loaders", null);
         if (loaders.lock(cacheName, 0)) {
-            try {
+            try (InputStream is = getClass().getClassLoader().getResourceAsStream(fileName)) {
                 boolean fLoaded = loaders.getOrDefault(cacheName, false);
                 if (!fLoaded) {
                     NamedCache<K, V> cache = ccf.ensureCache(cacheName, null);
-                    // dummy change
-                    cache.putAll(loadData(getClass().getClassLoader().getResourceAsStream(fileName)));
+                    cache.putAll(loadData(is));
                     System.out.println("Loaded " + cache.size() + " entries into '" + cacheName + "' cache");
                     loaders.put(cacheName, true);
                 }
