@@ -96,18 +96,239 @@ pipeline {
             }
         }
 
+        stage('Copyright Compliance Check') {
+            when { not { buildingTag() } }
+            steps {
+                copyrightScan "${WORKSPACE}/examples"
+            }
+        }
+
         stage('Parallel builds') {
             parallel {
+                stage ('Bobbys Books') {
+                    stages {
+                        stage('Build Bobbys Coherence Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    cd examples/bobs-books/bobbys-books/bobbys-coherence
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Bobbys Coherence Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}", "bobby_coherence.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+
+                        stage('Build Bobbys Helidon Stock Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    cd examples/bobs-books/bobbys-books/bobbys-helidon-stock-application
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Bobbys Helidon Stock Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}", "bobby_helidon.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+
+                        stage('Build Bobbys Front-end WebLogic Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
+                                    cd examples/bobs-books/bobbys-books/bobbys-front-end
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    cd deploy
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
+                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
+                                    ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Bobbys Front-end WebLogic Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}", "bobby_weblogic.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage('Bobs Backend') {
+                    stages {
+                        stage('Build Bobs Backend WebLogic Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
+                                    cd examples/bobs-books/bobs-bookstore-order-manager
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    cd deploy
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
+                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
+                                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Bobs Backend WebLogic Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}", "bobs_weblogic.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage('Roberts Books') {
+                    stages {
+                        stage('Build Roberts Coherence Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    cd examples/bobs-books/roberts-books/roberts-coherence
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Roberts Coherence Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}", "roberts_coherence.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+
+                        stage('Build Roberts Helidon Stock Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    cd examples/bobs-books/roberts-books/roberts-helidon-stock-application/src/main/web
+                                    npm install
+                                    cd ../../..
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Roberts Helidon Stock Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}", "roberts_helidon.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage('Hello Helidon') {
+                    stages {
+                        stage('Build Hello Helidon V1 Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    cd examples/hello-helidon/helidon-app-greet-v1
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Hello Helidon V1 Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}", "hello_helidon_v1.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+
+                        stage('Build Hello Helidon V2 Application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    cd examples/hello-helidon/helidon-app-greet-v2
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
+                                    docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Hello Helidon V2 Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}", "hello_helidon_v2.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+                    }
+                }
+
                 stage('Helidon Config') {
                      stages {
                          stage('Build Helidon Config Application') {
                              steps {
                                  sh """
                                      echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
-                                     env
                                      cd examples/helidon-config/
                                      java -version
-                                     echo "\${JAVA_11_HOME}"
                                      mvn -B -s $MAVEN_SETTINGS -Dmaven.compiler.fork=true -Dmaven.compiler.executable=\${JAVA_11_HOME}/bin/javac clean install
                                      oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                      docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELIDON_CONFIG}:${env.VERSION} .
