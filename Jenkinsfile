@@ -107,9 +107,8 @@ pipeline {
                                      env
                                      cd examples/helidon-config/
                                      java -version
-                                     echo "\${JAVA_HOME}"
-                                     echo "\${env.JAVA_HOME}"
-                                     mvn -B -s $MAVEN_SETTINGS clean install
+                                     echo "\${JAVA_11_HOME}"
+                                     mvn -B -s $MAVEN_SETTINGS -Dmaven.compiler.fork=true -Dmaven.compiler.executable=\${JAVA_11_HOME}/bin/javac clean install
                                      oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                      docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELIDON_CONFIG}:${env.VERSION} .
                                      docker push ${env.REPO}/${env.HELIDON_CONFIG}:${env.VERSION}
