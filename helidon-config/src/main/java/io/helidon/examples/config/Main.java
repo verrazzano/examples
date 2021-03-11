@@ -31,15 +31,18 @@ public final class Main {
      */
     public static void main(final String[] args) {
 
+        // Build Helidon SE config
+        // Doing this as existing MpConfigSources.create(path) doesn't support watch/poll
+        // Other option is to build a custom MpConfigSource and implement watch/poll on it
         Config config = buildConfig();
-
         logConfig(config);
-
         // subscribe using simple onChange consumer
+        // This is just to log the change, if any.
         config.onChange(Main::logConfig);
 
-        //Do this as there is bug in config/jpa
+        // Do this as there is bug in config/jpa
         ConfigProviderResolver configProviderResolver = ConfigProviderResolver.instance();
+        // Build Microprofile config from Heldion SE config instance
         org.eclipse.microprofile.config.Config mpConfig = configProviderResolver.getBuilder().withSources(MpConfigSources.create(config)).build();
         configProviderResolver.registerConfig(mpConfig,null);
 
@@ -47,8 +50,8 @@ public final class Main {
     }
 
     /**
-     * Load the configuration from all sources.
-     * @return the configuration root
+     * Build custom Helidon SE config based on file source and poll for changes.
+     * @return Helidon SE config
      */
     static Config buildConfig() {
         return Config.
@@ -59,6 +62,10 @@ public final class Main {
                 .build();
     }
 
+    /**
+     * Log the change in config
+     * @param config object passed here is the one which is generated onChnage
+     */
     private static void logConfig(Config config) {
         LOGGER.info("Loaded config are: " + config.get("app.greeting"));
     }
