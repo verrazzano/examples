@@ -96,12 +96,12 @@ pipeline {
             }
         }
 
-        //stage('Copyright Compliance Check') {
-        //    when { not { buildingTag() } }
-        //    steps {
-        //        copyrightScan "${WORKSPACE}/examples"
-        //    }
-        //}
+        stage('Copyright Compliance Check') {
+            when { not { buildingTag() } }
+            steps {
+                copyrightScan "${WORKSPACE}/examples"
+            }
+        }
 
         stage('Parallel builds') {
             parallel {
