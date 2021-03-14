@@ -1,3 +1,5 @@
+# Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 domainInfo:
   AdminUserName: '@@SECRET:__weblogic-credentials__:username@@'
   AdminPassword: '@@SECRET:__weblogic-credentials__:password@@'
@@ -13,3 +15,9 @@ appDeployments:
       SourcePath: wlsdeploy/applications/todo.war
       ModuleType: war
       Target: 'AdminServer'
+    'wls-exporter':
+      SourcePath: 'wlsdeploy/applications/wls-exporter.war'
+      ModuleType: war
+      Target: 'AdminServer'
+      StagingMode: nostage
+      PlanStagingMode: nostage

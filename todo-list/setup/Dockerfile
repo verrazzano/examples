@@ -40,9 +40,9 @@ RUN chown -R oracle:root ${WDT_HOME}/models
 #
 # Copy license and third party attribution files when we have them
 #
-#COPY LICENSE.txt ${LICENSE_DIR}/
-#COPY THIRD_PARTY_LICENSES.txt ${LICENSE_DIR}/
-#RUN chown -R oracle:root ${LICENSE_DIR}
+COPY LICENSE.txt ${LICENSE_DIR}/
+COPY THIRD_PARTY_LICENSES.txt ${LICENSE_DIR}/
+RUN chown -R oracle:root ${LICENSE_DIR}
 
 WORKDIR ${ORACLE_HOME}
 USER oracle
