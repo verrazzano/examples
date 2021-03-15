@@ -1,8 +1,8 @@
-# Copyright (c) 2020, Oracle and/or its affiliates.
+# Copyright (c) 2020, 2021, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 bobs-books/bobbys-books/bobbys-front-end/deploy/exporter-config.yaml
 bobs-books/bobbys-books/bobbys-front-end/deploy/imagetool-additions
 bobs-books/bobs-bookstore-order-manager/deploy/exporter-config.yaml
 bobs-books/bobs-bookstore-order-manager/deploy/imagetool-additions
-todo-list/setup/wdt_domain.yaml
+todo-list/setup/exporter-config.yaml
 todo-list/src/main/webapp/WEB-INF/META-INF/MANIFEST.MF

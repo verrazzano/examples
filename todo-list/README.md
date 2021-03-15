@@ -198,7 +198,7 @@ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/fmw_12.2.
 $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/weblogic-deploy.zip --type wdt --version latest
 
 # Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.
-$WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --vzModel ./model.yaml --wdtModelOnly
+$WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --resourceTemplates ./model.yaml --wdtModelOnly
 ```
 
 The `imagetool create` command creates a local Docker image and updates the Verrazzano model with the domain home
