@@ -1,15 +1,11 @@
 
 ## Hello World Helidon Application
 
-This example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
+This example application provides a simple Hello World REST service written with [Helidon](https://helidon.io).
 
-This example application has two endpoint/flavors
-- /greet which uses micro-profile properties file as config source
-- /config which uses k8s configmap as config source
+### Install the example application
 
-### Install the Example Application
+This example Hello World Helidon application has two endpoints:
 
-Detailed instructions for installing Hello World Helidon can be found 
-
-- [/greet](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
-- [/config](https://github.com/verrazzano/verrazzano/blob/master/examples/helidon-config/README.md).
+- `/greet`, which uses microprofile properties file as a configuration source. Installation instructions are specified as part of [hello-helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md) example.
+- `/config`, which uses a Kubernetes ConfigMap as a configuration source. Installation instructions are specified as part of [helidon-config](https://github.com/verrazzano/verrazzano/blob/master/examples/helidon-config/README.md) example.
