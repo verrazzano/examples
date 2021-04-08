@@ -20,6 +20,7 @@ import static java.time.Duration.ofSeconds;
  * The application main class.
  */
 public final class Main {
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     /**
      * Cannot be instantiated.
@@ -41,8 +42,8 @@ public final class Main {
 
         if (isConfig != null) {
             // start the server
-            Server server = startConfigServer();
-            System.out.println("http://localhost:" + server.port() + "/config");
+            startConfigServer(args);
+            //System.out.println("http://localhost:" + server.port() + "/config");
         } else {
             // start the server
             Server server = startServer();
@@ -72,9 +73,8 @@ public final class Main {
 
     /**
      * Start the server with custom config.
-     * @return the created {@link Server} instance
      */
-    static Server startConfigServer() {
+    static void startConfigServer(String[] args) {
         // Build custom Helidon SE config based on file source and poll for changes.
         // Doing this as existing MpConfigSources.create(path) doesn't support watch/poll
         // Other option is to build a custom MpConfigSource and implement watch/poll on it
