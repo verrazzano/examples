@@ -43,12 +43,11 @@ public final class Main {
             LOGGER.info("Starting server based on custom configmap configuration");
             // start the server
             startConfigServer(args);
-            //System.out.println("http://localhost:" + server.port() + "/config");
         } else {
             LOGGER.info("Starting server based on default configuration");
             // start the server
             Server server = startServer();
-            //System.out.println("http://localhost:" + server.port() + "/greet");
+            System.out.println("http://localhost:" + server.port() + "/greet");
         }
     }
 
