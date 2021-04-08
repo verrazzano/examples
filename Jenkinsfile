@@ -276,7 +276,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/hello-helidon/helidon-app-greet-v1
-                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    mvn -B -s $MAVEN_SETTINGS -Dmaven.compiler.fork=true -Dmaven.compiler.executable=\${JAVA_11_HOME}/bin/javac clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                     docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}
@@ -300,7 +300,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/hello-helidon/helidon-app-greet-v2
-                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    mvn -B -s $MAVEN_SETTINGS -Dmaven.compiler.fork=true -Dmaven.compiler.executable=\${JAVA_11_HOME}/bin/javac clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                     docker image build --build-arg JDK_BINARY=${JDK14_BUNDLE} -t ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}
