@@ -47,7 +47,7 @@ public class OrderResource {
         Statement statement = null, innerStatement = null;
         ResultSet resultSet = null, innerResultSet = null;
         try {
-			Span tracingSpan = buildSpan("orderResource.getOrders", httpHeaders);
+	    Span tracingSpan = buildSpan("orderResource.getOrders", httpHeaders);
             InitialContext ctx = new InitialContext();
             DataSource booksDS = (DataSource) ctx.lookup("jdbc/books");
             connection = booksDS.getConnection();
@@ -91,20 +91,24 @@ public class OrderResource {
                             .build())
                     .build();
 	} finally {
-            if (connection != null) {
-               connection.close();
-            }
-            if (statement != null) {
-               statement.close();
-            }
-            if (innerStatement != null) {
-               innerStatement.close();
-            }
-            if (resultSet != null) {
-               resultSet.close();
-            }
-            if (innerResultSet != null) {
-               innerResultSet.close();
+            try {
+               if (connection != null) {
+                  connection.close();
+               }
+               if (statement != null) {
+                  statement.close();
+               }
+               if (innerStatement != null) {
+                  innerStatement.close();
+               }
+               if (resultSet != null) {
+                  resultSet.close();
+               }
+               if (innerResultSet != null) {
+                  innerResultSet.close();
+               }
+            } catch (SQLException ex) {
+               logger.error("Error closing JDBC resources", ex);
             }
       	    if (tracingScope != null) {
 	       finishTracing(tracingScope);
@@ -155,22 +159,26 @@ public class OrderResource {
 
 
         } catch (Exception e) {
-			logger.error("Error accessing database", e);
+          logger.error("Error accessing database", e);
 	} finally {
-            if (connection != null) {
-	       connection.close();
-            }
-            if (statement != null) {
-               statement.close();
-            }
-            if (statement2 != null) {
-               statement2.close();
-            }
-            if (rs2 != null) {
-               rs2.close();
-            }
-            if (innerStatement != null) {
-               innerStatement.close();
+            try {
+               if (connection != null) {
+	          connection.close();
+               }
+               if (statement != null) {
+                  statement.close();
+               }
+               if (statement2 != null) {
+                  statement2.close();
+               }
+               if (rs2 != null) {
+                  rs2.close();
+               }
+               if (innerStatement != null) {
+                  innerStatement.close();
+               }
+            } catch (SQLException ex) {
+               logger.error("Error closing JDBC resources", ex); 
             }
 	    if (tracingScope != null) {
 	       finishTracing(tracingScope);
