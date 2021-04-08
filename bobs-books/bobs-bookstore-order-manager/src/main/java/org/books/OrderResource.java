@@ -42,20 +42,23 @@ public class OrderResource {
     @GET
     @Produces("application/json")
     public Response getOrders() {
-		Scope tracingScope = null;
+	Scope tracingScope = null;
+        Connection connection = null;
+        Statement statement = null, innerStatement = null;
+        ResultSet resultSet = null, innerResultSet = null;
         try {
 			Span tracingSpan = buildSpan("orderResource.getOrders", httpHeaders);
             InitialContext ctx = new InitialContext();
             DataSource booksDS = (DataSource) ctx.lookup("jdbc/books");
-            Connection connection = booksDS.getConnection();
+            connection = booksDS.getConnection();
             tracingScope = startTracing(tracingSpan, connection);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet =
+            statement = connection.createStatement();
+            resultSet =
                     statement.executeQuery("select id, order_date, name, street, city, state from orders");
             JsonArrayBuilder jab = bf.createArrayBuilder();
             while (resultSet.next()) {
-                Statement innerStatement = connection.createStatement();
-                ResultSet innerResultSet =
+                innerStatement = connection.createStatement();
+                innerResultSet =
                         innerStatement.executeQuery("select book_id, title from order_books " +
                                 "where order_id = " + resultSet.getInt("id"));
                 JsonArrayBuilder bab = bf.createArrayBuilder();
@@ -112,15 +115,19 @@ public class OrderResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createOrder(Order order) {
-		Scope tracingScope = null;
+	Scope tracingScope = null;
+        Connection connection = null;
+        PreparedStatement statement = null, innerStatement = null;
+        Statement statement2 = null;
+        ResultSet rs2 = null; 
         try {
-			Span tracingSpan = buildSpan("orderResource.createOrder", httpHeaders);
-			logger.info("[order manager] order=" + order.toString());
+	    Span tracingSpan = buildSpan("orderResource.createOrder", httpHeaders);
+            logger.info("[order manager] order=" + order.toString());
             InitialContext ctx = new InitialContext();
             DataSource booksDS = (DataSource) ctx.lookup("jdbc/books");
-            Connection connection = booksDS.getConnection();
+            connection = booksDS.getConnection();
        	    tracingScope = startTracing(tracingSpan, connection);
-            PreparedStatement statement = connection.prepareStatement(
+            statement = connection.prepareStatement(
                     "insert into orders (order_date, name, street, city, state) " +
 							"values (curdate(), ?, ?, ?, ?)");
             statement.setString(1, order.getCustomer().getName());
@@ -129,15 +136,15 @@ public class OrderResource {
             statement.setString(4, order.getCustomer().getState());
             statement.execute();
 
-            Statement statement2 = connection.createStatement();
-            ResultSet rs2 = statement2.executeQuery("select max(id) as order_id from orders");
+            statement2 = connection.createStatement();
+            rs2 = statement2.executeQuery("select max(id) as order_id from orders");
             int orderId = -1;
             while(rs2.next()) {
                 orderId = rs2.getInt("order_id");
             }
 
             for (Book book : order.getBooks()) {
-                PreparedStatement innerStatement = connection.prepareStatement(
+                innerStatement = connection.prepareStatement(
                         "insert into order_books (order_id, book_id, title) " +
                                 "values (?, ?, ?)");
                 innerStatement.setInt(1, orderId);
