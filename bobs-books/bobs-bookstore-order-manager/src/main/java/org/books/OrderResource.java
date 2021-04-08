@@ -48,7 +48,7 @@ public class OrderResource {
             InitialContext ctx = new InitialContext();
             DataSource booksDS = (DataSource) ctx.lookup("jdbc/books");
             Connection connection = booksDS.getConnection();
-			tracingScope = startTracing(tracingSpan, connection);
+            tracingScope = startTracing(tracingSpan, connection);
             Statement statement = connection.createStatement();
             ResultSet resultSet =
                     statement.executeQuery("select id, order_date, name, street, city, state from orders");
@@ -75,10 +75,7 @@ public class OrderResource {
                                 .add("state", resultSet.getString("state")).build())
                         .add("books", bab);
                 jab.add(job.build());
-                innerResultSet.close();
             }
-            resultSet.close();
-            connection.close();
             return Response.ok(jab.build()).build();
 
         } catch (Exception e) {
@@ -90,10 +87,25 @@ public class OrderResource {
                                     .add("database", "error"))
                             .build())
                     .build();
-		} finally {
-			if (tracingScope != null) {
-				finishTracing(tracingScope);
-			}
+	} finally {
+            if (connection != null) {
+               connection.close();
+            }
+            if (statement != null) {
+               statement.close();
+            }
+            if (innerStatement != null) {
+               innerStatement.close();
+            }
+            if (resultSet != null) {
+               resultSet.close();
+            }
+            if (innerResultSet != null) {
+               innerResultSet.close();
+            }
+      	    if (tracingScope != null) {
+	       finishTracing(tracingScope);
+       	    }
         }
     }
 
@@ -107,7 +119,7 @@ public class OrderResource {
             InitialContext ctx = new InitialContext();
             DataSource booksDS = (DataSource) ctx.lookup("jdbc/books");
             Connection connection = booksDS.getConnection();
-			tracingScope = startTracing(tracingSpan, connection);
+       	    tracingScope = startTracing(tracingSpan, connection);
             PreparedStatement statement = connection.prepareStatement(
                     "insert into orders (order_date, name, street, city, state) " +
 							"values (curdate(), ?, ?, ?, ?)");
@@ -116,7 +128,6 @@ public class OrderResource {
             statement.setString(3, order.getCustomer().getCity());
             statement.setString(4, order.getCustomer().getState());
             statement.execute();
-            statement.close();
 
             Statement statement2 = connection.createStatement();
             ResultSet rs2 = statement2.executeQuery("select max(id) as order_id from orders");
@@ -124,8 +135,6 @@ public class OrderResource {
             while(rs2.next()) {
                 orderId = rs2.getInt("order_id");
             }
-            rs2.close();
-            statement2.close();
 
             for (Book book : order.getBooks()) {
                 PreparedStatement innerStatement = connection.prepareStatement(
@@ -135,18 +144,31 @@ public class OrderResource {
                 innerStatement.setInt(2, book.getBookId());
                 innerStatement.setString(3, book.getTitle());
                 innerStatement.execute();
-                innerStatement.close();
             }
 
-            connection.close();
 
         } catch (Exception e) {
 			logger.error("Error accessing database", e);
-		} finally {
-			if (tracingScope != null) {
-				finishTracing(tracingScope);
-			}
-		}
+	} finally {
+            if (connection != null) {
+	       connection.close();
+            }
+            if (statement != null) {
+               statement.close();
+            }
+            if (statement2 != null) {
+               statement2.close();
+            }
+            if (rs2 != null) {
+               rs2.close();
+            }
+            if (innerStatement != null) {
+               innerStatement.close();
+            }
+	    if (tracingScope != null) {
+	       finishTracing(tracingScope);
+            }
+	}
     }
 
 	private Scope startTracing(Span tracingSpan, Connection connection) throws SQLException {
