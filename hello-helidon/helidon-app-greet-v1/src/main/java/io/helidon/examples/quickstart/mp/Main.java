@@ -4,9 +4,17 @@ package io.helidon.examples.quickstart.mp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Logger;
 import java.util.logging.LogManager;
 
+import io.helidon.config.Config;
+import io.helidon.config.ConfigSources;
+import io.helidon.config.mp.MpConfigSources;
+import io.helidon.config.PollingStrategies;
 import io.helidon.microprofile.server.Server;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
+
+import static java.time.Duration.ofSeconds;
 
 /**
  * The application main class.
