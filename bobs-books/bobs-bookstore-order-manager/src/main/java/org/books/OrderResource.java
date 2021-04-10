@@ -42,116 +42,126 @@ public class OrderResource {
     @GET
     @Produces("application/json")
     public Response getOrders() {
-		Scope tracingScope = null;
+	Scope tracingScope = null;
+        JsonArrayBuilder jab = null; 
         try {
-			Span tracingSpan = buildSpan("orderResource.getOrders", httpHeaders);
+	    Span tracingSpan = buildSpan("orderResource.getOrders", httpHeaders);
             InitialContext ctx = new InitialContext();
             DataSource booksDS = (DataSource) ctx.lookup("jdbc/books");
-            Connection connection = booksDS.getConnection();
-			tracingScope = startTracing(tracingSpan, connection);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet =
-                    statement.executeQuery("select id, order_date, name, street, city, state from orders");
-            JsonArrayBuilder jab = bf.createArrayBuilder();
-            while (resultSet.next()) {
-                Statement innerStatement = connection.createStatement();
-                ResultSet innerResultSet =
-                        innerStatement.executeQuery("select book_id, title from order_books " +
-                                "where order_id = " + resultSet.getInt("id"));
-                JsonArrayBuilder bab = bf.createArrayBuilder();
-                while (innerResultSet.next()) {
-                    bab.add(bf.createObjectBuilder()
-                            .add("book_id", innerResultSet.getInt("book_id"))
-                            .add("title", innerResultSet.getString("title"))
-                            .build());
+            try ( Connection connection = booksDS.getConnection();
+                  Statement statement = connection.createStatement();
+                  ResultSet resultSet =
+                    statement.executeQuery("select id, order_date, name, street, city, state from orders");) {
+		tracingScope = startTracing(tracingSpan, connection);
+                jab = bf.createArrayBuilder();
+                while (resultSet.next()) {
+                    try ( Statement innerStatement = connection.createStatement();
+                          ResultSet innerResultSet =
+                                innerStatement.executeQuery("select book_id, title from order_books " +
+                                "where order_id = " + resultSet.getInt("id"));) {
+
+                        JsonArrayBuilder bab = bf.createArrayBuilder();
+                        while (innerResultSet.next()) {
+                           bab.add(bf.createObjectBuilder()
+                              .add("book_id", innerResultSet.getInt("book_id"))
+                              .add("title", innerResultSet.getString("title"))
+                              .build());
+                        }
+                        JsonObjectBuilder job = bf.createObjectBuilder()
+                            .add("id", resultSet.getInt("id"))
+                            .add("order_date", resultSet.getDate("order_date").toString())
+                            .add("customer", bf.createObjectBuilder()
+                            .add("name", resultSet.getString("name"))
+                            .add("street", resultSet.getString("street"))
+                            .add("city", resultSet.getString("city"))
+                            .add("state", resultSet.getString("state")).build())
+                            .add("books", bab);
+                        jab.add(job.build());
+                    } catch (Exception e) {
+                        return handleException(e); 
+                    }
                 }
-                JsonObjectBuilder job = bf.createObjectBuilder()
-                        .add("id", resultSet.getInt("id"))
-                        .add("order_date", resultSet.getDate("order_date").toString())
-                        .add("customer", bf.createObjectBuilder()
-                                .add("name", resultSet.getString("name"))
-                                .add("street", resultSet.getString("street"))
-                                .add("city", resultSet.getString("city"))
-                                .add("state", resultSet.getString("state")).build())
-                        .add("books", bab);
-                jab.add(job.build());
-                innerResultSet.close();
+            } catch (Exception e) {
+                return handleException(e); 
             }
-            resultSet.close();
-            connection.close();
             return Response.ok(jab.build()).build();
 
         } catch (Exception e) {
-			logger.error("Error accessing database", e);
-            return Response
-                    .status(errorStatus)
-                    .entity(bf.createArrayBuilder()
-                            .add(bf.createObjectBuilder()
-                                    .add("database", "error"))
-                            .build())
-                    .build();
-		} finally {
-			if (tracingScope != null) {
-				finishTracing(tracingScope);
-			}
+            return handleException(e);
+	} finally {
+            if (tracingScope != null) {
+	       finishTracing(tracingScope);
+	    }
         }
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createOrder(Order order) {
-		Scope tracingScope = null;
+	Scope tracingScope = null;
         try {
-			Span tracingSpan = buildSpan("orderResource.createOrder", httpHeaders);
-			logger.info("[order manager] order=" + order.toString());
+	    Span tracingSpan = buildSpan("orderResource.createOrder", httpHeaders);
+	    logger.info("[order manager] order=" + order.toString());
             InitialContext ctx = new InitialContext();
             DataSource booksDS = (DataSource) ctx.lookup("jdbc/books");
-            Connection connection = booksDS.getConnection();
-			tracingScope = startTracing(tracingSpan, connection);
-            PreparedStatement statement = connection.prepareStatement(
+            try ( Connection connection = booksDS.getConnection();
+                  PreparedStatement statement = connection.prepareStatement(
                     "insert into orders (order_date, name, street, city, state) " +
-							"values (curdate(), ?, ?, ?, ?)");
-            statement.setString(1, order.getCustomer().getName());
-            statement.setString(2, order.getCustomer().getStreet());
-            statement.setString(3, order.getCustomer().getCity());
-            statement.setString(4, order.getCustomer().getState());
-            statement.execute();
-            statement.close();
+                                                        "values (curdate(), ?, ?, ?, ?)");
+                  Statement statement2 = connection.createStatement();
+                  ResultSet rs2 = statement2.executeQuery("select max(id) as order_id from orders");) {
+		tracingScope = startTracing(tracingSpan, connection);
+                statement.setString(1, order.getCustomer().getName());
+                statement.setString(2, order.getCustomer().getStreet());
+                statement.setString(3, order.getCustomer().getCity());
+                statement.setString(4, order.getCustomer().getState());
+                statement.execute();
 
-            Statement statement2 = connection.createStatement();
-            ResultSet rs2 = statement2.executeQuery("select max(id) as order_id from orders");
-            int orderId = -1;
-            while(rs2.next()) {
-                orderId = rs2.getInt("order_id");
+                int orderId = -1;
+                while(rs2.next()) {
+                   orderId = rs2.getInt("order_id");
+                }
+
+                for (Book book : order.getBooks()) {
+                   try (PreparedStatement innerStatement = connection.prepareStatement(
+                           "insert into order_books (order_id, book_id, title) " +
+                                   "values (?, ?, ?)");) {
+                        innerStatement.setInt(1, orderId);
+                        innerStatement.setInt(2, book.getBookId());
+                        innerStatement.setString(3, book.getTitle());
+                        innerStatement.execute();
+                    } catch (Exception e) {
+                        logger.error("Error accessing database", e); 
+                    }
+                }
+
+            } catch (Exception e) {
+                logger.error("Error accessing database", e); 
             }
-            rs2.close();
-            statement2.close();
-
-            for (Book book : order.getBooks()) {
-                PreparedStatement innerStatement = connection.prepareStatement(
-                        "insert into order_books (order_id, book_id, title) " +
-                                "values (?, ?, ?)");
-                innerStatement.setInt(1, orderId);
-                innerStatement.setInt(2, book.getBookId());
-                innerStatement.setString(3, book.getTitle());
-                innerStatement.execute();
-                innerStatement.close();
-            }
-
-            connection.close();
-
         } catch (Exception e) {
-			logger.error("Error accessing database", e);
-		} finally {
-			if (tracingScope != null) {
-				finishTracing(tracingScope);
-			}
-		}
+            logger.error("Error accessing database", e); 
+	} finally {
+	    if (tracingScope != null) {
+		finishTracing(tracingScope);
+	    }
+	}
     }
 
-	private Scope startTracing(Span tracingSpan, Connection connection) throws SQLException {
+    private Scope startTracing(Span tracingSpan, Connection connection) throws SQLException {
 		tracingSpan.setTag("TimeSpentInDBOperationFor_" + connection, "TODO");
 		tracingSpan.setBaggageItem("DatabaseProductName", connection.getMetaData().getDatabaseProductName());
 		return activateSpan(tracingSpan);
     }
+
+    private Response handleException (Exception e) {
+        logger.error("Error accessing database", e);
+        return Response
+                 .status(errorStatus)
+                 .entity(bf.createArrayBuilder()
+                         .add(bf.createObjectBuilder()
+                                 .add("database", "error"))
+                         .build())
+                 .build();
+    }
+
 }
