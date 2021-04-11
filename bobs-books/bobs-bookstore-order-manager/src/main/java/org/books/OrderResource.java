@@ -107,9 +107,7 @@ public class OrderResource {
             try ( Connection connection = booksDS.getConnection();
                   PreparedStatement statement = connection.prepareStatement(
                     "insert into orders (order_date, name, street, city, state) " +
-                                                        "values (curdate(), ?, ?, ?, ?)");
-                  Statement statement2 = connection.createStatement();
-                  ResultSet rs2 = statement2.executeQuery("select max(id) as order_id from orders");) {
+                                                        "values (curdate(), ?, ?, ?, ?)");) {
 		tracingScope = startTracing(tracingSpan, connection);
                 statement.setString(1, order.getCustomer().getName());
                 statement.setString(2, order.getCustomer().getStreet());
@@ -117,24 +115,29 @@ public class OrderResource {
                 statement.setString(4, order.getCustomer().getState());
                 statement.execute();
 
-                int orderId = -1;
-                while(rs2.next()) {
-                   orderId = rs2.getInt("order_id");
-                }
+                try (Statement statement2 = connection.createStatement();
+                     ResultSet rs2 = statement2.executeQuery("select max(id) as order_id from orders");) {
+                     int orderId = -1;
 
-                for (Book book : order.getBooks()) {
-                   try (PreparedStatement innerStatement = connection.prepareStatement(
-                           "insert into order_books (order_id, book_id, title) " +
-                                   "values (?, ?, ?)");) {
-                        innerStatement.setInt(1, orderId);
-                        innerStatement.setInt(2, book.getBookId());
-                        innerStatement.setString(3, book.getTitle());
-                        innerStatement.execute();
-                    } catch (Exception e) {
-                        logger.error("Error accessing database", e); 
-                    }
-                }
+                     while(rs2.next()) {
+                        orderId = rs2.getInt("order_id");
+                     }
 
+                     for (Book book : order.getBooks()) {
+                         try (PreparedStatement innerStatement = connection.prepareStatement(
+                                "insert into order_books (order_id, book_id, title) " +
+                                        "values (?, ?, ?)");) {
+                             innerStatement.setInt(1, orderId);
+                             innerStatement.setInt(2, book.getBookId());
+                             innerStatement.setString(3, book.getTitle());
+                             innerStatement.execute();
+                         } catch (Exception e) {
+                             logger.error("Error accessing database", e); 
+                         }
+                     }
+                } catch (Exception e) {
+                     logger.error("Error accessing database", e);
+                }
             } catch (Exception e) {
                 logger.error("Error accessing database", e); 
             }
