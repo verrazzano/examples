@@ -77,12 +77,8 @@ public class OrderResource {
                             .add("state", resultSet.getString("state")).build())
                             .add("books", bab);
                         jab.add(job.build());
-                    } catch (Exception e) {
-                        return handleException(e); 
                     }
                 }
-            } catch (Exception e) {
-                return handleException(e); 
             }
             return Response.ok(jab.build()).build();
 
@@ -131,15 +127,9 @@ public class OrderResource {
                              innerStatement.setInt(2, book.getBookId());
                              innerStatement.setString(3, book.getTitle());
                              innerStatement.execute();
-                         } catch (Exception e) {
-                             logger.error("Error accessing database", e); 
                          }
                      }
-                } catch (Exception e) {
-                     logger.error("Error accessing database", e);
                 }
-            } catch (Exception e) {
-                logger.error("Error accessing database", e); 
             }
         } catch (Exception e) {
             logger.error("Error accessing database", e); 
