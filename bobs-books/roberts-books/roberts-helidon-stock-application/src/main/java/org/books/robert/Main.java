@@ -4,6 +4,7 @@
 package org.books.robert;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -50,7 +51,8 @@ public final class Main {
      */
     private static void setupLogging() throws IOException {
         // load logging configuration
-        LogManager.getLogManager().readConfiguration(
-                Main.class.getResourceAsStream("/logging.properties"));
+        try (InputStream is = Main.class.getResourceAsStream("/logging.properties")) {
+           LogManager.getLogManager().readConfiguration(is);
+        }
     }
 }
