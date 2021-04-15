@@ -58,22 +58,22 @@ Perform the following initial steps.
 ### Create a database using MySQL called `tododb`
 - Download the MySQL image from Docker Hub.
     ```
-    docker pull mysql:latest
+    $ docker pull mysql:latest
     ```
 - Start the container database (and optionally mount a volume for data).
     ```
-    docker run --name tododb -p3306:3306 -e MYSQL_USER=derek -e MYSQL_PASSWORD=welcome1 -e MYSQL_DATABASE=tododb -e MYSQL_ROOT_PASSWORD=welcome1 -d mysql:latest
+    $ docker run --name tododb -p3306:3306 -e MYSQL_USER=derek -e MYSQL_PASSWORD=welcome1 -e MYSQL_DATABASE=tododb -e MYSQL_ROOT_PASSWORD=welcome1 -d mysql:latest
     ```
 
 - Start a MySQL client to change the password algorithm to `mysql_native_password`.
     - Assuming that the database server is running, start a database CLI client with:
         ```shell script
-        docker exec -it tododb mysql -uroot -p
+        $ docker exec -it tododb mysql -uroot -p
         ```
     - When prompted for the password, enter the password for the root user, `welcome1` if you used the command above.  
     After being connected, run the `ALTER` command at the MySQL prompt.
         ```mysql
-        ALTER USER 'derek'@'%' IDENTIFIED WITH mysql_native_password BY 'welcome1';
+        $ ALTER USER 'derek'@'%' IDENTIFIED WITH mysql_native_password BY 'welcome1';
         ```
 
 ### Create a new WebLogic Server domain
@@ -83,14 +83,14 @@ and follow the documented installation instructions. Save the installer after yo
 need this installer again to build the Docker image.  To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the folder where you installed WebLogic Server 12.2.1.4.0.
 
 ```shell script
-export ORACLE_HOME=/install/directory
+$ export ORACLE_HOME=/install/directory
 ```
 
 Using the Oracle WebLogic Server Configuration Wizard, create a new domain called `tododomain`.  Add the password for the administrative
 user and accept the defaults for everything else to create a simple domain with a single Administration Server.
 
 ```shell script
-$ORACLE_HOME/oracle_common/common/bin/config.sh
+$ $ORACLE_HOME/oracle_common/common/bin/config.sh
 ```
 
 Start the newly created domain using the domain `startWebLogic` script.
@@ -118,9 +118,9 @@ required to match the application and database settings from when you started an
 ### Build and deploy the application
 Using Maven, build this project to produce the artifact, `todo.war`.
 ```shell script
-git clone https://github.com/verrazzano/examples.git
-cd examples/todo-list/
-mvn clean package
+$ git clone https://github.com/verrazzano/examples.git
+$ cd examples/todo-list/
+$ mvn clean package
 ```
 
 Using the WebLogic Server Administration Console, deploy the ToDo List application.  Accepting all the default options is fine.  
@@ -147,15 +147,15 @@ Unzip the installer `weblogic-deploy.zip` file so that you can access `bin/disco
 commands easier, define an environment variable for `WDT_HOME` that points to the folder where you installed
 WebLogic Deploy Tooling.
 ```shell script
-export WDT_HOME=/install/directory
+$ export WDT_HOME=/install/directory
 ```
 
 To create a reusable model of the application and domain, use WebLogic Deploy Tooling (WDT) to create a metadata model
 of the domain.  First, create an output directory to hold the generated scripts and models.  Then, run WDT `discoverDomain`.
 ```shell script
-mkdir v8o
+$ mkdir v8o
 
-$WDT_HOME/bin/discoverDomain.sh -oracle_home $ORACLE_HOME -domain_home /path/to/domain/dir -model_file ./v8o/wdt-model.yaml -archive_file ./v8o/wdt-archive.zip -target vz -output_dir v8o
+$ $WDT_HOME/bin/discoverDomain.sh -oracle_home $ORACLE_HOME -domain_home /path/to/domain/dir -model_file ./v8o/wdt-model.yaml -archive_file ./v8o/wdt-archive.zip -target vz -output_dir v8o
 ```
 
 You will find the following files in `./v8o`:
@@ -178,7 +178,7 @@ If you have not already done so, download WebLogic Image Tool (WIT) from [GitHub
 Unzip the installer `imagetool.zip` file so that you can access `bin/imagetool.sh`. To make copying commands easier, define an environment variable for `WIT_HOME` that points to the folder where you installed WebLogic Image Tool.
 
 ```shell script
-export WIT_HOME=/install/directory
+$ export WIT_HOME=/install/directory
 ```
 
 You will need a Docker image to run your WebLogic Server domain in Kubernetes.  To use the WebLogic Image Tool (WIT) to
@@ -188,17 +188,17 @@ and provide their location to WIT using the `imagetool cache addInstaller` comma
 
 ```shell script
 # The directory created in the previous step to hold the generated scripts and models.
-cd v8o
+$ cd v8o
 
-$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz --type jdk --version 8u231
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz --type jdk --version 8u231
 
 # The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
-$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip --type wls --version 12.2.1.4.0
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip --type wls --version 12.2.1.4.0
 
-$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/weblogic-deploy.zip --type wdt --version latest
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/weblogic-deploy.zip --type wdt --version latest
 
 # Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.
-$WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --resourceTemplates ./model.yaml --wdtModelOnly
+$ $WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --resourceTemplates ./model.yaml --wdtModelOnly
 ```
 
 The `imagetool create` command creates a local Docker image and updates the Verrazzano model with the domain home
@@ -211,7 +211,7 @@ example, but most Docker compliant registries should work.
 `spec -> weblogicDomains -> domainCRValues -> image`.
 
 ```shell script
-docker push your/repo/todo:1
+$ docker push your/repo/todo:1
 ```
 
 ### Deploying to Verrazzano
@@ -226,25 +226,25 @@ ToDo database credential (like derek/welcome1).
 For example:
 ```shell script
 # Update <admin-user> and <admin-password> for weblogic-credentials
-create_paired_k8s_secret weblogic-credentials weblogic welcome1
+$ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 
 # Update <user> and <password> for jdbc-todo-datasource
-create_paired_k8s_secret jdbc-todo-datasource derek welcome1
+$ create_paired_k8s_secret jdbc-todo-datasource derek welcome1
 ```
 
 Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
 The name for this credential can be changed in the `model.yaml` file to anything you like, but it defaults to `ocir`.  
 Assuming that you left the name as `ocir`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
-kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docker-email=your.name@company.com --docker-username=tenancy/username --docker-password='passwordForUsername'
+$ kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docker-email=your.name@company.com --docker-username=tenancy/username --docker-password='passwordForUsername'
 ```
 
 Finally, run `kubectl apply` to apply the Verrazzano model and binding files to Verrazzano to start your domain.
 
 ```shell script
-kubectl apply -f model.yaml
-kubectl apply -f binding.yaml
+$ kubectl apply -f model.yaml
+$ kubectl apply -f binding.yaml
 ```
 
-## Copyright
+
 Copyright (c) 2020, Oracle and/or its affiliates.

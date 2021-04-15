@@ -9,7 +9,7 @@ The example application consists of three main parts:
   Server.
 * A front-end web store "Robert's Books", which is a general book
   seller.  This is implemented as a Helidon microservice, which
-  gets book data from Coherence (using CDI)  and has a React
+  gets book data from Coherence using CDI and has a React
   web UI.
 * A front-end web store "Bobby's Books", which is a
   children's book store.  This is implemented as a Helidon
@@ -19,3 +19,6 @@ The example application consists of three main parts:
 ### Install the Example Application
 
 Detailed instructions for installing Bob's Books can be found [here](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md).
+
+
+Copyright (c) 2020, 2021, Oracle and/or its affiliates.
