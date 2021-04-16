@@ -5,37 +5,38 @@ features and less on infrastructure. For more information on building an applica
 https://spring.io/guides/gs/spring-boot/.
 
 ## Requires
-- [Maven](https://maven.apache.org/download.cgi) (To build the Spring Boot application)
+
+[Maven](https://maven.apache.org/download.cgi) (To build the Spring Boot application)
 
 ## Build and deploy the application
-The sample web application uses the Spring Boot Maven plugin, which provides the ability to automatically deploy the
+The sample web application uses the Spring Boot Maven plug-in, which provides the ability to automatically deploy the
 web application in an embedded application server. Look at the following dependency in the `pom.xml` file :
 
     <dependency>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId> 
+        <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-When we run the `mvn spring-boot:run` command from the project root folder, the plugin reads the Maven configuration and understands
+When you run the `mvn spring-boot:run` command from the project root folder, the plug-in reads the Maven configuration and understands
 that the application requires a web container.
 
-    git clone https://github.com/verrazzano/examples.git
-    cd examples/springboot-app
-    mvn spring-boot:run
+    $ git clone https://github.com/verrazzano/examples.git
+    $ cd examples/springboot-app
+    $ mvn spring-boot:run
 
 The application provides a few endpoints:  
-* http://localhost:8080/   // an index page  
-* http://localhost:8080/facts   // a page displaying random Verrazzano facts  
+* http://localhost:8080/   // An index page  
+* http://localhost:8080/facts   // A page displaying random Verrazzano facts  
 * http://localhost:8080/actuator  // Spring Boot actuator endpoint  
 * http://localhost:8080/actuator/prometheus   // Prometheus endpoint  
 
 ## Create a Docker image
 The Dockerfile provided in this example uses an Oracle Linux image as the base image, which doesn't include the Java Development Kit (JDK).
-The Dockerfile expects `openjdk-11_linux-x64_bin.tar.gz` in the project root directory, which is available on the [OpenJDK General-Availability Releases] (https://jdk.java.net/archive/) page.
+The Dockerfile expects `openjdk-11_linux-x64_bin.tar.gz` in the project root directory, which is available on the [OpenJDK General-Availability Releases](https://jdk.java.net/archive/) page.
 
-    cd examples/springboot-app
-    mvn package
-    docker build -t example/spring-boot-application .
+    $ cd examples/springboot-app
+    $ mvn package
+    $ docker build -t example/spring-boot-application .
 
-## Copyright
+
 Copyright (c) 2020, 2021, Oracle and/or its affiliates.
