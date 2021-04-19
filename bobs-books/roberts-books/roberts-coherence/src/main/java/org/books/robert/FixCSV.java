@@ -11,9 +11,7 @@ public class FixCSV {
 
     public static void main(String[] args) {
 
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(new File("src/main/resources/oldbooks.csv")));
-
+        try (BufferedReader in = new BufferedReader(new FileReader(new File("src/main/resources/oldbooks.csv")))) {
             String line = in.readLine();
             while (line != null) {
 
