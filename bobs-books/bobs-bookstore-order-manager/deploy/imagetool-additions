@@ -6,3 +6,7 @@ python-libs
 curl
 glibc
 glibc-common
+nss
+openldap
+nss-sysinit
+nss-tools
