@@ -1,7 +1,7 @@
 # Copyright (c) 2020, 2021, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-FROM container-registry.oracle.com/os/oraclelinux:7-slim@sha256:5fe1636f17bb1d100197d353f5d2f24a00dc201058386e7a428d2702602a6939
+FROM container-registry.oracle.com/os/oraclelinux:7-slim@sha256:84433cf4f605c35fa032ff87d2635c3ab5aaa7fbdb4bb8f90e60f4ab1b96d371
 
 RUN yum update -y \
     && yum-config-manager --save --setopt=ol7_ociyum_config.skip_if_unavailable=true \
