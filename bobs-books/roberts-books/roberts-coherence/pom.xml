@@ -107,7 +107,7 @@
             <version>${version.lib.coherence}</version>
         </dependency>
         <dependency>
-            <groupId>com.oracle.coherence</groupId>
+            <groupId>com.oracle.coherence.ce</groupId>
             <artifactId>coherence-metrics</artifactId>
             <version>${version.lib.coherence}</version>
         </dependency>
