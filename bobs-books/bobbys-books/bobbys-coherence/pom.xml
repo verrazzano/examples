@@ -105,6 +105,11 @@
             <artifactId>coherence</artifactId>
             <version>${version.lib.coherence}</version>
         </dependency>
+        <dependency>
+            <groupId>com.oracle.coherence</groupId>
+            <artifactId>coherence-metrics</artifactId>
+            <version>${version.lib.coherence}</version>
+        </dependency>
     </dependencies>
 
 </project>

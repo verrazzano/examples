@@ -107,6 +107,11 @@
             <version>${version.lib.coherence}</version>
         </dependency>
         <dependency>
+            <groupId>com.oracle.coherence</groupId>
+            <artifactId>coherence-metrics</artifactId>
+            <version>${version.lib.coherence}</version>
+        </dependency>
+        <dependency>
           <groupId>org.apache.httpcomponents</groupId>
           <artifactId>httpclient</artifactId>
           <version>${version.lib.httpclient}</version>
