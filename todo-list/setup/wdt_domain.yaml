@@ -9,6 +9,7 @@ topology:
   AdminServerName: 'AdminServer'
   Server:
     'AdminServer':
+      ListenPort: '7001'
 appDeployments:
   Application:
     ToDoApp:
