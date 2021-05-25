@@ -189,6 +189,8 @@ pipeline {
                         stage('Build Bobs Backend WebLogic Application') {
                             steps {
                                 sh """
+                                    # sleep 2 minutes to workaround WIT doing a docker prune at the same time
+                                    sleep 2m
                                     echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobs-bookstore-order-manager
