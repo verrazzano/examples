@@ -218,7 +218,7 @@
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty-transport</artifactId>
+            <artifactId>netty-all</artifactId>
             <version>4.1.63.Final</version>
         </dependency>
     </dependencies>
