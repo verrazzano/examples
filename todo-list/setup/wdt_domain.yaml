@@ -16,9 +16,3 @@ appDeployments:
       SourcePath: wlsdeploy/applications/todo.war
       ModuleType: war
       Target: 'AdminServer'
-    'wls-exporter':
-      SourcePath: 'wlsdeploy/applications/wls-exporter.war'
-      ModuleType: war
-      Target: 'AdminServer'
-      StagingMode: nostage
-      PlanStagingMode: nostage

@@ -9,18 +9,6 @@ if [ ! -d ${scriptDir} ]; then
     exit 1
 fi
 
-echo ' - metrics exporter...'
-rm -rf weblogic-monitoring-exporter
-git clone https://github.com/oracle/weblogic-monitoring-exporter
-cd weblogic-monitoring-exporter
-git checkout v1.1.2
-mvn -B clean install
-cd webapp
-mvn -B clean package -Dconfiguration=../../exporter-config.yaml
-cd ../..
-mkdir -p ./wlsdeploy/applications
-cp weblogic-monitoring-exporter/webapp/target/wls-exporter.war ./wlsdeploy/applications/wls-exporter.war
-
 cp ../LICENSE.txt .
 cp ../THIRD_PARTY_LICENSES.txt .
 
