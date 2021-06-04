@@ -102,7 +102,8 @@ required to match the application and database settings from when you started an
     - In the WebLogic Server Administration Console, navigate to Services -> Data Sources.
     - New -> Generic Data Source
     - First page:
-        - JNDI Name: ToDoDB
+        - Name: ToDoDB
+        - JNDI Name: jdbc/ToDoDB
         - Database Type: MySQL
     - Fourth page:
         - Database Name: tododb
