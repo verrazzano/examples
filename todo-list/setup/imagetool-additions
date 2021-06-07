@@ -6,3 +6,4 @@ python-libs
 curl
 glibc
 glibc-common
+glib2
