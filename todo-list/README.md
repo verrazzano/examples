@@ -160,8 +160,7 @@ $ $WDT_HOME/bin/discoverDomain.sh -oracle_home $ORACLE_HOME -domain_home /path/t
 ```
 
 You will find the following files in `./v8o`:
-- `binding.yaml` - Verrazzano Application Binding file
-- `model.yaml` - Verrazzano Application Model template
+- `application.yaml` - Verrazzano Application Model template (WDT version 1.9.13. If using another version, the name may be different.)
 - `wdt-archive.zip` - The WDT archive containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
 - `vz_variable.properties` - A set of properties extracted from the WDT domain model
@@ -191,12 +190,12 @@ and provide their location to WIT using the `imagetool cache addInstaller` comma
 # The directory created in the previous step to hold the generated scripts and models.
 $ cd v8o
 
-$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz --type jdk --version 8u231
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/installer/jdk-8u231-linux-x64.tar.gz --type jdk --version 8u231
 
 # The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
-$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip --type wls --version 12.2.1.4.0
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip --type wls --version 12.2.1.4.0
 
-$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/weblogic-deploy.zip --type wdt --version latest
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/installer/weblogic-deploy.zip --type wdt --version latest
 
 # Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.
 $ $WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --resourceTemplates ./model.yaml --wdtModelOnly
@@ -231,6 +230,15 @@ $ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 
 # Update <user> and <password> for jdbc-todo-datasource
 $ create_paired_k8s_secret jdbc-todo-datasource derek welcome1
+
+# Update <password> used to encrypt model and domain hashes
+$ create_k8s_secret runtime-encryption-secret welcome1
+```
+
+Create a Kubernetes namespace called `base-domain`.
+```shell script
+kubectl create ns base-domain
+kubectl label namespace base-domain verrazzano-managed=true
 ```
 
 Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
@@ -243,8 +251,8 @@ $ kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docke
 Finally, run `kubectl apply` to apply the Verrazzano model and binding files to Verrazzano to start your domain.
 
 ```shell script
-$ kubectl apply -f model.yaml
-$ kubectl apply -f binding.yaml
+# Assuming WDT version 1.9.13. If using another version, replace the name application.yaml as necessary.
+$ kubectl apply -f application.yaml
 ```
 
 
