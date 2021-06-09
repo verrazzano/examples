@@ -198,7 +198,8 @@ $ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/installer/fmw_12
 $ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/installer/weblogic-deploy.zip --type wdt --version latest
 
 # Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.
-$ $WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --resourceTemplates ./model.yaml --wdtModelOnly
+# Assuming WDT version 1.9.13. If using another version, replace the name, application.yaml, if needed.
+$ $WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --resourceTemplates ./application.yaml --wdtModelOnly
 ```
 
 The `imagetool create` command creates a local Docker image and updates the Verrazzano model with the domain home
@@ -217,14 +218,25 @@ $ docker push your/repo/todo:1
 ### Deploying to Verrazzano
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano](https://verrazzano.io/docs/quickstart/#install-verrazzano) is already installed in that cluster.
 
+Create a Kubernetes namespace called `tododomain`.
+```shell script
+kubectl create ns tododomain
+kubectl label namespace tododomain verrazzano-managed=true
+```
+
 If you haven't already done so, edit and run the `create_k8s_secrets.sh` script to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
 edit `create_k8s_secrets.sh` to set the passwords for the WebLogic Server domain and the data source.  In this domain,
-there are only two passwords that you need to enter: administrator credentials (like weblogic/welcome1) and the
-ToDo database credential (like derek/welcome1).
+there are only three passwords that you need to enter: administrator credentials (like weblogic/welcome1), the
+ToDo database credential (like derek/welcome1), and the password used to encrypt hashes (like welcome1).
+You may also have to edit the namespace referenced in `create_k8s_secrets.sh` to be `tododomain`.
 
 For example:
 ```shell script
+# Edit the namespace and domain UID
+$ NAMESPACE=tododomain
+$ DOMAIN_UID=tododomain
+
 # Update <admin-user> and <admin-password> for weblogic-credentials
 $ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 
@@ -233,12 +245,6 @@ $ create_paired_k8s_secret jdbc-todo-datasource derek welcome1
 
 # Update <password> used to encrypt model and domain hashes
 $ create_k8s_secret runtime-encryption-secret welcome1
-```
-
-Create a Kubernetes namespace called `base-domain`.
-```shell script
-kubectl create ns base-domain
-kubectl label namespace base-domain verrazzano-managed=true
 ```
 
 Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
@@ -251,7 +257,7 @@ $ kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docke
 Finally, run `kubectl apply` to apply the Verrazzano model and binding files to Verrazzano to start your domain.
 
 ```shell script
-# Assuming WDT version 1.9.13. If using another version, replace the name application.yaml as necessary.
+# Assuming WDT version 1.9.13. If using another version, replace the name, application.yaml, if needed.
 $ kubectl apply -f application.yaml
 ```
 
