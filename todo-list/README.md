@@ -229,14 +229,9 @@ WDT does not discover passwords from your existing domain.  Before running the c
 edit `create_k8s_secrets.sh` to set the passwords for the WebLogic Server domain and the data source.  In this domain,
 there are only three passwords that you need to enter: administrator credentials (like weblogic/welcome1), the
 ToDo database credential (like derek/welcome1), and the password used to encrypt hashes (like welcome1).
-You may also need to edit the namespace referenced in `create_k8s_secrets.sh` to be `tododomain`.
 
 For example:
 ```shell script
-# Edit the namespace and domain UID
-$ NAMESPACE=tododomain
-$ DOMAIN_UID=tododomain
-
 # Update <admin-user> and <admin-password> for weblogic-credentials
 $ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 
