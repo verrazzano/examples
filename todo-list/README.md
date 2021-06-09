@@ -243,10 +243,10 @@ $ create_k8s_secret runtime-encryption-secret welcome1
 ```
 
 Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the `model.yaml` file to anything you like, but it defaults to `ocir`.  
-Assuming that you left the name as `ocir`, you will need to run a `kubectl create secret` command similar to the following:
+The name for this credential can be changed in the `application.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`.  
+Assuming that you left the name as `tododomain-registry-credentials`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
-$ kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docker-email=your.name@company.com --docker-username=tenancy/username --docker-password='passwordForUsername'
+$ kubectl create secret docker-registry tododomain-registry-credentials -n tododomain --docker-server=phx.ocir.io --docker-email=your.name@company.com --docker-username=tenancy/username --docker-password='passwordForUsername'
 ```
 
 Finally, run `kubectl apply` to apply the Verrazzano model and binding files to Verrazzano to start your domain.
