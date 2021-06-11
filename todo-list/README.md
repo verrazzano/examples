@@ -208,7 +208,7 @@ CLI.  If everything worked correctly, now you push that image to the repository 
 the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
 example, but most Docker compliant registries should work.
 
-**NOTE:** The image name in the component resource must be the same as what is in the Verrazzano `vz-application.yaml` file under `spec -> workload -> spec -> template -> spec -> image`.
+**NOTE:** The image name in the component resource must be the same as what is in the Verrazzano `vz-application.yaml` file under `spec > workload > spec > template > spec > image`.
 
 ```shell script
 $ docker push your/repo/todo:1
