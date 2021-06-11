@@ -160,7 +160,7 @@ $ $WDT_HOME/bin/discoverDomain.sh -oracle_home $ORACLE_HOME -domain_home /path/t
 ```
 
 You will find the following files in `./v8o`:
-- `application.yaml` - Verrazzano Application Model template (WDT version 1.9.13. If using another version, the name may be different.)
+- `vz-application.yaml` - Verrazzano Application Model template (WDT version 1.9.14. If using another version, the name may be different.)
 - `wdt-archive.zip` - The WDT archive containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
 - `vz_variable.properties` - A set of properties extracted from the WDT domain model
@@ -198,8 +198,8 @@ $ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/installer/fmw_12
 $ $WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/installer/weblogic-deploy.zip --type wdt --version latest
 
 # Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.
-# Assuming WDT version 1.9.13. If using another version, replace the name, application.yaml, if needed.
-$ $WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --resourceTemplates ./application.yaml --wdtModelOnly
+# Assuming WDT version 1.9.14. If using another version, replace the name, vz-application.yaml, if needed.
+$ $WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --resourceTemplates ./vz-application.yaml --wdtModelOnly
 ```
 
 The `imagetool create` command creates a local Docker image and updates the Verrazzano model with the domain home
@@ -208,8 +208,7 @@ CLI.  If everything worked correctly, now you push that image to the repository 
 the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
 example, but most Docker compliant registries should work.
 
-**NOTE:** The image name must be the same as what is in the Verrazzano `model.yaml` file under
-`spec -> weblogicDomains -> domainCRValues -> image`.
+**NOTE:** The image name in the Component resource must be the same as what is in the Verrazzano vz-application.yaml file under spec -> workload -> spec -> template -> spec -> image.
 
 ```shell script
 $ docker push your/repo/todo:1
@@ -243,7 +242,7 @@ $ create_k8s_secret runtime-encryption-secret welcome1
 ```
 
 Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the `application.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`.  
+The name for this credential can be changed in the `vz-application.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`.  
 Assuming that you left the name as `tododomain-registry-credentials`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
 $ kubectl create secret docker-registry tododomain-registry-credentials -n tododomain --docker-server=phx.ocir.io --docker-email=your.name@company.com --docker-username=tenancy/username --docker-password='passwordForUsername'
@@ -252,8 +251,8 @@ $ kubectl create secret docker-registry tododomain-registry-credentials -n todod
 Finally, run `kubectl apply` to apply the Verrazzano model and binding files to Verrazzano to start your domain.
 
 ```shell script
-# Assuming WDT version 1.9.13. If using another version, replace the name, application.yaml, if needed.
-$ kubectl apply -f application.yaml
+# Assuming WDT version 1.9.14. If using another version, replace the name, vz-application.yaml, if needed.
+$ kubectl apply -f vz-application.yaml
 ```
 
 
