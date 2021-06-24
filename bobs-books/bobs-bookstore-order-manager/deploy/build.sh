@@ -25,18 +25,6 @@ cd archive
 jar cvf ../archive.zip *
 cd ..
 
-echo ' - metrics exporter...'
-rm -rf weblogic-monitoring-exporter
-git clone https://github.com/oracle/weblogic-monitoring-exporter
-cd weblogic-monitoring-exporter
-git checkout v1.1.2
-mvn -B clean install
-cd webapp
-mvn -B clean package -Dconfiguration=../../exporter-config.yaml
-cd ../..
-cp weblogic-monitoring-exporter/webapp/target/wls-exporter.war \
-   ${scriptDir}/archive/wlsdeploy/apps/wls-exporter.war
-
 echo 'Build the WDT archive...'
 rm archive.zip
 ${JAVA_HOME}/bin/jar cvf ${scriptDir}/archive.zip  -C ${scriptDir}/archive wlsdeploy
@@ -73,7 +61,7 @@ imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
     --jdkVersion 8u261 \
-    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim@sha256:84433cf4f605c35fa032ff87d2635c3ab5aaa7fbdb4bb8f90e60f4ab1b96d371 \
+    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim \
     --wdtModel bobs-bookstore-topology.yaml \
     --wdtArchive archive.zip \
     --wdtVariables properties/docker-build/bobs-bookstore-topology.properties \

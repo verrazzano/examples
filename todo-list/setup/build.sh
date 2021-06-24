@@ -9,18 +9,6 @@ if [ ! -d ${scriptDir} ]; then
     exit 1
 fi
 
-echo ' - metrics exporter...'
-rm -rf weblogic-monitoring-exporter
-git clone https://github.com/oracle/weblogic-monitoring-exporter
-cd weblogic-monitoring-exporter
-git checkout v1.1.2
-mvn -B clean install
-cd webapp
-mvn -B clean package -Dconfiguration=../../exporter-config.yaml
-cd ../..
-mkdir -p ./wlsdeploy/applications
-cp weblogic-monitoring-exporter/webapp/target/wls-exporter.war ./wlsdeploy/applications/wls-exporter.war
-
 cp ../LICENSE.txt .
 cp ../THIRD_PARTY_LICENSES.txt .
 
@@ -60,7 +48,7 @@ imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
     --jdkVersion 8u261 \
-    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim@sha256:84433cf4f605c35fa032ff87d2635c3ab5aaa7fbdb4bb8f90e60f4ab1b96d371 \
+    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim \
     --wdtModel wdt_domain.yaml \
     --wdtArchive wdt_archive.zip \
     --wdtDomainHome /u01/oracle/user_projects/domains/tododomain \
