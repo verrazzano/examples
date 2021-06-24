@@ -48,6 +48,7 @@ imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
     --jdkVersion 8u261 \
+    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim \
     --wdtModel wdt_domain.yaml \
     --wdtArchive wdt_archive.zip \
     --wdtDomainHome /u01/oracle/user_projects/domains/tododomain \

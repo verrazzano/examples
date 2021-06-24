@@ -55,6 +55,7 @@ imagetool.sh create \
     --tag $1 \
     --version 12.2.1.4.0 \
     --jdkVersion 8u261 \
+    --fromImage container-registry.oracle.com/os/oraclelinux:7-slim \
     --wdtModel bobbys-front-end.yaml \
     --wdtArchive archive.zip \
     --wdtDomainHome /u01/oracle/user_projects/domains/bobbys-front-end \
