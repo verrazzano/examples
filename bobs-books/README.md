@@ -18,7 +18,7 @@ The example application consists of three main parts:
 
 ### Install the Example Application
 
-Detailed instructions for installing Bob's Books can be found [here](https://verrazzano.io/docs/examples/bobs-books/).
+Detailed instructions for installing Bob's Books can be found [here](https://verrazzano.io/docs/samples/bobs-books/).
 
 
 Copyright (c) 2020, 2021, Oracle and/or its affiliates.
