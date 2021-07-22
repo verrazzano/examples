@@ -191,6 +191,7 @@
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
             <scope>runtime</scope>
+            <version>2.3.0.Final</version>
             <optional>true</optional>
         </dependency>
         <dependency>
