@@ -3,7 +3,6 @@
 
 package org.books.robert;
 
-import io.helidon.common.CollectionsHelper;
 import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.ApplicationPath;
@@ -15,7 +14,7 @@ public class BookApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
-        return CollectionsHelper.setOf(
+        return Set.of(
         // ZipkinProxy.class,
                                        BookResource.class,
                                        AuthorResource.class,

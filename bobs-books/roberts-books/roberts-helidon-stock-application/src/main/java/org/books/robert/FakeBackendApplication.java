@@ -3,7 +3,6 @@
 
 package org.books.robert;
 
-import io.helidon.common.CollectionsHelper;
 import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.ApplicationPath;
@@ -20,7 +19,7 @@ public class FakeBackendApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
-        return CollectionsHelper.setOf(OrderManager.class);
+        return Set.of(OrderManager.class);
     }
 
     @Path("order")

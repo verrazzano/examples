@@ -13,6 +13,9 @@ import com.tangosol.util.filter.AlwaysFilter;
 import com.tangosol.util.function.Remote;
 import io.opentracing.Scope;
 import io.opentracing.Span;
+
+import java.io.IOError;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -23,6 +26,8 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+
+import io.opentracing.Tracer;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 
 /** Provider for greeting message. */
@@ -78,8 +83,9 @@ public class BookStore {
   }
 
   Collection<String> getDistinctAuthors() {
-    try (Scope scope = tracer.buildSpan("get-distinct-authors").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("get-distinct-authors").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.aggregate(Aggregators.distinctValues(Book::getAuthors)))");
       try {
@@ -91,6 +97,8 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
