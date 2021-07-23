@@ -36,7 +36,6 @@
     <properties>
         <!-- Default package. Will be overriden by Maven archetype -->
         <mainClass>org.books.bobby.Main</mainClass>
-        <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
         <libs.classpath.prefix>libs</libs.classpath.prefix>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
