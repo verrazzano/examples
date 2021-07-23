@@ -10,7 +10,7 @@
     <parent>
         <groupId>io.helidon.applications</groupId>
         <artifactId>helidon-mp</artifactId>
-        <version>1.4.8</version>
+        <version>2.3.2</version>
         <relativePath/>
     </parent>
 
@@ -36,7 +36,7 @@
     <properties>
         <!-- Default package. Will be overriden by Maven archetype -->
         <mainClass>org.books.bobby.Main</mainClass>
-        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
         <libs.classpath.prefix>libs</libs.classpath.prefix>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -164,7 +164,7 @@
 
         <dependency>
             <groupId>io.helidon.microprofile.bundles</groupId>
-            <artifactId>helidon-microprofile-3.0</artifactId>
+            <artifactId>helidon-microprofile</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
@@ -178,8 +178,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>javax.activation-api</artifactId>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
