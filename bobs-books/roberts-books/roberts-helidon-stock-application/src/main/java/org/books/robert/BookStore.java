@@ -1,4 +1,4 @@
-// Copyright (c) 2020, Oracle and/or its affiliates.
+// Copyright (c) 2020, 2021, Oracle and/or its affiliates.
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 package org.books.robert;
@@ -13,6 +13,8 @@ import com.tangosol.util.filter.AlwaysFilter;
 import com.tangosol.util.function.Remote;
 import io.opentracing.Scope;
 import io.opentracing.Span;
+import java.io.IOError;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import io.opentracing.Tracer;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 
 /** Provider for greeting message. */
@@ -78,8 +81,9 @@ public class BookStore {
   }
 
   Collection<String> getDistinctAuthors() {
-    try (Scope scope = tracer.buildSpan("get-distinct-authors").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("get-distinct-authors").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.aggregate(Aggregators.distinctValues(Book::getAuthors)))");
       try {
@@ -91,12 +95,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   List<BookCount> getBookCountByAuthor(int minCount) {
-    try (Scope scope = tracer.buildSpan("get-book-count-by-author").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("get-book-count-by-author").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.aggregate(Aggregators.grouping(Book::getAuthors,...)");
       try {
@@ -113,12 +121,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   Collection<Book> getTopRatedBooks(int count) {
-    try (Scope scope = tracer.buildSpan("get-top-rated-books").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("get-top-rated-books").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.AlwaysFilter.INSTANCE(), BOOK_RATING_COMPARATOR,...)");
       try {
@@ -133,12 +145,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   Collection<Book> getBooksByAuthor(String author) {
-    try (Scope scope = tracer.buildSpan("get-books-by-author").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("get-books-by-author").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.AlwaysFilter.INSTANCE(), BOOK_TITLE_COMPARATOR,...)");
       try {
@@ -152,12 +168,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   Optional<Book> find(String id) {
-    try (Scope scope = tracer.buildSpan("get-book-by-id").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("get-book-by-id").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.get(id));");
       try {
@@ -169,12 +189,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   void store(Book book) {
-    try (Scope scope = tracer.buildSpan("store-book").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("store-book").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.put(book.getBookId(), book);");
       try {
@@ -186,12 +210,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   void remove(String id) {
-    try (Scope scope = tracer.buildSpan("remove-book").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("remove-book").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.remove(id);");
       try {
@@ -203,13 +231,17 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   void submitOrder(Long id, String jsonOrder) {
     System.out.println("submitOrder in BookStore.java");
-    try (Scope scope = tracer.buildSpan("submit-order").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("submit-order").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence orders.put(id, jsonOrder)");
       System.out.println("Calling Coherence orders.put(id, jsonOrder)");
@@ -223,6 +255,9 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2020, Oracle and/or its affiliates.
+// Copyright (c) 2020, 2021, Oracle and/or its affiliates.
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 package org.books.bobby;
@@ -54,8 +54,9 @@ public class BookStore {
   }
 
   public Collection<Book> getRange(int start, int end) {
-    try (Scope scope = tracer.buildSpan("get-books").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("get-books").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.getAll(keys).values();");
       Collection<String> keys =
@@ -72,12 +73,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   public Optional<Book> find(String id) {
-    try (Scope scope = tracer.buildSpan("get-book").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("get-book").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.get(id);");
       try {
@@ -89,12 +94,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   public void store(Book book) {
-    try (Scope scope = tracer.buildSpan("put-book").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("put-book").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence books.put(book.getBookId(), book);");
       try {
@@ -106,12 +115,16 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 
   public void remove(String id) {
-    try (Scope scope = tracer.buildSpan("remove-book").startActive(true)) {
-      Span span = scope.span();
+    try {
+      Span span = tracer.buildSpan("remove-book").start();
+      tracer.activateSpan(span);
       span.setTag(TraceUtils.TAG_CONNECTION, TraceUtils.TAG_COHERENCE);
       span.log("Calling Coherence  books.remove(id);");
       try {
@@ -123,6 +136,9 @@ public class BookStore {
         TraceUtils.logThrowable(span, t);
         throw t;
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
   }
 }
