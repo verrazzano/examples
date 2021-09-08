@@ -55,8 +55,12 @@ public class ItemResource {
 
   @PUT
   @Path("/{taskDescription}")
-  public void addNewItem(@PathParam("taskDescription") String description) {
-    runQuery(String.format(insertSql, description));
+  public void addNewItem(@PathParam("taskDescription") String description) throws Exception {
+    if (description.contains("test")) {
+      throw new Exception("Error:  task description '" + description + "' contains 'test'");
+    } else {
+      runQuery(String.format(insertSql, description));
+    }
   }
 
   @PUT
