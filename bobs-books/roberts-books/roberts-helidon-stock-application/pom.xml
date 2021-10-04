@@ -150,8 +150,9 @@
                 <version>1.0.4</version>
                 <executions>
                     <execution>
-                        <id>build-frontent</id>
+                        <id>build-frontend</id>
                         <goals>
+                            <goal>install</goal>
                             <goal>run</goal>
                         </goals>
                         <phase>generate-resources</phase>
