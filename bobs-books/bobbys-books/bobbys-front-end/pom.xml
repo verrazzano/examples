@@ -91,7 +91,7 @@
     <dependency>
       <groupId>io.opentracing.contrib</groupId>
       <artifactId>opentracing-jaxrs2-discovery</artifactId>
-      <version>0.5.0</version>
+      <version>1.0.0</version>
     </dependency>
     <!-- end tracing stuff -->
     <!-- Logging deps start -->
