@@ -21,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.todo.services.TodoService;
 import org.todo.services.entity.Item;
 
 /**
@@ -31,34 +32,16 @@ import org.todo.services.entity.Item;
 @Path("/items/")
 @Produces(MediaType.APPLICATION_JSON)
 public class ItemsResource {
-
+  private static final TodoService TODO_SERVICE = TodoService.getDefault();
   public static DataSource datasource() throws NamingException {
     InitialContext ctx = new InitialContext();
     return (DataSource) ctx.lookup("jdbc/ToDoDB");
   }
 
-  public List<Item> items() {
-    List<Item> result = new ArrayList<>();
-
-    try (Connection conn = datasource().getConnection()){
-      Statement statement = conn.createStatement();
-      ResultSet resultSet = statement.executeQuery("select taskId, task, completed from ToDos");
-      while (resultSet.next()) {
-        int id = resultSet.getInt("taskId");
-        String task = resultSet.getString("task");
-        boolean complete = resultSet.getBoolean("completed");
-        result.add(new Item(id).desc(task).done(complete));
-      }
-    } catch (SQLException | NamingException ex) {
-      ex.printStackTrace();
-    }
-    return result;
-  }
-
   @GET
   public JsonArray itemsJson() {
     JsonArrayBuilder result = Json.createArrayBuilder();
-    for (Item item : items()) {
+    for (Item item : TODO_SERVICE.getAll()) {
       result.add(item.toJson());
     }
     return result.build();
@@ -89,20 +72,14 @@ public class ItemsResource {
     try (Connection conn = datasource().getConnection()){
       Statement stmt = conn.createStatement();
 
-      String createTable = "create table ToDos (" +
-          "taskId INT NOT NULL AUTO_INCREMENT, " +
-          "task VARCHAR(200) NOT NULL, " +
-          "completed BOOLEAN," +
-          "constraint todo_pk PRIMARY KEY (taskId));";
+      String createTable = TODO_SERVICE.getCreateTableStatement();
 
       System.out.println(createTable);
       stmt.executeUpdate(createTable);
 
       String[] tasks = {"Install Verrazzano", "Move ToDo List to the cloud", "Celebrate", "Clean off my desk"};
       for (String task : tasks) {
-        String insert = String.format(ItemResource.insertSql, task);
-        System.out.println(insert);
-        stmt.executeUpdate(insert);
+        TODO_SERVICE.insert(task);
       }
 
     } catch (SQLException | NamingException ex) {
