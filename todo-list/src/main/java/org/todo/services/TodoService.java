@@ -33,6 +33,8 @@ public abstract class TodoService {
                     TODO_SERVICE = new MySQLService();
                 }
             }
+
+            System.out.println("Created TODO Service: " + TODO_SERVICE.getClass().getName());
         }
 
         return TODO_SERVICE;
@@ -101,7 +103,7 @@ public abstract class TodoService {
     public List<Item> getAll() {
         try (Connection conn = ItemsResource.datasource().getConnection()){
             Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("select taskId, task, completed from ToDos");
+            ResultSet resultSet = statement.executeQuery(getAllSql);
             return this.parseResults(resultSet);
         } catch (SQLException | NamingException ex) {
             throw new RuntimeException(ex);
