@@ -45,7 +45,7 @@ if [ -f imagetool.zip ]; then
     echo 'Using existing imagetool.zip...'
 else
     echo 'Downloading imagetool.zip...'
-    wget https://github.com/oracle/weblogic-image-tool/releases/download/release-1.9.6/imagetool.zip
+    wget https://github.com/oracle/weblogic-image-tool/releases/download/release-1.10.0/imagetool.zip
     unzip imagetool.zip
 fi
 
@@ -62,10 +62,10 @@ imagetool.sh create \
     --version 12.2.1.4.0 \
     --jdkVersion 8u261 \
     --fromImage container-registry.oracle.com/os/oraclelinux:7-slim \
-    --wdtModel bobs-bookstore-topology.yaml \
-    --wdtArchive archive.zip \
-    --wdtVariables properties/docker-build/bobs-bookstore-topology.properties \
-    --wdtDomainHome /u01/oracle/user_projects/domains/bobs-bookstore \
-    --wdtModelOnly \
     --additionalBuildCommands imagetool-additions
 
+imagetool.sh create \
+    --tag $2 \
+    --wdtModel bobs-bookstore-topology.yaml \
+    --wdtArchive archive.zip \
+    --wdtVariables properties/docker-build/bobs-bookstore-topology.properties 

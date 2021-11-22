@@ -39,6 +39,9 @@ pipeline {
         BOBBYS_WEBLOGIC = 'example-bobbys-front-end'
         BOBS_WEBLOGIC = 'example-bobs-bookstore-order-manager'
         TODO_WEBLOGIC = 'example-todo'
+        BOBBYS_WEBLOGIC_AUX = 'example-bobbys-front-end-auxiliary'
+        BOBS_WEBLOGIC_AUX = 'example-bobs-bookstore-order-manager-auxiliary'
+        TODO_WEBLOGIC_AUX = 'example-todo-auxiliary'
         HELLO_HELIDON_V1 = 'example-helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'example-helidon-greet-app-v2'
         VERSION = get_image_tag()
@@ -165,8 +168,9 @@ pipeline {
                                     cd deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                                    ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                                    ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION} ${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}
                                 """
                             }
                         }
@@ -199,8 +203,9 @@ pipeline {
                                     cd deploy
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION} ${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}
                                 """
                             }
                         }
@@ -336,8 +341,9 @@ pipeline {
                                     cd setup
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
                                     oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                                    ./build.sh ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
+                                    ./build.sh ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION} ${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}
                                     docker push ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}
                                 """
                             }
                         }
