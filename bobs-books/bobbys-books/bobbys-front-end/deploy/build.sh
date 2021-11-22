@@ -58,7 +58,7 @@ imagetool.sh create \
     --fromImage container-registry.oracle.com/os/oraclelinux:7-slim \
     --additionalBuildCommands imagetool-additions
 
-imagetool.sh create \
+imagetool.sh createAuxImage \
     --tag $2 \
     --wdtModel bobbys-front-end.yaml \
     --wdtArchive archive.zip 
