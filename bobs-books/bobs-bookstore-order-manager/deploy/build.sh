@@ -68,4 +68,3 @@ imagetool.sh createAuxImage \
     --tag $2 \
     --wdtModel bobs-bookstore-topology.yaml \
     --wdtArchive archive.zip
-#    --wdtVariables properties/docker-build/bobs-bookstore-topology.properties
