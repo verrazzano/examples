@@ -36,9 +36,9 @@ pipeline {
         ROBERTS_HELIDON = 'example-roberts-helidon-stock-application'
         BOBBYS_COHERENCE = 'example-bobbys-coherence'
         ROBERTS_COHERENCE = 'example-roberts-coherence'
-        BOBBYS_WEBLOGIC_AUX = 'example-bobbys-front-end-auxiliary'
-        BOBS_WEBLOGIC_AUX = 'example-bobs-bookstore-order-manager-auxiliary'
-        TODO_WEBLOGIC_AUX = 'example-todo-auxiliary'
+        BOBBYS_WEBLOGIC = 'example-bobbys-front-end'
+        BOBS_WEBLOGIC = 'example-bobs-bookstore-order-manager'
+        TODO_WEBLOGIC = 'example-todo'
         HELLO_HELIDON_V1 = 'example-helidon-greet-app-v1'
         HELLO_HELIDON_V2 = 'example-helidon-greet-app-v2'
         VERSION = get_image_tag()
@@ -161,15 +161,15 @@ pipeline {
                                     cd examples/bobs-books/bobbys-books/bobbys-front-end
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd deploy
-                                    ./build.sh  ${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}
-                                    docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}
+                                    ./build.sh  ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                                 """
                             }
                         }
 
                         stage('Scan Bobbys Front-end WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}", "bobby_weblogic.scanning-report.json")
+                                clairScan("${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}", "bobby_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
@@ -193,15 +193,15 @@ pipeline {
                                     cd examples/bobs-books/bobs-bookstore-order-manager
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd deploy
-                                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}
-                                    docker push ${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}
+                                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                                 """
                             }
                         }
 
                         stage('Scan Bobs Backend WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}", "bobs_weblogic.scanning-report.json")
+                                clairScan("${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}", "bobs_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
@@ -328,15 +328,15 @@ pipeline {
                                     cd examples/todo-list
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd setup
-                                    ./build.sh ${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}
-                                    docker push ${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}
+                                    ./build.sh ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
+                                    docker push ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
                                 """
                             }
                         }
 
                         stage('Scan TODO List WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}", "todo_weblogic.scanning-report.json")
+                                clairScan("${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}", "todo_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
