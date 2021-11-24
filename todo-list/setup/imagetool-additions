@@ -1,9 +1,0 @@
-[package-manager-packages]
-openssl-libs
-libcurl
-python
-python-libs
-curl
-glibc
-glibc-common
-glib2

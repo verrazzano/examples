@@ -48,7 +48,7 @@ export PATH=`pwd`/imagetool/bin:$PATH
 echo 'Add installers to Image Tool cache...'
 imagetool.sh cache addInstaller --type wdt --version latest --path weblogic-deploy.zip
 
-echo 'Create auxiliary image with domain...'
+echo 'Create auxiliary image for model in image deployment'
 
 imagetool.sh createAuxImage \
     --tag $1 \
