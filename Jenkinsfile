@@ -36,9 +36,6 @@ pipeline {
         ROBERTS_HELIDON = 'example-roberts-helidon-stock-application'
         BOBBYS_COHERENCE = 'example-bobbys-coherence'
         ROBERTS_COHERENCE = 'example-roberts-coherence'
-        BOBBYS_WEBLOGIC = 'example-bobbys-front-end'
-        BOBS_WEBLOGIC = 'example-bobs-bookstore-order-manager'
-        TODO_WEBLOGIC = 'example-todo'
         BOBBYS_WEBLOGIC_AUX = 'example-bobbys-front-end-auxiliary'
         BOBS_WEBLOGIC_AUX = 'example-bobs-bookstore-order-manager-auxiliary'
         TODO_WEBLOGIC_AUX = 'example-todo-auxiliary'
@@ -54,9 +51,7 @@ pipeline {
         MAVEN_SETTINGS = credentials('oracle-maven-settings')
 
         BUCKET_NAME = "build-shared-files"
-        JDK8_BUNDLE = "jdk-8u261-linux-x64.tar.gz"
         JDK14_BUNDLE = "openjdk-14.0.2_linux-x64_bin.tar.gz"
-        WEBLOGIC_BUNDLE = "fmw_12.2.1.4.0_wls.jar"
         IMAGETOOL_BUNDLE = "imagetool.zip"
     }
 
@@ -166,10 +161,7 @@ pipeline {
                                     cd examples/bobs-books/bobbys-books/bobbys-front-end
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
-                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                                    ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION} ${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}
-                                    docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                                    ./build.sh  ${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}
                                 """
                             }
@@ -177,7 +169,7 @@ pipeline {
 
                         stage('Scan Bobbys Front-end WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}", "bobby_weblogic.scanning-report.json")
+                                clairScan("${env.REPO}/${env.BOBBYS_WEBLOGIC_AUX}:${env.VERSION}", "bobby_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
@@ -201,10 +193,7 @@ pipeline {
                                     cd examples/bobs-books/bobs-bookstore-order-manager
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
-                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION} ${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}
-                                    docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
+                                    ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}
                                 """
                             }
@@ -212,7 +201,7 @@ pipeline {
 
                         stage('Scan Bobs Backend WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}", "bobs_weblogic.scanning-report.json")
+                                clairScan("${env.REPO}/${env.BOBS_WEBLOGIC_AUX}:${env.VERSION}", "bobs_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
@@ -339,10 +328,7 @@ pipeline {
                                     cd examples/todo-list
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd setup
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
-                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                                    ./build.sh ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION} ${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}
-                                    docker push ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
+                                    ./build.sh ${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}
                                     docker push ${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}
                                 """
                             }
@@ -350,7 +336,7 @@ pipeline {
 
                         stage('Scan TODO List WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}", "todo_weblogic.scanning-report.json")
+                                clairScan("${env.REPO}/${env.TODO_WEBLOGIC_AUX}:${env.VERSION}", "todo_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
