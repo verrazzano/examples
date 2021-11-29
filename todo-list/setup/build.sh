@@ -46,5 +46,4 @@ echo 'Create auxiliary image for model in image deployment'
 imagetool.sh createAuxImage \
     --tag $1 \
     --wdtModel wdt_domain.yaml \
-    --wdtHome /common \
-    --wdtArchive wdt_archive.zip 
+    --wdtArchive wdt_archive.zip
