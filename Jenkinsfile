@@ -51,9 +51,7 @@ pipeline {
         MAVEN_SETTINGS = credentials('oracle-maven-settings')
 
         BUCKET_NAME = "build-shared-files"
-        JDK8_BUNDLE = "jdk-8u261-linux-x64.tar.gz"
         JDK14_BUNDLE = "openjdk-14.0.2_linux-x64_bin.tar.gz"
-        WEBLOGIC_BUNDLE = "fmw_12.2.1.4.0_wls.jar"
         IMAGETOOL_BUNDLE = "imagetool.zip"
     }
 
@@ -163,9 +161,7 @@ pipeline {
                                     cd examples/bobs-books/bobbys-books/bobbys-front-end
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
-                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
-                                    ./build.sh ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
+                                    ./build.sh  ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}
                                 """
                             }
@@ -197,8 +193,6 @@ pipeline {
                                     cd examples/bobs-books/bobs-bookstore-order-manager
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd deploy
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
-                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
                                     ./build.sh ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                                     docker push ${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}
                                 """
@@ -334,8 +328,6 @@ pipeline {
                                     cd examples/todo-list
                                     mvn -B -s $MAVEN_SETTINGS clean install
                                     cd setup
-                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK8_BUNDLE} --name ${JDK8_BUNDLE}
-                                    oci os object get -bn ${BUCKET_NAME} --file ${WEBLOGIC_BUNDLE} --name ${WEBLOGIC_BUNDLE}
                                     ./build.sh ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
                                     docker push ${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}
                                 """
