@@ -18,16 +18,17 @@
 
 	<ui:define name="body">
 		<p>&nbsp;</p>
-
 		<div>
-			<a href=""><h:commandButton id="previous" value="Previous" styleClass="btn-nav oj-button-button oj-component-initnode" action="#{booksBean.previous}" render="books-form"></h:commandButton></a>
-			<a href=""><h:commandButton id="next" value="Next" styleClass="btn-nav oj-button-button oj-component-initnode" action="#{booksBean.next}" render="books-form"></h:commandButton></a>
+			<span><h:commandButton id="previous" value="Previous"
+								   styleClass="btn-nav oj-button-button oj-component-initnode"
+								   action="#{booksBean.previous}" render="books-form"></h:commandButton></span>
+			<span><h:commandButton id="next" value="Next"
+								   styleClass="btn-nav oj-button-button oj-component-initnode"
+								   action="#{booksBean.next}" render="books-form"></h:commandButton></span>
 		</div>
-
 		<h:form id="books-form">
-			<p>"#{booksBean.next}"</p>
+
 			<p>&nbsp;</p>
-			<p>#{booksBean.next}</p>
 			<div class="oj-flex">
 				<ui:repeat value="#{booksBean.books}" var="value">
 					<div class="oj-flex-item oj-sm-3 oj-md-3 oj-lg-3">
