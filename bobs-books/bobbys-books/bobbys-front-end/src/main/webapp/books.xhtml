@@ -20,8 +20,8 @@
 		<p>&nbsp;</p>
 
 		<div>
-			<a href="/"><h:commandButton id="previous" value="Previous" styleClass="btn-nav oj-button-button oj-component-initnode" action="#{booksBean.previous}" render="books-form"></h:commandButton></a>
-			<a href="/"><h:commandButton id="next" value="Next" styleClass="btn-nav oj-button-button oj-component-initnode" action="#{booksBean.next}" render="books-form"></h:commandButton></a>
+			<a href="#{booksBean.previous}"><h:commandButton id="previous" value="Previous" styleClass="btn-nav oj-button-button oj-component-initnode" action="#{booksBean.previous}" render="books-form"></h:commandButton></a>
+			<a href="#{booksBean.next}"><h:commandButton id="next" value="Next" styleClass="btn-nav oj-button-button oj-component-initnode" action="#{booksBean.next}" render="books-form"></h:commandButton></a>
 		</div>
 
 		<h:form id="books-form">
