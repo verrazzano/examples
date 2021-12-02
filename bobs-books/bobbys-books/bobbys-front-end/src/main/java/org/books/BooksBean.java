@@ -68,10 +68,11 @@ public class BooksBean implements Serializable {
             String hostname = System.getenv("HELIDON_HOSTNAME");
             String port = System.getenv("HELIDON_PORT");
 
+            logger.info("+++ new request  " + httpget.getRequestLine());
 
-			HttpGet httpget = new HttpGet("http://" + hostname + ":" + port + "/books?start=" + start + "&end=" + end);
+            HttpGet httpget = new HttpGet("https://" + hostname + ":" + port + "/books?start=" + start + "&end=" + end);
 
-			logger.info("Executing request " + httpget.getRequestLine());
+			logger.info("+++ Executing new request  " + httpget.getRequestLine());
 
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
