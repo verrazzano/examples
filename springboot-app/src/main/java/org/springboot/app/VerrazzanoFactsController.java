@@ -20,7 +20,7 @@ public class VerrazzanoFactsController {
         "Verrazzano was eaten by cannibals.\n",
         "The Bridge was about to be named after John F. Kennedy\n",
         "In 1524, Verrazzano became the first European to enter the New York Harbor and the Hudson River.\n",
-        "The Verrazano-Narrows Bridge was the longest suspension bridge in the world at the time of its completion in 1964, surpassing the Golden Gate Bridge by 60 feet.\n",
+        "The Verrazzano-Narrows Bridge was the longest suspension bridge in the world at the time of its completion in 1964, surpassing the Golden Gate Bridge by 60 feet.\n",
         "Its monumental 693 foot high towers are 1 5/8 inches farther apart at their tops than at their bases because the 4,260 foot distance between them made it necessary to compensate for the earth’s curvature.\n",
         "Each tower weighs 27,000 tons and is held together with three million rivets and one million bolts.\n",
         "Seasonal contractions and expansions of the steel cables cause the double-decked roadway to be 12 feet lower in the summer than in the winter.\n",
