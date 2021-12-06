@@ -53,6 +53,7 @@ pipeline {
 
         BUCKET_NAME = "build-shared-files"
         JDK14_BUNDLE = "openjdk-14.0.2_linux-x64_bin.tar.gz"
+        JDK11_BUNDLE = "openjdk-11.0.2_linux-x64_bin.tar.gz"
         IMAGETOOL_BUNDLE = "imagetool.zip"
     }
 
@@ -356,7 +357,8 @@ pipeline {
                                     echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
                                     cd examples/springboot-app
-                                    mvn -B -s $MAVEN_SETTINGS -Dmaven.compiler.fork=true -Dmaven.compiler.executable=\${JAVA_11_HOME}/bin/javac clean install
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK11_BUNDLE} --name ${JDK11_BUNDLE}
                                     docker build -t ${env.REPO}/${env.SPRING_SAMPLE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.SPRING_SAMPLE}:${env.VERSION}
                                 """
