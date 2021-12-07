@@ -53,7 +53,7 @@ pipeline {
 
         BUCKET_NAME = "build-shared-files"
         JDK14_BUNDLE = "openjdk-14.0.2_linux-x64_bin.tar.gz"
-        JDK11_BUNDLE = "openjdk-11.0.2_linux-x64_bin.tar.gz"
+        JDK11_BUNDLE = "openjdk-11+28_linux-x64_bin.tar.gz"
         IMAGETOOL_BUNDLE = "imagetool.zip"
     }
 
