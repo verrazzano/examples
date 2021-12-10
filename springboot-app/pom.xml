@@ -28,6 +28,7 @@
         <latencyutils.version>2.0.3</latencyutils.version>        
         <slf4j.version>1.7.30</slf4j.version>    
         <snakeyaml.version>1.26</snakeyaml.version>
+        <log4j.version>2.15.0</log4j.version>
     </properties>
 	
     <dependencyManagement>
@@ -81,6 +82,16 @@
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
                 <version>${snakeyaml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
