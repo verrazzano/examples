@@ -29,7 +29,7 @@
         <slf4j.version>1.7.30</slf4j.version>    
         <spring.version>5.2.9.RELEASE</spring.version>
         <snakeyaml.version>1.26</snakeyaml.version>
-        <log4j.version>2.17.0</log4j.version>
+        <log4j.version>2.17.1</log4j.version>
     </properties>
 	
     <dependencyManagement>
