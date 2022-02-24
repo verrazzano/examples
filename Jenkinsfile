@@ -1,4 +1,4 @@
-// Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+// Copyright (c) 2020, 2022, Oracle and/or its affiliates.
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 pipeline {
@@ -122,7 +122,7 @@ pipeline {
 
                         stage('Scan Bobbys Coherence Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}", "bobby_coherence.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}", "bobby_coherence.scanning-report.json")
                             }
                             post {
                                 always {
@@ -146,7 +146,7 @@ pipeline {
 
                         stage('Scan Bobbys Helidon Stock Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}", "bobby_helidon.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.BOBBYS_HELIDON}:${env.VERSION}", "bobby_helidon.scanning-report.json")
                             }
                             post {
                                 always {
@@ -171,7 +171,7 @@ pipeline {
 
                         stage('Scan Bobbys Front-end WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}", "bobby_weblogic.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.BOBBYS_WEBLOGIC}:${env.VERSION}", "bobby_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
@@ -203,7 +203,7 @@ pipeline {
 
                         stage('Scan Bobs Backend WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}", "bobs_weblogic.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.BOBS_WEBLOGIC}:${env.VERSION}", "bobs_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
@@ -231,7 +231,7 @@ pipeline {
 
                         stage('Scan Roberts Coherence Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}", "roberts_coherence.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}", "roberts_coherence.scanning-report.json")
                             }
                             post {
                                 always {
@@ -257,7 +257,7 @@ pipeline {
 
                         stage('Scan Roberts Helidon Stock Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}", "roberts_helidon.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.ROBERTS_HELIDON}:${env.VERSION}", "roberts_helidon.scanning-report.json")
                             }
                             post {
                                 always {
@@ -285,7 +285,7 @@ pipeline {
 
                         stage('Scan Hello Helidon V1 Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}", "hello_helidon_v1.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.HELLO_HELIDON_V1}:${env.VERSION}", "hello_helidon_v1.scanning-report.json")
                             }
                             post {
                                 always {
@@ -309,7 +309,7 @@ pipeline {
 
                         stage('Scan Hello Helidon V2 Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}", "hello_helidon_v2.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.HELLO_HELIDON_V2}:${env.VERSION}", "hello_helidon_v2.scanning-report.json")
                             }
                             post {
                                 always {
@@ -338,7 +338,7 @@ pipeline {
 
                         stage('Scan TODO List WebLogic Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}", "todo_weblogic.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.TODO_WEBLOGIC}:${env.VERSION}", "todo_weblogic.scanning-report.json")
                             }
                             post {
                                 always {
@@ -367,7 +367,7 @@ pipeline {
 
                         stage('Scan Spring sample Application') {
                             steps {
-                                clairScan("${env.REPO}/${env.SPRING_SAMPLE}:${env.VERSION}", "spring_sample.scanning-report.json")
+                                scanContainerImage("${env.REPO}/${env.SPRING_SAMPLE}:${env.VERSION}", "spring_sample.scanning-report.json")
                             }
                             post {
                                 always {
