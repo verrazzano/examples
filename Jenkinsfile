@@ -122,15 +122,11 @@ pipeline {
 
                         stage('Scan Bobbys Coherence Application') {
                             steps {
-                                scanContainerImage "${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}"
+                                scanContainerImage("${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}", "bobby_coherence.scanning-report.json")
                             }
                             post {
                                 always {
-                                    sh """
-                                        cp ${WORKSPACE}/scanning-report-grype.json ${WORKSPACE}/bobby_coherence.scanning-report-grype.json
-                                        cp ${WORKSPACE}/scanning-report-trivy.json ${WORKSPACE}/bobby_coherence.scanning-report-trivy.json
-                                    """
-                                    archiveArtifacts artifacts: '**/*scanning-report*.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
