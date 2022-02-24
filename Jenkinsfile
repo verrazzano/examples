@@ -126,7 +126,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -150,7 +150,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -175,7 +175,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -207,7 +207,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -235,7 +235,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -261,7 +261,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -289,7 +289,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -313,7 +313,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -342,7 +342,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
@@ -371,7 +371,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                    archiveArtifacts artifacts: '**/scanning-report*.json', allowEmptyArchive: true
                                 }
                             }
                         }
