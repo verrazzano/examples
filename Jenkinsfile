@@ -377,6 +377,35 @@ pipeline {
                         }
                     }
                 }
+
+                stage('Spring sample') {
+                    stages {
+                        stage('Build Spring sample application') {
+                            steps {
+                                sh """
+                                    echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
+                                    echo "${OCR_CREDS_PSW}" | docker login container-registry.oracle.com -u ${OCR_CREDS_USR} --password-stdin
+                                    cd examples/springboot-app
+                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    oci os object get -bn ${BUCKET_NAME} --file ${JDK11_BUNDLE} --name ${JDK11_BUNDLE}
+                                    docker build -t ${env.REPO}/${env.SPRING_SAMPLE}:${env.VERSION} .
+                                    docker push ${env.REPO}/${env.SPRING_SAMPLE}:${env.VERSION}
+                                """
+                            }
+                        }
+
+                        stage('Scan Spring sample Application') {
+                            steps {
+                                clairScan("${env.REPO}/${env.SPRING_SAMPLE}:${env.VERSION}", "spring_sample.scanning-report.json")
+                            }
+                            post {
+                                always {
+                                    archiveArtifacts artifacts: '**/*scanning-report.json', allowEmptyArchive: true
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
