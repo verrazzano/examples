@@ -171,7 +171,9 @@ public class BooksBean implements Serializable {
     private void reload() {
         try {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+            HttpServletRequest request = (HttpServletRequest) ec.getRequest();
+            String url = "https://"+request.getServerName().toString()+request.getRequestURI().toString();
+            ec.redirect(url);
         } catch (Exception e) {
 			logger.error("failed to refresh page", e);
         }
