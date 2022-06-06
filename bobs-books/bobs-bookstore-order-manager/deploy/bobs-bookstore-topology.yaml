@@ -35,6 +35,7 @@ topology:
   ServerTemplate:
     'cluster-1-template':
       ListenPort: '8001'
+      ManagedServerIndependenceEnabled: false
       Cluster: 'cluster-1'
       ListenAddress: 'bobs-bookstore-managed-server-${id}'
 
