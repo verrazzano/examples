@@ -29,6 +29,7 @@ topology:
   ServerTemplate:
     'cluster-1-template':
       ListenPort: '8001'
+      # Disable MSI mode to prevent startup issues when admin server terminates unexpectedly
       ManagedServerIndependenceEnabled: false
       Cluster: 'cluster-1'
       ListenAddress: 'bobbys-front-end-managed-server${id}'
