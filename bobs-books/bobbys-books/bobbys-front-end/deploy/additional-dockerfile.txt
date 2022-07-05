@@ -1,0 +1,17 @@
+[final-build-commands]
+USER root
+RUN mkdir -p /touch-final-build-commands
+RUN mkdir -p /home/LOG/DSP \
+             /home/LOG/WebLogic/jfr/repository \
+             /home/docomo \
+             /home/docomo/etc \
+             /home/docomo/kyoutu \
+             /home/docomo/tmp \
+             /home/docomo2 \
+             /server-volume/home/LOG/WebLogic/jfr/repository \
+             /home/dsp/dsp-link && \
+             chown -R oracle:root /home/docomo /home/docomo2 /home/LOG && \
+             chown -R oracle:root /server-volume/home/LOG
+RUN ln -s /home/LOG                          /LOG && \
+    ln -s /home/docomo                       /docomo
+USER oracle

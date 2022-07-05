@@ -53,7 +53,8 @@ echo 'Create auxiliary image for model in image deployment'
 imagetool.sh createAuxImage \
     --tag $1 \
     --wdtModel bobbys-front-end.yaml \
-    --wdtArchive archive.zip 
+    --wdtArchive archive.zip \
+    --additionalBuildCommands additional-dockerfile.txt 
 
 
 
