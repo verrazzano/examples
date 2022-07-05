@@ -90,7 +90,7 @@ pipeline {
                 getMavenSeedData '/build-shared-files'
                 sh """
                     mkdir -p $HOME/.m2/repository/com
-                    tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
+                    #tar xz -C $HOME/.m2/repository/com -f /build-shared-files/oracle-maven.tar.gz
                     sudo yum -y install wget
                 """
             }
