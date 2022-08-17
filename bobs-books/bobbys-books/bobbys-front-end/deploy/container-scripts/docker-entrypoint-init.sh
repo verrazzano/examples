@@ -1,5 +1,8 @@
 #!/bin/bash
 #
+# Copyright (c) 2022, Oracle and/or its affiliates.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+# 
 # initContainers用 メインスクリプト
 #
 # このシェルは adminserver と managed-server の両方で実行されるので注意。
