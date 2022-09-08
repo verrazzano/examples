@@ -39,6 +39,11 @@ topology:
       ManagedServerIndependenceEnabled: false
       Cluster: 'cluster-1'
       ListenAddress: 'bobs-bookstore-managed-server-${id}'
+      NetworkAccessPoint:
+        Channel_ONLINE_BPM:
+          HttpEnabledForThisProtocol: false
+          ListenAddress: '@@ENV:DOMAIN_UID@@-managed-server${id}'
+          ListenPort: '27401'
 
 appDeployments:
   Application:
