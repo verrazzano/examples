@@ -34,7 +34,7 @@ if [ -f weblogic-deploy.zip ]; then
     echo 'Using existing weblogic-deploy.zip...'
 else
     echo 'Downloading weblogic-deploy.zip...'
-    wget https://github.com/oracle/weblogic-deploy-tooling/releases/download/weblogic-deploy-tooling-1.9.0/weblogic-deploy.zip
+    wget  https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
 fi
 
 cp ../LICENSE.txt .
