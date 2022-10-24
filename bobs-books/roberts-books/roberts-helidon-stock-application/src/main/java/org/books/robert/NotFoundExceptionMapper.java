@@ -11,6 +11,6 @@ import javax.ws.rs.core.Response;
 public class NotFoundExceptionMapper implements ExceptionMapper<Exception> {
   public Response toResponse(Exception ex) {
 	System.out.println("in exception mapper - exception type is: " + ex);
-    return Response.temporaryRedirect(new URI("/")).build();
+    //return Response.temporaryRedirect(new URI("/")).build();
   }
 }
