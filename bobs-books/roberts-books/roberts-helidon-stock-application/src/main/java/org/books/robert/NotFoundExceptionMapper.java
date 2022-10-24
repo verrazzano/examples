@@ -12,6 +12,10 @@ import java.net.URI;
 public class NotFoundExceptionMapper implements ExceptionMapper<Exception> {
   public Response toResponse(Exception ex) {
 	System.out.println("in exception mapper - exception type is: " + ex);
-    return Response.temporaryRedirect(new URI("/")).build();
-  }
+	try {
+    		return Response.temporaryRedirect(new URI("/")).build();
+  	}
+	catch(Exception e){		
+		return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+	}	
 }
