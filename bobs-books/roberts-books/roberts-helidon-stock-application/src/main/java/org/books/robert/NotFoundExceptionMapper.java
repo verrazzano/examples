@@ -4,6 +4,8 @@
 package org.books.robert; 
 
 import javax.ws.rs.ext.Provider;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.core.Response;
 
 @Provider
 public class NotFoundExceptionMapper implements ExceptionMapper<Exception> {
