@@ -18,4 +18,5 @@ public class NotFoundExceptionMapper implements ExceptionMapper<Exception> {
 	catch(Exception e){		
 		return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 	}	
+   }
 }
