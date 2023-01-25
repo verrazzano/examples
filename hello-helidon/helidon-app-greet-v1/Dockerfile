@@ -31,3 +31,5 @@ COPY THIRD_PARTY_LICENSES.txt /license/
 CMD java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main
 
 EXPOSE 8080
+
+USER 1000

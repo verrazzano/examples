@@ -29,3 +29,5 @@ COPY THIRD_PARTY_LICENSES.txt /license/
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
+
+USER 1000

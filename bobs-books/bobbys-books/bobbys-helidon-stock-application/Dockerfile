@@ -32,3 +32,5 @@ COPY LICENSE.txt /license/
 COPY THIRD_PARTY_LICENSES.txt /license/
 
 CMD java -cp /app/*:/app/libs/* -Dcoherence.tracing.endpoint=zipkin.istio-system -Dcoherence.tracing.ratio=1 org.books.bobby.Main
+
+USER 1000
