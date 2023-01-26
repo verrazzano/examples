@@ -29,3 +29,6 @@ COPY target/libs/*.jar /app/libs/
 COPY target/*.jar /app/classpath/
 COPY LICENSE.txt /license/
 COPY THIRD_PARTY_LICENSES.txt /license/
+
+USER 1000
+
