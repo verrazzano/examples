@@ -6,4 +6,4 @@ ToDo List is an example application containing a WebLogic component.
 
 Detailed instructions for installing the ToDo List application can be found [here](https://verrazzano.io/latest/docs/examples/wls-coh/todo-list/).
 
-Copyright (c) 2020, Oracle and/or its affiliates.
+Copyright (c) 2020, 2023, Oracle and/or its affiliates.

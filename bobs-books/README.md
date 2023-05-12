@@ -21,4 +21,4 @@ The example application consists of three main parts:
 Detailed instructions for installing Bob's Books can be found [here](https://verrazzano.io/latest/docs/examples/wls-coh/bobs-books/).
 
 
-Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+Copyright (c) 2020, 2023, Oracle and/or its affiliates.
