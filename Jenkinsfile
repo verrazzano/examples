@@ -112,7 +112,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/bobbys-books/bobbys-coherence
-                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    mvn -B -s $MAVEN_SETTINGS -Dmaven.compiler.fork=true -Dmaven.compiler.executable=\${JAVA_11_HOME}/bin/javac clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                     docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.BOBBYS_COHERENCE}:${env.VERSION}
@@ -221,7 +221,7 @@ pipeline {
                                 sh """
                                     echo "${DOCKER_CREDS_PSW}" | docker login ghcr.io -u ${DOCKER_CREDS_USR} --password-stdin
                                     cd examples/bobs-books/roberts-books/roberts-coherence
-                                    mvn -B -s $MAVEN_SETTINGS clean install
+                                    mvn -B -s $MAVEN_SETTINGS -Dmaven.compiler.fork=true -Dmaven.compiler.executable=\${JAVA_11_HOME}/bin/javac clean install
                                     oci os object get -bn ${BUCKET_NAME} --file ${JDK14_BUNDLE} --name ${JDK14_BUNDLE}
                                     docker build --build-arg JDK_BINARY=${JDK14_BUNDLE} --force-rm=true -f Dockerfile -t ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION} .
                                     docker push ${env.REPO}/${env.ROBERTS_COHERENCE}:${env.VERSION}
