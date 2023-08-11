@@ -17,8 +17,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <argLine>-Dfile.encoding=UTF-8</argLine>
-        <version.lib.coherence>20.12</version.lib.coherence>
-        <version.lib.netty>4.1.43.Final</version.lib.netty>
+        <version.lib.coherence>22.06.5</version.lib.coherence>
+        <version.lib.netty>4.1.90.Final</version.lib.netty>
         <version.lib.httpclient>4.5.13</version.lib.httpclient>
     </properties>
 

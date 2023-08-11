@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <argLine>-Dfile.encoding=UTF-8</argLine>
-        <version.lib.coherence>20.12</version.lib.coherence>
+        <version.lib.coherence>22.06.5</version.lib.coherence>
     </properties>
 
     <distributionManagement>
