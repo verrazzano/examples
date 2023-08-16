@@ -72,7 +72,7 @@ public class BookStore {
       this.orders = orders;
     } catch (Throwable t) {
       logger.info("Coherence CQC not ready");
-      logger.log(java.util.logging.Level.INFO, "Failed Here - ### DEBUG ", t)
+      logger.log(java.util.logging.Level.INFO, "Failed Here - ### DEBUG ", t);
       return false;
     }
 

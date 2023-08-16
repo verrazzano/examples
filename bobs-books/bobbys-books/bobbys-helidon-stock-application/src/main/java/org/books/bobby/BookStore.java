@@ -45,7 +45,7 @@ public class BookStore {
       books.addIndex(Book::getAuthors, false, null);
     } catch (Throwable t) {
       logger.info("Coherence CQC not ready");
-      logger.log(java.util.logging.Level.INFO, "Failed Here - ### DEBUG ", t)
+      logger.log(java.util.logging.Level.INFO, "Failed Here - ### DEBUG ", t);
       return false;
     }
 
