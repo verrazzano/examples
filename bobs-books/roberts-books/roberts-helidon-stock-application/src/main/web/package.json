@@ -14,10 +14,10 @@
     "react-dom": "^16.8.2",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.0.1",
-    "zipkin": "^0.18.5",
-    "zipkin-instrumentation-fetch": "^0.18.5",
+    "zipkin": "0.18.5",
+    "zipkin-instrumentation-fetch": "0.18.5",
     "zipkin-js-instrumentation-axios": "0.2.0",
-    "zipkin-transport-http": "^0.18.5"
+    "zipkin-transport-http": "0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
