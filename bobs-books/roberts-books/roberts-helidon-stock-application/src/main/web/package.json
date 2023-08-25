@@ -17,7 +17,7 @@
     "zipkin": "^0.18.5",
     "zipkin-instrumentation-fetch": "^0.18.5",
     "zipkin-js-instrumentation-axios": "0.2.0",
-    "zipkin-transport-http": "0.18.5"
+    "zipkin-transport-http": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
