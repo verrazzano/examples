@@ -12,3 +12,9 @@ org.eclipse.*
 *.iml
 bobs-books/roberts-books/roberts-helidon-stock-application/src/main/resources/web/
 
+bobs-books/bobbys-books/bobbys-front-end/deploy/LICENSE.txt
+bobs-books/bobbys-books/bobbys-front-end/deploy/THIRD_PARTY_LICENSES.txt
+bobs-books/bobbys-books/bobbys-front-end/deploy/archive.zip
+bobs-books/bobbys-books/bobbys-front-end/deploy/imagetool.zip
+bobs-books/bobbys-books/bobbys-front-end/deploy/imagetool/
+bobs-books/bobbys-books/bobbys-front-end/deploy/weblogic-deploy.zip
