@@ -12,10 +12,15 @@ Book store app has two parts right now:
 
 From the root directory: 
 
+Build `bobbys-coherence` followed by `bobbys-helidon-stock-application`  
 ```
+cd bobbys-coherence
 mvn clean install
-cd helidon-mp
-java -Dbookstore.size=5 -jar target/helidon-mp.jar
+```
+```
+cd bobbys-helidon-stock-application
+mvn clean install
+java -Dbookstore.size=5 -jar target/bobbys-helidon-stock-application.jar
 ```
 
 ### REST API
