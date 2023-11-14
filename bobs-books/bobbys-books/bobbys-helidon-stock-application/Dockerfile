@@ -13,7 +13,6 @@ RUN yum update -y \
 
 ENV JAVA_HOME=/usr/java
 ENV PATH $JAVA_HOME/bin:$PATH
-ARG JDK_BINARY="${JDK_BINARY:-openjdk-14.0.2_linux-x64_bin.tar.gz}"
 ARG JAVA_URL="${JAVA_URL:-https://download.java.net/java/GA/jdk21.0.1/415e3f918a1f4062a0074a2794853d0d/12/GPL}"
 
 RUN set -eux; \
