@@ -12,11 +12,12 @@ Book store app has two parts right now:
 
 From the root directory: 
 
-Build `bobbys-coherence` followed by `bobbys-helidon-stock-application`  
+Build `bobbys-coherence` first (Note: `bobbys-helidon-stock-application` depends on `bobbys-coherence`)  
 ```
 cd bobbys-coherence
 mvn clean install
 ```
+Build and run `bobbys-helidon-stock-application`
 ```
 cd bobbys-helidon-stock-application
 mvn clean install
