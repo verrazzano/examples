@@ -4,6 +4,8 @@
 
 TAG=${TAG:-test}
 CONTAINER_RUNTIME="${CONTAINER_RUNTIME:-docker}"
+REPOSITORY="${REPOSITORY:-ghcr.io/verrazzano}"
+IMAGE_NAME="${IMAGE_NAME:-example-bobbys-coherence}"
 
 mvn clean install
-"${CONTAINER_RUNTIME}" build --force-rm=true -t ghcr.io/verrazzano/example-bobbys-coherence:"${TAG}" .
+"${CONTAINER_RUNTIME}" build --force-rm=true -t "${REPOSITORY}"/"${IMAGE_NAME}":"${TAG}" .
