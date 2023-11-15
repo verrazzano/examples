@@ -19,7 +19,7 @@ mvn clean install
 ```
 Build and run `bobbys-helidon-stock-application`
 ```
-cd bobbys-helidon-stock-application
+cd ../bobbys-helidon-stock-application
 mvn clean install
 java -Dbookstore.size=5 -jar target/bobbys-helidon-stock-application.jar
 ```
@@ -36,14 +36,14 @@ java -Dbookstore.size=5 -jar target/bobbys-helidon-stock-application.jar
 
 ### Sample JSON
 
-See `helidon-mp/src/test/book.json`
+See `bobbys-helidon-stock-application/src/test/book.json`
 
 ### Example Curl Commands
 
 ```bash
 curl -H "Content-Type: application/json" \
  -X POST http://localhost:8080/books \
- --data @helidon-mp/target/test-classes/book.json 
+ --data @bobbys-helidon-stock-application/target/test-classes/book.json
  
 curl -H 'Accept: application/json' -X GET http://localhost:8080/books
 
@@ -51,7 +51,7 @@ curl -H 'Accept: application/json' -X GET http://localhost:8080/books/123456
 
 curl -H "Content-Type: application/json" \
  -X PUT http://localhost:8080/books/1234 \
- --data @helidon-mp/target/test-classes/book.json 
+ --data @bobbys-helidon-stock-application/target/test-classes/book.json
  
 curl -X DELETE http://localhost:8080/books/123456
 ```
