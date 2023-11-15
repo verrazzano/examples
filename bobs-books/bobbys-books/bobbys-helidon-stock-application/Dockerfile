@@ -13,18 +13,23 @@ RUN yum update -y \
 
 ENV JAVA_HOME=/usr/java
 ENV PATH $JAVA_HOME/bin:$PATH
-ARG JDK_BINARY="${JDK_BINARY:-openjdk-14.0.2_linux-x64_bin.tar.gz}"
-COPY ${JDK_BINARY} jdk.tar.gz
-ENV JDK_DOWNLOAD_SHA256=91310200f072045dc6cef2c8c23e7e6387b37c46e9de49623ce0fa461a24623d
+ARG JAVA_URL="${JAVA_URL:-https://download.java.net/java/GA/jdk21.0.1/415e3f918a1f4062a0074a2794853d0d/12/GPL}"
 
-RUN set -eux \
+RUN set -eux; \
+    ARCH="$(uname -m)" && \
+    # Java uses just x64 in the name of the tarball
+    if [ "$ARCH" = "x86_64" ]; \
+        then ARCH="x64"; \
+    fi && \
+    JAVA_PKG="$JAVA_URL"/openjdk-21.0.1_linux-"${ARCH}"_bin.tar.gz ; \
+    JAVA_SHA256="$(curl "$JAVA_PKG".sha256)" ; \
+    curl --output jdk.tgz "$JAVA_PKG" && \
     echo "Checking JDK hash"; \
-    echo "${JDK_DOWNLOAD_SHA256} *jdk.tar.gz" | sha256sum --check -; \
+    echo "$JAVA_SHA256" jdk.tgz | sha256sum --check - && \
     echo "Installing JDK"; \
-    mkdir -p "$JAVA_HOME"; \
-    tar xzf jdk.tar.gz --directory "${JAVA_HOME}" --strip-components=1; \
-    rm -f jdk.tar.gz;
-
+    mkdir -p "$JAVA_HOME" && \
+    tar xzf jdk.tgz --directory "${JAVA_HOME}" --strip-components=1; \
+    rm -f jdk.tgz;
 
 COPY target/libs/*.jar /app/libs/
 COPY target/*.jar /app/
