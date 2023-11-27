@@ -1,4 +1,4 @@
-// Copyright (c) 2020, 2022, Oracle and/or its affiliates.
+// Copyright (c) 2020, 2023, Oracle and/or its affiliates.
 // Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 pipeline {
@@ -8,7 +8,7 @@ pipeline {
             args "${RUNNER_DOCKER_ARGS}"
             registryUrl "${RUNNER_DOCKER_REGISTRY_URL}"
             registryCredentialsId 'ocir-pull-and-push-account'
-            label 'small'
+            label 'basic-small'
         }
     }
 
@@ -317,7 +317,7 @@ pipeline {
                         }
                     }
                 }
-                
+
                 stage ('TODO List') {
                     stages {
                         stage('Build TODO List WebLogic Application') {
